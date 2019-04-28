@@ -1,6 +1,7 @@
 ---
 layout: post
-author: jill
+title: 设计模式六大原则（1）：单一职责原则
+author: 忘记出处
 categories: [design_principles]
 ---
 
