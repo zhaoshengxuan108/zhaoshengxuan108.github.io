@@ -7,7 +7,7 @@ categories: [operating_systems]
 
 ## 系统如何查看端口被谁占用了
 
-1. 查看被查看被占用端口对应的PID， 输入命令：netstat -aon | findstr "4000"， 回车，记下最后一位数字，即PID
+1. 查看被查看被占用端口对应的PID， 输入命令：netstat -aon \| findstr "4000"， 回车，记下最后一位数字，即PID
 
    ```bash
    C:\Users\Administrator>netstat -aon | findstr "4000"
@@ -16,7 +16,7 @@ categories: [operating_systems]
 
    
 
-2. 技术输入 tasklist | findstr "8088"， 回车，查看是哪个进程或者程序占用了8088端口。
+2. 技术输入 tasklist \| findstr "8088"， 回车，查看是哪个进程或者程序占用了8088端口。
 
    ```bash
    C:\Users\Administrator>tasklist | findstr "20860"
