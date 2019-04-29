@@ -10,7 +10,7 @@ layout: default
 # 计算机科学理论知识
 
 * 计算机原理
-* 操作系统
+* [操作系统](/page/operating_systems.html)
 * 计算机网络
 
 # Java核心技术

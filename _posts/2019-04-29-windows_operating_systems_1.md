@@ -5,7 +5,7 @@ author: 晟世青风
 categories: [operating_systems]
 ---
 
-# 系统如何查看端口被谁占用了
+## 系统如何查看端口被谁占用了
 
 1. 查看被查看被占用端口对应的PID， 输入命令：netstat -aon | findstr "4000"， 回车，记下最后一位数字，即PID
 
@@ -25,7 +25,7 @@ categories: [operating_systems]
 
 
 
-# 搜索文件名中带有圆括号的关键字
+## 搜索文件名中带有圆括号的关键字
 
 例如要搜索文件名中带有“（1）”的所有文件
 

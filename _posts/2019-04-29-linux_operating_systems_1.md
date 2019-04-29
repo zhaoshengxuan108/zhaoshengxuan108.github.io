@@ -5,7 +5,7 @@ author: 晟世青风
 categories: [operating_systems]
 ---
 
-# 一些常用的操作命令
+## 一些常用的操作命令
 
 ```shell
 #rpm -qa | grep libxml        // 查看下都安装了那些软件
