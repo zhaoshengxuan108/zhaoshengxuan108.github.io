@@ -43,7 +43,7 @@ layout: default
 # 项目管理
 
 * 项目构建
-* 代码版本管理
+* [代码版本管理](/page/code_version_management.html)
 * UML
 
 # 程序设计
@@ -51,7 +51,7 @@ layout: default
 * * *
 
 * 设计模式
-* [设计原则](/design_principles.html)
+* [设计原则](/page/design_principles.html)
 
 # 分布式
 
