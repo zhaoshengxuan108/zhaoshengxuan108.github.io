@@ -16,7 +16,7 @@ categories: [operating_systems]
 
    
 
-2. 技术输入 tasklist \| findstr "8088"， 回车，查看是哪个进程或者程序占用了8088端口。
+2. 技术输入 tasklist \| findstr "20860"， 回车，查看是哪个进程或者程序占用了20860端口。
 
    ```bash
    C:\Users\Administrator>tasklist | findstr "20860"
