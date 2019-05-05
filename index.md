@@ -50,7 +50,7 @@ layout: default
 
 * * *
 
-* 设计模式
+* [设计模式](/page/design_patterns.html)
 * [设计原则](/page/design_principles.html)
 
 # 分布式
