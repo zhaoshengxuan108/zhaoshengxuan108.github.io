@@ -75,4 +75,38 @@ categories: [aliyun_install]
    systemctl enable nginx
    ```
 
-   
+
+# Nginx相关命令
+
+* 查看Nginx的版本号
+
+  ```bash
+  #nginx -V
+  ```
+
+* 启动Nginx
+
+  ```bash
+  #nginx
+  #nginx -c conf/nginx.conf  // 指定配置文件启动
+  ```
+
+* 快速停止或关闭Nginx
+
+  ```bash
+  #nginx -s stop
+  ```
+
+* 正常停止或关闭Nginx
+
+  ```bash
+  #nginx -s quit
+  ```
+
+* 配置文件修改重装载命令
+
+  ```bash
+  #nginx -s reload
+  ```
+
+  
