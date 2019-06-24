@@ -8,7 +8,7 @@ layout: default
 
 # 数据结构与算法
 
-* 算法
+* [排序算法](/page/sorting.html)
 * 数据结构
 
 # 计算机科学理论知识
