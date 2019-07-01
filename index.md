@@ -13,7 +13,7 @@ layout: default
 
 # 计算机科学理论知识
 
-* 计算机原理
+* [计算机系统概论](/page/computer_system.html)
 * [操作系统](/page/operating_systems.html)
 * 计算机网络
 
