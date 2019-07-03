@@ -1,0 +1,14 @@
+---
+layout: default
+title: Spring Cloud相关
+position: Developer
+---
+<h1>{{ page.title }}</h1>
+<ul>
+	{% assign filtered_posts = site.posts | where: 'categories', 'spring_cloud' %}
+	{% for post in filtered_posts %}
+    <li>
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+    </li>
+    {% endfor %}
+</ul>
