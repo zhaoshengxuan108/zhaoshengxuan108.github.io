@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>测试标题一 on 晟世清风</title>
+    <link>https://example.org/basics/index.html</link>
+    <description>Recent content in 测试标题一 on 晟世清风</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 22 Nov 2023 16:49:56 +0800</lastBuildDate>
+    <atom:link href="https://example.org/basics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Second Content</title>
+      <link>https://example.org/basics/second-content/index.html</link>
+      <pubDate>Wed, 22 Nov 2023 16:49:56 +0800</pubDate>
+      <guid>https://example.org/basics/second-content/index.html</guid>
+      <description>啊啊啊 I am rendered with bold text
+- [x] Basic Test
+Option Description data path to data files to supply the data that will be passed into templates. engine engine to be used for processing templates. Handlebars is the default. ext extension to be used for dest files. Upstage
+Info An information disclaimer
+You can add standard markdown syntax:
+multiple paragraphs bullet point lists emphasized, bold and even bold emphasized text links etc.</description>
+    </item>
+  </channel>
+</rss>
