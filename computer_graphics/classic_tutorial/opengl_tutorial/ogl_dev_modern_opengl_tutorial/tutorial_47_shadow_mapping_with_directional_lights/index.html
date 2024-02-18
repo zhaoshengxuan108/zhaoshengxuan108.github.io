@@ -24,18 +24,18 @@ Background The Shadow Mapping algorithm that we explored in tutorial 23 and tuto
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 47:Shadow Mapping with Directional Lights :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.print.html" rel="alternate" type="text/html" title="Tutorial 47:Shadow Mapping with Directional Lights :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -143,42 +143,42 @@ Background The Shadow Mapping algorithm that we explored in tutorial 23 and tuto
 <p>Credits: some of the images were take from <a href="http://www.clipartpanda.com/" target="_blank">Clipart Panda</a> and <a href="http://www.cliparthut.com/" target="_blank">ClipArtHut</a></p>
 <h3 id="background">Background</h3>
 <p>The Shadow Mapping algorithm that we explored in <a href="https://ogldev.org/www/tutorial23/tutorial23.html" target="_blank">tutorial 23</a> and <a href="https://ogldev.org/www/tutorial24/tutorial24.html" target="_blank">tutorial 24</a> used a spot light as the light source. The algorithm itself is based on the idea of rendering into a shadow map from the light point of view. This is simple with spot lights because they behave in the same way as our standard camera. The spot light has a location and a direction vector and the area covered by the light grows as we move further away from its source:</p>
-<p><a href="#R-image-d06a9599186134691330bbae52ac7d84" class="lightbox-link"><img src="../assets/spotlight.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d06a9599186134691330bbae52ac7d84"><img src="../assets/spotlight.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-5672f25bdd5edd384c5a9cc5be55dc82" class="lightbox-link"><img src="../assets/spotlight.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5672f25bdd5edd384c5a9cc5be55dc82"><img src="../assets/spotlight.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The fact that the spotlight behaves like a frustum makes it easier to implement shadow mapping because we can use the same perspective projection matrix as the camera in order to render into the shadow map. Implementing <a href="https://ogldev.org/www/tutorial43/tutorial43.html" target="_blank">Shadow Mapping with Point Lights</a> was a bit of a challenge but we were able to overcome it by rendering into a cubemap. Projection, though, was still perspective.</p>
 <p>Now let&rsquo;s think about directional lights. A directional light has a direction but not a position. It is usually used to mimic the behavior of the sun which due to its size and distance seems to cast parallel lights rays:</p>
-<p><a href="#R-image-41eb777a554b48850d64b5770432553c" class="lightbox-link"><img src="../assets/dirlight.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-41eb777a554b48850d64b5770432553c"><img src="../assets/dirlight.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-ec99a871ebb044572ce04804e8111433" class="lightbox-link"><img src="../assets/dirlight.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ec99a871ebb044572ce04804e8111433"><img src="../assets/dirlight.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In this case, we can no longer use Perspective Projection. Enter Orthographic Projection. The idea here is that of converging all light rays in one spot (the camera), the light rays remain parallel so no 3D effect is created.</p>
 <p>In the following image we see the same box using perspective projection on the left hand side and orthographic projection on the right hand side:</p>
-<p><a href="#R-image-67e7a673f2290ae3d94aa0adf6616ae1" class="lightbox-link"><img src="../assets/boxes.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-67e7a673f2290ae3d94aa0adf6616ae1"><img src="../assets/boxes.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-d8f2f1b36ae0fa46e20d18349421c986" class="lightbox-link"><img src="../assets/boxes.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d8f2f1b36ae0fa46e20d18349421c986"><img src="../assets/boxes.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The left box looks real, just as you would expect it to be and delivers the correct sense of depth. The right one doesn&rsquo;t look real since the front and back rectangles are exactly the same. We know that their dimensions are the same but when looking at a picture we expect the front one to look larger. So how does Orthographic Projection helps us with directional lights? Well, remember that Perspective Projection takes something that looks like a frustum and maps it to a normalized cube (a cube that goes from [-1,-1,-1] to [1,1,1]). After mapping, the XY coordinates are used to find the location in the texture (in our case the shadow map) and the Z is the value which is written there. An Orthographic projection takes a general box and maps it to the normalized cube (l,r,b,t,n,f stands for left, right, bottom, top, near, far, respectively):</p>
-<p><a href="#R-image-33ee1f1df243a1fd75a077bcec6813e1" class="lightbox-link"><img src="../assets/ortho.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-33ee1f1df243a1fd75a077bcec6813e1"><img src="../assets/ortho.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-06ce26a0d45274076cd7482b945d0c62" class="lightbox-link"><img src="../assets/ortho.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-06ce26a0d45274076cd7482b945d0c62"><img src="../assets/ortho.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Now think about the rays of the directional light as if they are originating from the front face of the box and going parallel to each other until they hit the back face. If we do the mapping between the general box and the normalized box (remember - we call this NDC space) properly the rest of the generation of the shadow map remains the same.</p>
 <p>Let&rsquo;s see how this mapping is done. We have three ranges along the XYZ axes that we need to map to (-1,1). This is a simple linear mapping without divide-by-zero after that (since it is orthographic and not perspective). The general form of an equation that maps range (a,b) to (c,d) is:</p>
-<p><a href="#R-image-58957ed556b10e02b874ec3cd2a03fff" class="lightbox-link"><img src="../assets/calc1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-58957ed556b10e02b874ec3cd2a03fff"><img src="../assets/calc1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-34b7177f6fe97726371e6c1541479f94" class="lightbox-link"><img src="../assets/calc1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-34b7177f6fe97726371e6c1541479f94"><img src="../assets/calc1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Where a&lt;=X&lt;=b. Let&rsquo;s do the mapping on the X-axis. Plug the ranges (l,r) to (-1,1) in the above equation and we get:</p>
-<p><a href="#R-image-11ad317c7c38ee894e575c4021e2ff7d" class="lightbox-link"><img src="../assets/calc2.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-11ad317c7c38ee894e575c4021e2ff7d"><img src="../assets/calc2.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-9ae27fcb7438675eed72241a6481ccd2" class="lightbox-link"><img src="../assets/calc2.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-9ae27fcb7438675eed72241a6481ccd2"><img src="../assets/calc2.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Following the same logic we do the mapping on the Y-axis from (b,t) to (-1,1):</p>
-<p><a href="#R-image-6ce004924b7cf58638199064ee703193" class="lightbox-link"><img src="../assets/calc3.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-6ce004924b7cf58638199064ee703193"><img src="../assets/calc3.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-40a241c54db466dc81e072e3f02b3acc" class="lightbox-link"><img src="../assets/calc3.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-40a241c54db466dc81e072e3f02b3acc"><img src="../assets/calc3.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In the case of the Z-axis we need to map (n,f) to (-1,1):</p>
-<p><a href="#R-image-5710fd4bf9783bfe7692325f9fc8fe8c" class="lightbox-link"><img src="../assets/calc4.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5710fd4bf9783bfe7692325f9fc8fe8c"><img src="../assets/calc4.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-2cd1169b3494022fb92dcdac2d0bcf3d" class="lightbox-link"><img src="../assets/calc4.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2cd1169b3494022fb92dcdac2d0bcf3d"><img src="../assets/calc4.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Now that we have the three mapping equations let&rsquo;s create a matrix to wrap them together nicely:</p>
-<p><a href="#R-image-e160e90c857244825748b445f7d4e642" class="lightbox-link"><img src="../assets/calc5.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e160e90c857244825748b445f7d4e642"><img src="../assets/calc5.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-2d091062c0d9de3b3ecc1f368dde1b71" class="lightbox-link"><img src="../assets/calc5.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2d091062c0d9de3b3ecc1f368dde1b71"><img src="../assets/calc5.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Compare this matrix with the one we created for perpective projection in <a href="https://ogldev.org/www/tutorial12/tutorial12.html" target="_blank">tutorial 12</a>. An important difference is that in location [3,2] (count starts at zero) we have 0 instead of 1. For perspective projection the 1 was required in order to copy the Z into the W location of the result. This allows the GPU to perform perspective divide when everything is divided automatically by W (and you cannot disable this). In the case of orthographic projection the W will remain as 1, effectively disabling this operation.</p>
 <p>When working on shadow mapping with directional lights you need to be careful about how you define the dimensions of orthographic projection. With perspective projection life is a bit simpler. The field-of-view defines how wide the camera is and due to the nature of the frustum we capture more and more as we move further away from the viewer (same as how our eye functions). We also need to define a near and far plane to control clipping based on distance. In many cases the same values of field-of-view, near and far plane will work just fine. But in the case of orthographic projection we have a box rather than a frustum and if we are not careful we may &ldquo;miss&rdquo; the objects and not render anything. Let&rsquo;s see an example. In the scene below left and bottom are -10, right and top are 10, the near plane is -10 and the far plane is 100:</p>
-<p><a href="#R-image-929c80bd4574fb64e9ee3af239102869" class="lightbox-link"><img src="../assets/high_res.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-929c80bd4574fb64e9ee3af239102869"><img src="../assets/high_res.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-a530a056199d0c3824cefa77eb60e6e2" class="lightbox-link"><img src="../assets/high_res.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a530a056199d0c3824cefa77eb60e6e2"><img src="../assets/high_res.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The problem is that the objects are placed at distance of 30 from each other so the projection was not wide enough in order to capture everything (remember that the light direction is orthogonal to the viewer so the objects are scattered on a wide field relative to the light). Now let&rsquo;s multiply left/right/bottom/top by 10 (near/far planes unchanged):</p>
-<p><a href="#R-image-e0dbc3cbe99bab1bbf142afd71edd3c2" class="lightbox-link"><img src="../assets/low_res.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e0dbc3cbe99bab1bbf142afd71edd3c2"><img src="../assets/low_res.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-67997cc25a72c43fb2bf958fcba24161" class="lightbox-link"><img src="../assets/low_res.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-67997cc25a72c43fb2bf958fcba24161"><img src="../assets/low_res.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Now all the objects have a shadow. However, we have a new problem. The shadows don&rsquo;t look as good as when only one object had a shadow. This problem is called <em>Perspective Aliasing</em> and the reason is that many pixels in view space (when rendering from the camera point of view) are mapped to the same pixel in the shadow map. This makes the shadows look kind of blocky. When we increased the dimensions of the orthographic box we increased that ratio because the shadow map remains the same but a larger part of the world is now rendered to it. Perspective Aliasing can be mitigated somewhat by increasing the size of the shadow map but you cannot go too far with that as there is a negative impact on memory footprint. In future tutorials we will explore advanced techniques to handle this problem.</p>
 <h3 id="source-walkthru">Source walkthru</h3>
 <p>The main difference between shadow mapping with directional and spot lights is the orthographic vs. perspective projection. This is why I&rsquo;m only going to review the changes required for shadows with directional light. Make sure you are highly familiar with <a href="https://ogldev.org/www/tutorial23/tutorial23.html" target="_blank">tutorial 23</a> and <a href="https://ogldev.org/www/tutorial24/tutorial24.html" target="_blank">tutorial 24</a> before proceeding because most of the code is the same. If you have a working version of shadows with spot lights you will only need to make a few minor changes to get directional lights shadows working.</p>
@@ -284,12 +284,12 @@ Background The Shadow Mapping algorithm that we explored in tutorial 23 and tuto
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -487,13 +487,13 @@ Background The Shadow Mapping algorithm that we explored in tutorial 23 and tuto
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

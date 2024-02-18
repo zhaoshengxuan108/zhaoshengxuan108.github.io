@@ -26,18 +26,18 @@ Point (-1.0, -1.0) is mapped to the bottom left hand of the window, (-1.">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 3:First Triangle :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.print.html" rel="alternate" type="text/html" title="Tutorial 3:First Triangle :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -141,8 +141,8 @@ Point (-1.0, -1.0) is mapped to the bottom left hand of the window, (-1.">
 <h2 id="background">Background</h2>
 <p>This tutorial is very short. We simply expand the previous tutorial to render a triangle.</p>
 <p>In this tutorial we rely on the normalized box again. Visible vertices must be inside the box so that viewport transformation will map them to the visible coordinates of the window. When looking down the negative Z axis this box looks like that:</p>
-<p><a href="#R-image-60dcc6d61ea7ebe33e92dbac5bfbd0fe" class="lightbox-link"><img src="../assets/coord_system.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-60dcc6d61ea7ebe33e92dbac5bfbd0fe"><img src="../assets/coord_system.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-51fcfecac1c1c818f9c3d4c0a57691a3" class="lightbox-link"><img src="../assets/coord_system.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-51fcfecac1c1c818f9c3d4c0a57691a3"><img src="../assets/coord_system.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Point (-1.0, -1.0) is mapped to the bottom left hand of the window, (-1.0, 1.0) is the upper left and so on. If you extend the position of one of the vertices below outside this box the triangle will be clipped and you will only see a part of it.</p>
 <h2 id="source-walkthru">Source walkthru</h2>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">Vector3f</span> <span class="n">Vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
@@ -174,12 +174,12 @@ Point (-1.0, -1.0) is mapped to the bottom left hand of the window, (-1.">
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -377,13 +377,13 @@ Point (-1.0, -1.0) is mapped to the bottom left hand of the window, (-1.">
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

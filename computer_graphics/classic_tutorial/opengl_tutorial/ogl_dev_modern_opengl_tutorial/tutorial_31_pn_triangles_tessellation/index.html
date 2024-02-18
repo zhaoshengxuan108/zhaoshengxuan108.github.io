@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.print.html" rel="alternate" type="text/html" title="Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -144,11 +144,11 @@
 <p>Bezier Surfaces were invented by Pierre Bezier in the 1960s as a method of describing the curves of automobile bodies. In a nutshell, a Bezier Surface is polynomial function which described a smooth and continuous surface which is fully contained within a set of control points (CP). The polynomial has a special attribute whereas by moving a CP the surface is affected mostly in the vicinity of that CPs. The effect becomes less visible as we move away from that CP. You can picture this as a highly delicate and flexible cloth lying on the floor. If you pull the cloth upwards at a specific point the curve that will be formed will become less and less noticeable in the distant parts of the cloth (if the cloth was infinitely flexible the effect may even become non-existant at some point).</p>
 <p>The polynomial of the Bezier surface is defined over the unit square. That is, by plugging into the function various combinations of two numbers in the range [0-1] we get a point in 3D space which is exactly on the smooth surface that the polynomial describes. If you plug in many pairs of numbers in the unit square and plot the result on the screen you will eventually get a good approximation of the surface.</p>
 <p>We are going to use a special case of a Bezier Surface called a <em>Bezier Triangle</em> which has the following form:</p>
-<p><a href="#R-image-813dcf76c0d61b9ac602148e23eac1f6" class="lightbox-link"><img src="../assets/bezier_tri.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-813dcf76c0d61b9ac602148e23eac1f6"><img src="../assets/bezier_tri.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e7ef5d17a2d6c8bfb3fcb8d182e35e16" class="lightbox-link"><img src="../assets/bezier_tri.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e7ef5d17a2d6c8bfb3fcb8d182e35e16"><img src="../assets/bezier_tri.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Let&rsquo;s decipher this step by step. &lsquo;u/v/w&rsquo; are barycentric coordinates (i.e. they always maintain the equation &lsquo;u + v + w = 1&rsquo;). The ten &lsquo;Bxyz&rsquo; are CPs. We are going to deviate a bit from the classical definition of a Bezier Triangle and place the CPs as follows:</p>
-<p><a href="#R-image-e497604d54cb08bafed94b18d6af338a" class="lightbox-link"><img src="../assets/control_points.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e497604d54cb08bafed94b18d6af338a"><img src="../assets/control_points.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e975171d5aeae84a0cbb390114b13882" class="lightbox-link"><img src="../assets/control_points.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e975171d5aeae84a0cbb390114b13882"><img src="../assets/control_points.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>As you can see, the general form of the CPs resembles a somewhat puffy surface on top of a triangle. By evaluating a lot of barycentric coordinates in the polynomial above we will get an exproximation of that surface in 3D space.</p>
 <p>Let&rsquo;s see how to integrate these mathematical concepts into the Tessellation pipeline. We are going to start with a triangle and this will be our input patch (same as in the previous tutorial). We will generate the 10 CPs and determine the TLs in the TCS. The PG will subdivide the triangle domain according to the TLs and the TES will be executed for each new point. The TES will plug the barycentric coordinates from the PG and the 10 CPs from the TCS into the polynomial of the Bezier triangle and the result will be a coordinate on the puffy surface. From here on things will run as usual.</p>
 <p>The one thing we still need to figure out is how to generate the CPs. The method suggested by the PN Triangles algorithm is as follows:</p>
@@ -157,8 +157,8 @@
 <li>Two midpoints are generated on each edge - one on 1/3 of the way the other on 2/3.</li>
 <li>Each midpoint is projected on the plane created by the nearest vertex and its normal:</li>
 </ul>
-<p><a href="#R-image-501ef92a911ab2771ea4ba28deeef84e" class="lightbox-link"><img src="../assets/cp_projection.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-501ef92a911ab2771ea4ba28deeef84e"><img src="../assets/cp_projection.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-b6f3e2be0c2499175183b768a0ad495b" class="lightbox-link"><img src="../assets/cp_projection.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-b6f3e2be0c2499175183b768a0ad495b"><img src="../assets/cp_projection.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The picture above shows the triangle from the side. Each of the two endpoints has its own normal (in green) from the original mesh. The combination of a point and a normal creates a plane. We take the two midpoints that were calculated earlier and project them to the plane of the nearest vertex (see the dashed arrows).</p>
 <ul>
 <li>In order to calculate the position of B111 we take a vector from the original triangle center (average of the three vertices) to the average of the 6 midpoints (after projection). We continue along that vector for one half of its length.</li>
@@ -271,8 +271,8 @@
 </span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">vec3</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Len</span> <span class="o">*</span> <span class="n">PlaneNormal</span><span class="p">;</span>  
 </span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">Point</span> <span class="o">-</span> <span class="n">d</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function is used by CalcPositions() to project a midpoint on the plane defined by the nearest vertex and its normal. The idea is that by doing a dot product between the normal and the vector &lsquo;v&rsquo; from the vertex to the point we want to project we get the length of the projection of &lsquo;v&rsquo; on the normal (the normal must be of unit length). This is exactly the distance between the point and the closest point on the plane (i.e. its projection). We multiply the length by the normal and substract it from point in order to reach the projection. The following picture illustrates this calculation:</p>
-<p><a href="#R-image-86f4302d978c2c4eae223f27066a7da8" class="lightbox-link"><img src="../assets/cp_projection2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-86f4302d978c2c4eae223f27066a7da8"><img src="../assets/cp_projection2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-a7fb5a7e42171708da9791d81b76dfa0" class="lightbox-link"><img src="../assets/cp_projection2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a7fb5a7e42171708da9791d81b76dfa0"><img src="../assets/cp_projection2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>P1 and P2 are located on different half spaces created by the plane. When we project v1 on the green normal we get the length of d1. Multiply that length by the normal to receive d1 itself. Now substract it from P1 to get its projection on the plane. When we project v2 on the green normal we get the length of d2 but it is a negative value. Multiply that by the normal to receive d2 itself (negative length means it reverses the normal). Now substract it from P2 to get its projection on the plane. The conclusion: this method works correctly no matter on which side of the plane our point is.</p>
 <p>(lighting.es)</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 410 core
@@ -366,12 +366,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -569,13 +569,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

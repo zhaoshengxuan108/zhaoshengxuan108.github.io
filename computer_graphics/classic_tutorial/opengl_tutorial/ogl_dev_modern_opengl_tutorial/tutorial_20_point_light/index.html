@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 20:Point Light :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.print.html" rel="alternate" type="text/html" title="Tutorial 20:Point Light :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -141,11 +141,11 @@
 <h3 id="background">Background</h3>
 <p>We have studied the three basic light models (ambient, diffuse and specular) under the umbrella of directional light. Directional light is a light type which is characterized by a single direction vector and the lack of any origin. Therefore, it doesn&rsquo;t grow weaker with distance (in fact, you can&rsquo;t even define its distance from its target). We are now going to review the point light type which has both an origin as well as a fading effect which grows stronger as objects move away from it. The classic example for a point light is the light blub. You can&rsquo;t feel the fading effect when the light bulb is inside a standard room but take it outside and you will quickly see how limited its strength is. Notice that the direction of light which is constant across the scene for directional light becomes dynamic with point light. That&rsquo;s because a point light shines in all directions equally so the direction must be calculated per object by taking the vector from the object towards the point light origin. That is why we specify the origin rather than the direction for point lights.</p>
 <p>The fading effect of point lights is usually called &lsquo;attenuation&rsquo;. The attenuation of a real light is governed by the inverse-square law that says that the strength of light is inversely proportional to the square of the distance from the source of light. This is described in mathematical terms by the following formula:</p>
-<p><a href="#R-image-8c3693f746ef5752ea04eea9403fb08b" class="lightbox-link"><img src="../assets/inverse_square_law.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-8c3693f746ef5752ea04eea9403fb08b"><img src="../assets/inverse_square_law.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-253a488794f6973d672b3b133cdd994a" class="lightbox-link"><img src="../assets/inverse_square_law.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-253a488794f6973d672b3b133cdd994a"><img src="../assets/inverse_square_law.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>This formula doesn&rsquo;t provide good looking results in 3D graphics. For example, as the distance becomes smaller the strength of light approaches infinity. In addition, the developer has no control over the results except for setting the initial strength of light. This is too limiting. Therefore, we add a few factors to the formula to make it more flexible:</p>
-<p><a href="#R-image-1f8eba49eb0f306e141f1118d755ae54" class="lightbox-link"><img src="../assets/attenuation.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1f8eba49eb0f306e141f1118d755ae54"><img src="../assets/attenuation.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-16cd21748d72ea4cbfc82fedf806e656" class="lightbox-link"><img src="../assets/attenuation.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-16cd21748d72ea4cbfc82fedf806e656"><img src="../assets/attenuation.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We&rsquo;ve added three light attenuation factors to the denominator. A constant factor, a linear factor and an exponential factor. The physically accurate formula is achieved when setting the constant and linear factors to zero and the exponential factor to 1. You may find it useful to set the constant factor to 1 and the other two factors to a much smaller fraction. When setting the constant factor to one you basically guarantee that the strength of light will reach maximum (actually, what you configure it to be in the program) at distance zero and will decrease as distance grows because the denominator will become greater than one. As you fine tune the linear and exponential factors you will reach the desired effect of light which rapidly or slowly fades with distance.</p>
 <p>Let&rsquo;s summarize the steps required for the calculation of point light:</p>
 <ol>
@@ -291,12 +291,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -494,13 +494,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235101"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235101" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235101" defer></script>
+    <script src="../../../../../js/theme.js?1708235101" defer></script>
   </body>
 </html>

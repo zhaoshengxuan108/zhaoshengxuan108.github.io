@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 36:Deferred Shading - Part 2 :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.print.html" rel="alternate" type="text/html" title="Tutorial 36:Deferred Shading - Part 2 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -143,12 +143,12 @@
 <p>Now that the G-Buffer is properly populated we want to use it for lighting. The lighting equations themselves haven&rsquo;t changed at all. The concepts of ambient, diffuse and specular lights are still the same and all the relevant data is spread across the textures in the G-Buffer. For every pixel on the screen we just need to sample the data from the different textures and do the same lighting calculations as before. The only question is: how do we know which pixels to process? In forward rendering that was easy. The VS provided the position in clip space, there was an automatic step that translated this into screen space and the rasterizer was incharge of executing the FS for each pixel inside the screen space triangles. We simply calculated lighting on these pixels. But now that the geometry pass has finished we don&rsquo;t want to use the original objects again. That would defeat the whole purpose of deferred shading.</p>
 <p>Instead, we look at things from the point of view of the light source. If we have a directional light in our scene then all the screen pixels are affected by it. In that case we can simply draw a full screen quad. The FS will execute for every pixel and we will shade it as usuall. In the case of a point light we can render a crude sphere model with its center at the light source. The size of the sphere will be set according to the strength of the light. Again, the FS will execute for all pixels inside the sphere and we will use it for lighting. This is exactly one of the strengths of deferred shading - reducing the amount of pixels that must be shaded. Instead of calculating the effect of a small light source on all objects in the scene we take it into account only in its local vicinity. We just need to set the sphere to a size which will bound the area where this light has an actual effect.</p>
 <p>The demo in this tutorial is very simple, showing only a few boxes and three light sources. It&rsquo;s a bit ironic that the number of vertices in the bounding sphere is larger than the number of vertices in the actual models. However, you need to remember that in a scene in a modern game you have an order of hundreds of thousands of vertices. In this case it is not that big a deal to add a few dozen vertices by rendering a bounding sphere around each light source. In the following picture you can see the light volume of three light sources:</p>
-<p><a href="#R-image-ace86edc9d7d9f33bbd3c86edb606517" class="lightbox-link"><img src="../assets/bsphere.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-ace86edc9d7d9f33bbd3c86edb606517"><img src="../assets/bsphere.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-37688dca48c330ba12d418fcf7b85fec" class="lightbox-link"><img src="../assets/bsphere.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-37688dca48c330ba12d418fcf7b85fec"><img src="../assets/bsphere.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>If we execute the FS only on the pixels inside those gray patches it will dramatically reduce the total number of FS invocations. In the case of a complex scene with a large depth complexity the gap becomes even greater. So now the question is: how to set the size of the bounding box?</p>
 <p>We want it to be large enough so that the light wouldn&rsquo;t appear to cut off too abruptly but small enough so that distant pixels where the light is too weak to bother won&rsquo;t be shaded. The solution is simple - use our attenuation model to find the optimal size. The attenuation model uses a constant, linear and exponential components as well as the distance from the light source. Since our FS multiplies the color of light by its intensity (which is usually between 0.0 and 1.0) and then divides by the attenuation, we need to find the distance where the attenuation will cause the result of this division to be lower than some threshold. An 8 bit per channel provides 16,777,216 different colors and is considered a standard color scheme. Each channel allows for 256 different values so let&rsquo;s set our threshold at 1/256 (below this is black). Since the maximum channel of color can be less than 256 the attenuation that will cause it to drop below the threshold can also be less than 256. This is how we calculate the distance:</p>
-<p><a href="#R-image-206fe1efaf571dcdd62146ae98c1b117" class="lightbox-link"><img src="../assets/threshold.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-206fe1efaf571dcdd62146ae98c1b117"><img src="../assets/threshold.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-aab2abd9d30302395b21a1511b17ce20" class="lightbox-link"><img src="../assets/threshold.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-aab2abd9d30302395b21a1511b17ce20"><img src="../assets/threshold.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The above is based on the <a href="http://en.wikipedia.org/wiki/Quadratic_equation" target="_blank">quadratic equation solution</a>.</p>
 <h3 id="source-walkthru">Source walkthru</h3>
 <p>(tutorial36.cpp:142)</p>
@@ -343,12 +343,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -546,13 +546,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

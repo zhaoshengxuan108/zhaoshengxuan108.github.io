@@ -24,18 +24,18 @@ The left image definitely looks better the than the right one.">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 26:Normal Mapping :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.print.html" rel="alternate" type="text/html" title="Tutorial 26:Normal Mapping :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -142,46 +142,46 @@ The left image definitely looks better the than the right one.">
 
 <h3 id="background">Background</h3>
 <p>Our lighting technique results are not too bad. The light is nicely interpolated over the model and conveys a sense of realism to the scene. This, however, can be improved tremendously. In fact, the same interpolation is actually an obstacle because sometimes, especially when the undelying texture represents a bumpy surface, it makes it look too flat. As an example, take a look at the following two images:</p>
-<p><a href="#R-image-c6861f6f92af584a5543c83ad350154f" class="lightbox-link"><img src="../assets/compare.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c6861f6f92af584a5543c83ad350154f"><img src="../assets/compare.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-6cae4dc6240dda26e67220aa125e6a6c" class="lightbox-link"><img src="../assets/compare.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6cae4dc6240dda26e67220aa125e6a6c"><img src="../assets/compare.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The left image definitely looks better the than the right one. It conveys the sense of the bumpiness of the stone much better while the right image looks too smooth for a brick texture. The left image has been rendered using a technique known as <em>Normal Mapping</em> (a.k.a Bump Mapping) and this is the subject of this tutorial.</p>
 <p>The idea behind normal mapping is that instead of interpolating the vertex normals across the triangle face (which creates the smoothness we are trying to get rid off) they can simply be sampled from a texture. This represents the real world better because most surfaces (especially the ones we are interested in for gaming) are not that smooth such that light will be reflected back in accordance with the way we interpolate the normals. Instead, the bumps on the surface will make it reflect back at different directions, according to the general direction of the surface at the specific location where the light hits. For each texture these normals can be calculated and stored in a special texture which is called a <em>normal map</em>. During lighting calculations in the fragment shader the specific normal for each pixel is sampled and used as usual. The following images show the difference between the normals in regular lighting and normal mapping:</p>
-<p><a href="#R-image-a9b91ecf4f02a2afe7fa7ba60ef3fe0d" class="lightbox-link"><img src="../assets/normals.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-a9b91ecf4f02a2afe7fa7ba60ef3fe0d"><img src="../assets/normals.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-91b28352660cd84179dc69ab409b8e5e" class="lightbox-link"><img src="../assets/normals.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-91b28352660cd84179dc69ab409b8e5e"><img src="../assets/normals.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We now have our normal map and the true (or at least a good approximation of) surface normals are stored in it. Can we simply go ahead and use it? no. Think for a moment on the cube with the brick texture above. The same texture is applied on all six faces and therefore, the same normal map that goes along with it. The problem is that each face is pointing at a different direction so its interaction with an arbitrary light ray is different. If we use the normal vectors from map without any modification we would get incorrect results because the same normal vector cannot be correct for six faces pointing at different directions! For example, the normals of the top face point in the general direction of (0,1,0), even on a very bumpy surface. However, the normals of the bottom face point in the general direction of (0,-1,0). The point is that the normals are defined in their own private coordinate space and some conversion must be done in order to bring them to world space where they can participate in lighting calculations. In a sense, this concept is very similar to what we did with vertex normals. They were defined in the object local space and we transformed them to world space using the world matrix.</p>
 <p>Let&rsquo;s define the coordinate system in which the normal vectors exist. This coordinate system requires three orthogonal axes of unit length. Since the normal is part of a 2D texture and 2D textures have two orthogonal axis U and V (both of unit length) the common practice is to map the X component of the system to the U axis and the Y component to the V axis. Remember that U goes from left to right and V from bottom to top (the origin in that system is the bottom left corner of the texture). The Z component of the system is considered to be going straight up from the texture and is perpendicular to both X and Y:</p>
-<p><a href="#R-image-9dfec236896378e56e29fea2bd49b618" class="lightbox-link"><img src="../assets/tangent_space.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-9dfec236896378e56e29fea2bd49b618"><img src="../assets/tangent_space.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-feb19adb7ff7b59e16f23f3655d50a20" class="lightbox-link"><img src="../assets/tangent_space.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-feb19adb7ff7b59e16f23f3655d50a20"><img src="../assets/tangent_space.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The normal vectors can now be specified in reference to that coordinate system and stored in the RGB texels of the texture. Note that even on a bumpy surface we still expect the general direction of the normals to point out from the texture. i.e. the Z component is the dominant one while the X and Y just make the vector tilt a bit (or a lot) from side to side. Storing the XYZ vector in an RGB texel makes most normal maps rather bluish as in the following example:</p>
-<p><a href="#R-image-bafc0cbdbbf73f56f30dc7e889feaa43" class="lightbox-link"><img src="../assets/normal_map.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-bafc0cbdbbf73f56f30dc7e889feaa43"><img src="../assets/normal_map.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-1518b31494591da6ffbd5fc482d2c98b" class="lightbox-link"><img src="../assets/normal_map.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1518b31494591da6ffbd5fc482d2c98b"><img src="../assets/normal_map.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Here&rsquo;s the first five texels of the top row of this normal map (when going from left to right): (136,102,248), (144,122,255), (141,145,253), (102, 168, 244) and (34,130,216). The dominance of the Z here cannot be mistaken.</p>
 <p>What we do next is to go over all the triangles in our model and place the normal map on each one in a way that the texture coordinates of each vertex will match their location on the map. For example, say that the texture coordinate of a given triangle are (0.5,0), (1, 0.5) and (0,1). The normal map will be placed as follows:</p>
-<p><a href="#R-image-c2338e050529f93e8ec63a00bc523390" class="lightbox-link"><img src="../assets/tangent_space4.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c2338e050529f93e8ec63a00bc523390"><img src="../assets/tangent_space4.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-1269de320d6fa0752d2f47d0734d6507" class="lightbox-link"><img src="../assets/tangent_space4.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1269de320d6fa0752d2f47d0734d6507"><img src="../assets/tangent_space4.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In the picture above the coordinate system on the bottom left corner represents the object local space.</p>
 <p>In addition to texture coordinates the three vertices also have 3D coordinates that represent their position in the object local space. When we placed the texture on top of the triangle above we&rsquo;ve essentially given a value to the U and V vectors of the texture in the object local space. If we now calculate U and V in the object local space (as well as U cross V which is the normal to the texture) we can generate a transformation matrix to move the normals from the map into the object local space. From there they can be transformed to world space as usual and take part in lighting calculation. The common practice is to call the U vector in the object local space the <em>Tangent</em> and the V vector in the object local space the <em>Bitangent</em>. The transformation matrix that we need to generate is called a TBN matrix (Tangent-Bitangent-Normal). These Tangent-Bitangent-Normal vectors define a coordinate system known as Tangent (or texture ) space. Therefore, the normals in the map are stored in tangent/texture space. We will now find out how to calculate U and V in object space.t</p>
 <p>Let&rsquo;s take a look at the picture above more generically. We have triangle with three vertices at positions P0, P1 and P2 and texture coordinates (U0,V0), (U1,V1) and (U2,V2):</p>
-<p><a href="#R-image-e1cc3c8bd40b46c80f6648f02877809d" class="lightbox-link"><img src="../assets/tangent_space5.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e1cc3c8bd40b46c80f6648f02877809d"><img src="../assets/tangent_space5.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-2b6cf4ac7e08443907a279afcc18866a" class="lightbox-link"><img src="../assets/tangent_space5.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2b6cf4ac7e08443907a279afcc18866a"><img src="../assets/tangent_space5.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We want to find the vectors T (representing the tangent) and B (representing the bitangent) in object space. We can see that the two triangle edges E1 and E2 can be written as a linear combination of T and B:</p>
-<p><a href="#R-image-e0fad09d85901c9fae9a1808b1dd0de1" class="lightbox-link"><img src="../assets/tangent_space_calc1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e0fad09d85901c9fae9a1808b1dd0de1"><img src="../assets/tangent_space_calc1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-71eeecc7867c912447f5ab89fe424162" class="lightbox-link"><img src="../assets/tangent_space_calc1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-71eeecc7867c912447f5ab89fe424162"><img src="../assets/tangent_space_calc1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>This can also be written as follows:</p>
-<p><a href="#R-image-afc5fe5bcfe56090856f08a69330313a" class="lightbox-link"><img src="../assets/tangent_space_calc2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-afc5fe5bcfe56090856f08a69330313a"><img src="../assets/tangent_space_calc2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-29ecb81f1bb610b9a61b620784422ec3" class="lightbox-link"><img src="../assets/tangent_space_calc2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-29ecb81f1bb610b9a61b620784422ec3"><img src="../assets/tangent_space_calc2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>It is now very easy to move to a matrix form:</p>
-<p><a href="#R-image-4e308645734888a56f4774bed13fabe2" class="lightbox-link"><img src="../assets/tangent_space_calc3.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4e308645734888a56f4774bed13fabe2"><img src="../assets/tangent_space_calc3.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-880d10d4cb75fb327d01b13eff7c1901" class="lightbox-link"><img src="../assets/tangent_space_calc3.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-880d10d4cb75fb327d01b13eff7c1901"><img src="../assets/tangent_space_calc3.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We want to extract the matrix on the right hand side. To do that we can multiply both ends of the equation by the inverse of the matrix marked in red above:</p>
-<p><a href="#R-image-f9f134937f6cf35395f7d2347152c9e8" class="lightbox-link"><img src="../assets/tangent_space_calc4.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f9f134937f6cf35395f7d2347152c9e8"><img src="../assets/tangent_space_calc4.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-913be56cbccffd5cb3379fbb91dca9f7" class="lightbox-link"><img src="../assets/tangent_space_calc4.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-913be56cbccffd5cb3379fbb91dca9f7"><img src="../assets/tangent_space_calc4.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Now we have the following:</p>
-<p><a href="#R-image-722d507886abb9849124d724b170571d" class="lightbox-link"><img src="../assets/tangent_space_calc5.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-722d507886abb9849124d724b170571d"><img src="../assets/tangent_space_calc5.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-bb175d0a1876f93491be94046a06adf4" class="lightbox-link"><img src="../assets/tangent_space_calc5.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-bb175d0a1876f93491be94046a06adf4"><img src="../assets/tangent_space_calc5.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>After calculating the matrix inverse we get:</p>
-<p><a href="#R-image-81104cf0a07e366ca69cfd3b6c1e0f84" class="lightbox-link"><img src="../assets/tangent_space_calc6.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-81104cf0a07e366ca69cfd3b6c1e0f84"><img src="../assets/tangent_space_calc6.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-590e2ea4be0738e5c13a102a0e977187" class="lightbox-link"><img src="../assets/tangent_space_calc6.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-590e2ea4be0738e5c13a102a0e977187"><img src="../assets/tangent_space_calc6.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We can run this process on every triangle in the mesh and generate tangent and bitangent vectors per triangle (same vectors for the three triangle vertices). The common practice is to store a per-vertex tangent/bitangent by averaging all the tangents/bitangents of the triangles that share that vertex (same as we do for vertex normals). The reason is to smooth out the effect as we travel across the triangle face and avoid hard breaks on the edges of neighboring triangles. The third element of this coordinate system, the normal, is the cross product of the tangent and bitangent. This trio of Tangent-Bitangent-Normal can now serve as a basis for a coordinate system and be used to transform the normal from the normal map into the local object space. The next step is to transform it to world space and use it for lighting calculations. However, we can optimize it a bit by transforming the Tangent-Bitangent-Normal themselves into world space and only then transform the normal from the map. This will provide the normal in world space directly.</p>
 <p>In this tutorial we will do the following:</p>
 <ol>
@@ -342,12 +342,12 @@ The left image definitely looks better the than the right one.">
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -545,13 +545,13 @@ The left image definitely looks better the than the right one.">
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235101"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235101" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235101" defer></script>
+    <script src="../../../../../js/theme.js?1708235101" defer></script>
   </body>
 </html>

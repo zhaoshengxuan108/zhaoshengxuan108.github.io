@@ -21,18 +21,18 @@
     <meta property="og:site_name" content="Hugo Relearn Theme">
     <title></title><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -132,8 +132,8 @@
 <p>Most developers choose to render character textures onto quads. Rendering textured quads by itself shouldn&rsquo;t be too difficult, but getting the relevant character(s) onto a texture could prove challenging. In this chapter we&rsquo;ll explore several methods and implement a more advanced, but flexible technique for rendering text using the FreeType library.</p>
 <h4 id="classical-text-rendering-bitmap-fonts">Classical text rendering: bitmap fonts</h4>
 <p>In the early days, rendering text involved selecting a font (or create one yourself) you&rsquo;d like for your application and extracting all relevant characters out of this font to place them within a single large texture. Such a texture, that we call a bitmap font, contains all character symbols we want to use in predefined regions of the texture. These character symbols of the font are known as glyphs. Each glyph has a specific region of texture coordinates associated with them. Whenever you want to render a character, you select the corresponding glyph by rendering this section of the bitmap font to a 2D quad.</p>
-<p><a href="#R-image-1f5a5213efedd01943db0b67f991240b" class="lightbox-link"><img src="./assets/bitmapfont.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1f5a5213efedd01943db0b67f991240b"><img src="./assets/bitmapfont.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-76287232437a6e87537b69929d81b2b1" class="lightbox-link"><img src="./assets/bitmapfont.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-76287232437a6e87537b69929d81b2b1"><img src="./assets/bitmapfont.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Here you can see how we would render the text &lsquo;OpenGL&rsquo; by taking a bitmap font and sampling the corresponding glyphs from the texture (carefully choosing the texture coordinates) that we render on top of several quads. By enabling <a href="https://learnopengl.com/Advanced-OpenGL/Blending" target="_blank">blending</a> and keeping the background transparent, we will end up with just a string of characters rendered to the screen. This particular bitmap font was generated using Codehead&rsquo;s Bitmap <a href="http://www.codehead.co.uk/cbfg/" target="_blank">Font Generator</a>.</p>
 <p>This approach has several advantages and disadvantages. It is relatively easy to implement and because bitmap fonts are pre-rasterized, they&rsquo;re quite efficient. However, it is not particularly flexible. When you want to use a different font, you need to recompile a complete new bitmap font and the system is limited to a single resolution; zooming will quickly show pixelated edges. Furthermore, it is limited to a small character set, so Extended or Unicode characters are often out of the question.</p>
 <p>This approach was quite popular back in the day (and still is) since it is fast and works on any platform, but as of today more flexible approaches exist. One of these approaches is loading TrueType fonts using the FreeType library.</p>
@@ -169,8 +169,8 @@
 </span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>By setting FT_LOAD_RENDER as one of the loading flags, we tell FreeType to create an 8-bit grayscale bitmap image for us that we can access via <code>face-&gt;glyph-&gt;bitmap</code>.</p>
 <p>Each of the glyphs we load with FreeType however, do not have the same size (as we had with bitmap fonts). The bitmap image generated by FreeType is just large enough to contain the visible part of a character. For example, the bitmap image of the dot character &lsquo;.&rsquo; is much smaller in dimensions than the bitmap image of the character &lsquo;X&rsquo;. For this reason, FreeType also loads several metrics that specify how large each character should be and how to properly position them. Next is an image from FreeType that shows all of the metrics it calculates for each character glyph:</p>
-<p><a href="#R-image-f9f0e40298306a7e62a2949367216a8e" class="lightbox-link"><img src="./assets/glyph.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f9f0e40298306a7e62a2949367216a8e"><img src="./assets/glyph.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c5b2e7968b9492d8c8d87c02c1f11e3a" class="lightbox-link"><img src="./assets/glyph.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c5b2e7968b9492d8c8d87c02c1f11e3a"><img src="./assets/glyph.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Each of the glyphs reside on a horizontal baseline (as depicted by the horizontal arrow) where some glyphs sit exactly on top of this baseline (like &lsquo;X&rsquo;) or some slightly below the baseline (like &lsquo;g&rsquo; or &lsquo;p&rsquo;). These metrics define the exact offsets to properly position each glyph on the baseline, how large each glyph should be, and how many pixels we need to advance to render the next glyph. Next is a small list of the properties we&rsquo;ll be needing:</p>
 <ul>
 <li><strong>width</strong>: the width (in pixels) of the bitmap accessed via <code>face-&gt;glyph-&gt;bitmap.width</code>.</li>
@@ -324,18 +324,18 @@ FT_Done_FreeType(ft);</code></pre></div><h5 id="shaders">Shaders</h5>
 <p>The following line of code requires some extra attention though:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">float</span> <span class="n">ypos</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">ch</span><span class="p">.</span><span class="n">Size</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">ch</span><span class="p">.</span><span class="n">Bearing</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>   
 </span></span></code></pre></div><p>Some characters (like &lsquo;p&rsquo; or &lsquo;g&rsquo;) are rendered slightly below the baseline, so the quad should also be positioned slightly below RenderText&rsquo;s y value. The exact amount we need to offset ypos below the baseline can be figured out from the glyph metrics:</p>
-<p><a href="#R-image-f8de5cb614d7fc0046ab6961e13d36da" class="lightbox-link"><img src="./assets/glyph_offset.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f8de5cb614d7fc0046ab6961e13d36da"><img src="./assets/glyph_offset.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-880017aabdf39d3cd4b7e009ff1849fb" class="lightbox-link"><img src="./assets/glyph_offset.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-880017aabdf39d3cd4b7e009ff1849fb"><img src="./assets/glyph_offset.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>To calculate this distance e.g. offset we need to figure out the distance a glyph extends below the baseline; this distance is indicated by the red arrow. As you can see from the glyph metrics, we can calculate the length of this vector by subtracting <code>bearingY</code> from the glyph&rsquo;s (bitmap) height. This value is then <code>0.0</code> for characters that rest on the baseline (like &lsquo;X&rsquo;) and positive for characters that reside slightly below the baseline (like &lsquo;g&rsquo; or &lsquo;j&rsquo;).</p>
 <p>If you did everything correct you should now be able to successfully render strings of text with the following statements:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">RenderText</span><span class="p">(</span><span class="n">shader</span><span class="p">,</span> <span class="s">&#34;This is sample text&#34;</span><span class="p">,</span> <span class="mf">25.0f</span><span class="p">,</span> <span class="mf">25.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8f</span><span class="p">,</span> <span class="mf">0.2f</span><span class="p">));</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">RenderText</span><span class="p">(</span><span class="n">shader</span><span class="p">,</span> <span class="s">&#34;(C) LearnOpenGL.com&#34;</span><span class="p">,</span> <span class="mf">540.0f</span><span class="p">,</span> <span class="mf">570.0f</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">,</span> <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7f</span><span class="p">,</span> <span class="mf">0.9f</span><span class="p">));</span></span></span></code></pre></div><p>This should then look similar to the following image:</p>
-<p><a href="#R-image-e554f22ac3a7b9f81a59ab0ed2d011ac" class="lightbox-link"><img src="./assets/text_rendering.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e554f22ac3a7b9f81a59ab0ed2d011ac"><img src="./assets/text_rendering.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e72b43a2554ae36fafbd9b68dd5bf83c" class="lightbox-link"><img src="./assets/text_rendering.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e72b43a2554ae36fafbd9b68dd5bf83c"><img src="./assets/text_rendering.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>You can find the code of this example <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/2.text_rendering/text_rendering.cpp" target="_blank">here</a>.</p>
 <p>To give you a feel for how we calculated the quad&rsquo;s vertices, we can disable blending to see what the actual rendered quads look like:</p>
-<p><a href="#R-image-0bcaa6589aa6630ddfbef63a8a9fa796" class="lightbox-link"><img src="./assets/text_rendering_quads.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-0bcaa6589aa6630ddfbef63a8a9fa796"><img src="./assets/text_rendering_quads.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-15350207873469c0dc7df74a28253c67" class="lightbox-link"><img src="./assets/text_rendering_quads.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-15350207873469c0dc7df74a28253c67"><img src="./assets/text_rendering_quads.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Here you can clearly see most quads resting on the (imaginary) baseline while the quads that corresponds to glyphs like &lsquo;p&rsquo; or &lsquo;(&rsquo; are shifted downwards.</p>
 <h4 id="going-further">Going further</h4>
 <p>This chapter demonstrated a text rendering technique with TrueType fonts using the FreeType library. The approach is flexible, scalable, and works with many character encodings. However, this approach is likely going to be overkill for your application as we generate and render textures for each glyph. Performance-wise, bitmap fonts are preferable as we only need one texture for all our glyphs. The best approach would be to combine the two approaches by dynamically generating a bitmap font texture featuring all character glyphs as loaded with FreeType. This saves the renderer from a significant amount of texture switches and, based on how tight each glyph is packed, could save quite some performance.</p>
@@ -367,12 +367,12 @@ FT_Done_FreeType(ft);</code></pre></div><h5 id="shaders">Shaders</h5>
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -571,13 +571,13 @@ FT_Done_FreeType(ft);</code></pre></div><h5 id="shaders">Shaders</h5>
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235101"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235101" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235101" defer></script>
+    <script src="../../../../../js/theme.js?1708235101" defer></script>
   </body>
 </html>

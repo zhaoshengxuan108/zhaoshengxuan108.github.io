@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 6:Translation Transformation :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.print.html" rel="alternate" type="text/html" title="Tutorial 6:Translation Transformation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -137,18 +137,18 @@
 <h2 id="background">Background</h2>
 <p>In this tutorial we start looking at the various transformations that take an object in 3D and enable it to be displayed on screen while keeping the illusion of depth in the scene. The common way to do this is to represent each transformation using a matrix, multiply them one by one and then multiply the vertex position by the final product. Each tutorial will be dedicated to examining one transformation.</p>
 <p>Here we take a look at the translation transformation which is responsible to moving an object along a vector of any length and direction. Let&rsquo;s say you want to move the triangle in the left picture to the location on the right:</p>
-<p><a href="#R-image-5e8e9b2bf8027f79a27eac50cbf6281d" class="lightbox-link"><img src="../assets/translation.png" alt="translation" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5e8e9b2bf8027f79a27eac50cbf6281d"><img src="../assets/translation.png" alt="translation" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-cb557c66e6c0fd7a279b1f6384a74479" class="lightbox-link"><img src="../assets/translation.png" alt="translation" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-cb557c66e6c0fd7a279b1f6384a74479"><img src="../assets/translation.png" alt="translation" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>One way to do it is to provide the offset vector (in this case - 1,1) as a uniform variable to the shader and simply add it to the position of each processed vertex. However, this breaks the method of multiplying a group of matrices into one to get a single comprehensive transformation. In addition, you will see later that translation is usually not the first one so you will have to multiply the position by the matrix that represent the transformations before translation, then add the position and finally multiple by the matrix that represent the transformation that follow translation. This is too awkward. A better way will be to find a matrix that represents the translation and take part in the multiplication of all matrices. But can you find a matrix that when multiplied by the point (0,0), the bottom left vertex of the triangle on the left, gives the result (1,1)? The truth is that you can&rsquo;t do it using a 2D matrix (and you cannot do it with a 3D matrix for (0,0,0) ). In general we can say that what we need is a matrix M that given a point P(x,y,z) and a vector V(v1,v2,v3) provides M * P=P1(x + v1, y + v2, z + v3). In simple words this means that matrix M translates P to location P+V. In P1 we can see that each component is a sum of a component from P and the corresponding component of V. The left side of each sum equation is provided by the identity matrix:
 I * P = P(x,y,z). So it looks like we should start with the identity matrix and find out the changes that will complete the right hand side of the sum equation in each component (&hellip;+V1, &hellip;+V2, &hellip;+V3). Let&rsquo;s see how the identity matrix looks like:</p>
-<p><a href="#R-image-a4353bcc5e96b4c3234d66125514cb07" class="lightbox-link"><img src="../assets/equation1.jpeg" alt="equation1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-a4353bcc5e96b4c3234d66125514cb07"><img src="../assets/equation1.jpeg" alt="equation1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-099abd2457fadb2aedd163ed5ffa30b9" class="lightbox-link"><img src="../assets/equation1.jpeg" alt="equation1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-099abd2457fadb2aedd163ed5ffa30b9"><img src="../assets/equation1.jpeg" alt="equation1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We want to modify the identity matrix such that the result will be:</p>
-<p><a href="#R-image-b7c889e2f3639dd5db89c6d09a4c2fca" class="lightbox-link"><img src="../assets/equation2.jpeg" alt="equation2" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-b7c889e2f3639dd5db89c6d09a4c2fca"><img src="../assets/equation2.jpeg" alt="equation2" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e5c60287feeb1638485b25e43d54d468" class="lightbox-link"><img src="../assets/equation2.jpeg" alt="equation2" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e5c60287feeb1638485b25e43d54d468"><img src="../assets/equation2.jpeg" alt="equation2" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>There really isn&rsquo;t an easy way to do this if we stick to 3x3 matrix, but if we change to a 4x4 matrix we can do the following:</p>
-<p><a href="#R-image-2d3d933c7ab4d6006153c1cc70aeacda" class="lightbox-link"><img src="../assets/equation3.jpeg" alt="equation3" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-2d3d933c7ab4d6006153c1cc70aeacda"><img src="../assets/equation3.jpeg" alt="equation3" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-8275a7483c9d7961dcb8454a826692c7" class="lightbox-link"><img src="../assets/equation3.jpeg" alt="equation3" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8275a7483c9d7961dcb8454a826692c7"><img src="../assets/equation3.jpeg" alt="equation3" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Representing a 3-vector using a 4-vector like that is called homogenous coordinates and is very popular and useful for 3D graphics. The fourth component is called &lsquo;w&rsquo;. In fact, the internal shader symbol gl_Position that we have seen in the previous tutorial is a 4-vector and the w component has a very important role for making the projection from 3D to 2D. The common notation is to use w=1 for points and w=0 for vectors. The reason is that points can be translated but vectors cannot. You can change the length of a vector or its direction but all vectors with the same length/direction are considered equal, regardless their &ldquo;starting position&rdquo;. So you can simply use the origin for all vectors. Setting w=0 and multiplying the translation matrix by the vector will result in the same vector.</p>
 <h2 id="source-walkthru">Source walkthru</h2>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">Matrix4f</span> <span class="p">{</span>  
@@ -199,12 +199,12 @@ I * P = P(x,y,z). So it looks like we should start with the identity matrix and 
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -402,13 +402,13 @@ I * P = P(x,y,z). So it looks like we should start with the identity matrix and 
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235001"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235001" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235001" defer></script>
-    <script src="../../../../../js/theme.js?1708235001" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

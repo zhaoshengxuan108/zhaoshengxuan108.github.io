@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.print.html" rel="alternate" type="text/html" title="Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -143,18 +143,18 @@
 <h3 id="background">Background</h3>
 <p>Do you remember how our lighting model began evolving? Back in <a href="https://ogldev.org/www/tutorial17/tutorial17.html" target="_blank">tutorial 17</a> we took a first look at the lighting model, starting with the ambient lighting type. The ambient lighting which is supposed to mimic the general feeling of &ldquo;everything is bright&rdquo; that you get in a highly lit, mid-day environment, was implemented using a single floating point value that was attached to each lighting source and we multiplied that value by the color of the surface which we sampled from the texture bound to that surface. So you could have a single light source in your scene called &ldquo;sun&rdquo; and you could play with the ambient light to control how well the scene was generally lit - values closer to zero produced a darker scene while values closer to 1 produced a lighter scene.</p>
 <p>In the following tutorials we implemented diffuse and specular lighting which contributed to the overall quality of the scene but the basic ambient light remained the same. In the recent years we see a rise of what is known as <a href="http://en.wikipedia.org/wiki/Ambient_occlusion" target="_blank">Ambient Occlusion</a> which basically means that instead of going with a fixed ambient light value for each pixel we can calculate how much the pixel is exposed to the ambient light source. A pixel on the floor in the middle of room is much more exposed to the light than, say, a pixel in the corner. This means that the corner will be a bit darker than the rest of the floor. This is the core of ambient occlusion. So in order to implement it we need to find a way to differentiate between those &ldquo;tightly packed in corners pixels&rdquo; vs. &ldquo;out in the open pixels&rdquo;. The product of this calculation is an ambient occlusion term which will control the ambient light in the final lighting stage. Here&rsquo;s a visualization of this ambient occlusion term:</p>
-<p><a href="#R-image-c33704e107ef636ae4932e01ebde47d8" class="lightbox-link"><img src="../assets/ao.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c33704e107ef636ae4932e01ebde47d8"><img src="../assets/ao.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e32067608b6cc0e13461824ae2115099" class="lightbox-link"><img src="../assets/ao.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e32067608b6cc0e13461824ae2115099"><img src="../assets/ao.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>You can see how the edges are the brightest and the corners where we expect to get the smaller amount of lighting are much darker.</p>
 <p>There is a lot of research on the subject of ambient occlusion and many algorithms have been developed to approximate it. We are going to study a branch of these algorithms known as <em>Screen Space Ambient Occlusion</em> or SSAO, which was developed by <a href="http://en.wikipedia.org/wiki/Crytek" target="_blank">Crytek</a> and became highly popular with their 2007 release of <a href="http://en.wikipedia.org/wiki/Crysis%22" target="_blank">Crysis</a>. Many games have since implemented SSAO and a lot of variations were created on top of it. We are going to study a simplified version of the algorithm based on a <a href="http://john-chapman-graphics.blogspot.co.il/2013/01/ssao-tutorial.html" target="_blank">SSAO tutorial by John Chapman</a>.</p>
 <p>Ambient occlusion can be very compute intensive. Crytek came up with a good compromise where the occlusion term is calculated once per pixel. Hence the prefix &lsquo;Screen Space&rsquo; to the algorithm name. The idea was to go over the window pixel by pixel, extract the view space position in that location, sample a few random points very near that position and check whether they fall inside or outside the real geometry in that area. If many points fall inside the geometry it means the original pixel is cornered by many polygons and receives less light. If many points are outside of any geometry it means the original pixel is &ldquo;highly exposed&rdquo; and therefore receives more light. For example, take a look at the following image:</p>
-<p><a href="#R-image-d6323465c5ee6709b34cc937688afd42" class="lightbox-link"><img src="../assets/algorithm.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d6323465c5ee6709b34cc937688afd42"><img src="../assets/algorithm.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-44825b9a2af0f1b15780545bbf509c8d" class="lightbox-link"><img src="../assets/algorithm.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-44825b9a2af0f1b15780545bbf509c8d"><img src="../assets/algorithm.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We have a surface with two points on it - P0 and P1. Assume that we are looking at it from somewhere on the upper left corner of the image. We sample a few points around each point and check whether they fall inside or outside the geometry. In the case of P0 there is a greater chance that random points around it will fall inside the geometry. For P1 it is the opposite. Therefore we expect to get a greater ambient occlusion term for P1 which means it will look lighter in the final frame.</p>
 <p>Let&rsquo;s take it to the next level of details. We are going to plug in an ambient occlusion pass somewhere before our standard lighting pass (we will need the ambient term for the lighting). This ambient occlusion pass will be a standard full screen quad pass where the calculation is done once per pixel. For every pixel we will need its view space position and we want to generate a few random points in close vicinity to that position. The easiest way will be to have a texture ready at the point fully populated with the view space positions of the entire scene geometry (obviously - only of the closest pixels). For this we will need a geometry pass before the ambient pass where something very similar to the gbuffer that we saw in deferred rendering will be filled with view space position information (and that&rsquo;s it - we don&rsquo;t need normals, color, etc). So now getting the view space position for the current pixel in the ambient pass is just one sample operation away.</p>
 <p>So now we are in a fragment shader holding the view space position for the current pixel. Generating random points around it is very easy. We will pass into the shader an array of random vectors (as uniform variables) and add each one to the view space position. For every generated point we want to check whether it lies inside or outside the geometry. Remember that these points are virtual, so no match to the actual surface is expected. We are going to do something very similar to what we did in shadow mapping. Compare the Z value of the random point to the Z value of the closest point in the actual geometry. Naturally, that actual geometry point must lie on the ray that goes from the camera to the virtual point. Take a look at the following diagram:</p>
-<p><a href="#R-image-1b72032ed9dfefdf04373dd9c4ee804b" class="lightbox-link"><img src="../assets/diagram1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1b72032ed9dfefdf04373dd9c4ee804b"><img src="../assets/diagram1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c8a3c38c212c548bace6c0df05ef5014" class="lightbox-link"><img src="../assets/diagram1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c8a3c38c212c548bace6c0df05ef5014"><img src="../assets/diagram1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Point P lies on the red surface and the red and green points were generated randomly around it. The green point lies outside (before) the geometry and the red is inside (thus contributes to the ambient occlusion). The circle represents the radius in which random points are generated (we don&rsquo;t want them to be too far off point P). R1 and R2 are the rays from the camera (at 0,0,0) to the red and green points. They intersect the geometry somewhere. In order to calculate the ambient occlusion we must compare the Z values of the red and green points vs the Z value of the corresponding geometry points that are formed by the intersection of R1/R2 and the surface. We already have the Z value of the red and green points (in view space; after all - this is how we created them). But where&rsquo;s the Z value of the points formed by the above intersection?</p>
 <p>Well, there&rsquo;s more than one solution to that question but since we already have a texture ready with the view space position of the entire scene the simplest way will be to find it somehow in it. To do that we will need the two texture coordinates that will sample the view space position for the R1 and R2 rays. Remember that the original texture coordinates that were used to find the view space position of P are not what we need. These coordinates were formed based on the interpolation of the full screen quad that we are scanning in that pass. But R1 and R2 don&rsquo;t intersect P. They intersect the surface somewhere else.</p>
 <p>Now we need to do a quick refresher on the way the texture with the view space positions was originally created. After transforming the object space coordinates to view space the resulting vectors were multiplied by the projection matrix (in fact - all these transformation were performed by a single matrix). All this happened in the vertex shader and on the way to the fragment shader the GPU automatically performed perspective divide to complete the projection. This projection placed the view space position on the near clipping plane and the points inside the frustum have a (-1,1) range for their XYZ components. As the view space position was written out to the texture in the fragment shader (the above calculation is performed only on gl_Position; the data written to the texture is forwarded in a different variable) the XY were transformed to the (0,1) range and the results are the texture coordinates where the view space position is going to be written.</p>
@@ -391,12 +391,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -594,13 +594,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

@@ -22,19 +22,19 @@
     <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" rel="canonical" type="text/html" title="Tutorial 4:Shaders :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 4:Shaders :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
-    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235002"></script>
-    <script src="../../../../../js/variant.js?1708235002"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235103" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235103" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235103" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235103"></script>
+    <script src="../../../../../js/variant.js?1708235103"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -97,8 +97,8 @@
 <h2 id="background">Background</h2>
 <p>From this tutorial forward every effect and technique we will implement will be done using shaders. Shaders are the modern way of doing 3D graphics. In a way you could claim that this is a step back as most of the 3D functionality that was provided by the fixed function pipeline and required the developer to only specify configuration parameters (lighting attributes, rotation values, etc) must now be implemented by the developer (via shaders), however, this programmability enables great flexibility and innovation.</p>
 <p>The OpenGL programmable pipeline can be visualized as follows:</p>
-<p><a href="#R-image-c7b8e0aa46976d8b39293bdb38cf919d" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/../assets/pipeline.png" alt="pipeline" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c7b8e0aa46976d8b39293bdb38cf919d"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/../assets/pipeline.png" alt="pipeline" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-a3e32ccdf9600966c650b6da7c135eec" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/../assets/pipeline.png" alt="pipeline" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a3e32ccdf9600966c650b6da7c135eec"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/../assets/pipeline.png" alt="pipeline" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The vertex processor is in charge of executing the vertex shader on each and every vertex that passes through the pipeline (the number of which is determined according to the parameters to the draw call). Vertex shaders have no knowledge about the topology of the rendered primitives. In addition, you cannot discard vertices in the vertex processor. Each vertex enters the vertex processor exactly once, undergoes transformations and continues down the pipe.</p>
 <p>The next stage is the geometry processor. In this stage the knoweldge as to the complete primitive (i.e. all of its vertices) as well as neighboring vertices is provided to the shader. This enables techniques that must take into account additional information beside the vertex itself. The geometry shader also has the ability to switch the output topology to a different one than the topology selected in the draw call. For example, you may supply it with a list of points and genereate two triangles (i.e. a quad) from each point (a technique known as billboarding). In addition, you have the option to emit multiple vertices for each geometry shader invocation and thus generate multiple primitives according to the output topology you selected.</p>
 <p>The next stage in the pipe is the clipper. This is a fixed function unit with a straightforward task - it clips the primitives to the normalized box we have seen in the previous tutorial. It also clips them to the near Z and the far Z planes. There is also the option to supply user clip planes and have the clipper clip against them. The position of vertices that have survived the clipper is now mapped to screen space coordinates and the rasterizer renders them to the screen according to their topology. For example, in the case of triangles this means finding out all the points that are inside the triangle. For each point the rasterizer invokes the fragment processor. Here you have the option to determine the color of the pixel by sampling it from a texture or using whatever technique you desire.</p>
@@ -148,8 +148,8 @@
         </div>
       </main>
     </div>
-    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
-    <script src="../../../../../js/theme.js?1708235002" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235103" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235103" defer></script>
+    <script src="../../../../../js/theme.js?1708235103" defer></script>
   </body>
 </html>

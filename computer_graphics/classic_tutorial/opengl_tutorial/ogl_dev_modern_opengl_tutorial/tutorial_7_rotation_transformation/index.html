@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 7:Rotation Transformation :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.print.html" rel="alternate" type="text/html" title="Tutorial 7:Rotation Transformation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -137,26 +137,26 @@
 <h2 id="background">Background</h2>
 <p>Next on our transforation list is the rotation, that is, given an angle and a point we want to rotate the point around one of the axis. We will always change two out of the trio X, Y and Z and leave the third component unchanged. This means that the path will lie on one of the three major planes: XY (when turning around Z), YZ (when turning around X) and XZ (when turning around Y). There are more complex rotation transformations that allow you to rotate around an arbitrary vector but we don&rsquo;t need them at this stage.</p>
 <p>Let&rsquo;s define the problem in general terms. Consider the following diagram:</p>
-<p><a href="#R-image-48fdbf1e2e9b5736dce81c9ce6a5f977" class="lightbox-link"><img src="../assets/rotation.png" alt="rotation" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-48fdbf1e2e9b5736dce81c9ce6a5f977"><img src="../assets/rotation.png" alt="rotation" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-2747e98a4202d8b2f959eb1106656a16" class="lightbox-link"><img src="../assets/rotation.png" alt="rotation" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2747e98a4202d8b2f959eb1106656a16"><img src="../assets/rotation.png" alt="rotation" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We want to move along the circle from (x1,y1) to (x2,y2). In other words we want to rotate (x1,y1) by the angle a2. Let&rsquo;s assume that the radius of the circle is 1. This means the following:</p>
-<p><a href="#R-image-0ec290dad0e64bac6cee5f3bddeea51e" class="lightbox-link"><img src="../assets/eq_1.png" alt="eq_1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-0ec290dad0e64bac6cee5f3bddeea51e"><img src="../assets/eq_1.png" alt="eq_1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-6925e55e5687c9e89491bf73b94736c0" class="lightbox-link"><img src="../assets/eq_1.png" alt="eq_1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6925e55e5687c9e89491bf73b94736c0"><img src="../assets/eq_1.png" alt="eq_1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We will use the following trigonometric identities to develop x2 and y2:</p>
-<p><a href="#R-image-24c48f1f5d42a804d44c6e567bd69d94" class="lightbox-link"><img src="../assets/eq_2.png" alt="eq_1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-24c48f1f5d42a804d44c6e567bd69d94"><img src="../assets/eq_2.png" alt="eq_1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-60a217bbce6e0a45fe91c3dc85d068ad" class="lightbox-link"><img src="../assets/eq_2.png" alt="eq_1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-60a217bbce6e0a45fe91c3dc85d068ad"><img src="../assets/eq_2.png" alt="eq_1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Using the above we can write:</p>
-<p><a href="#R-image-df1a90ab50e4f38cef56aa1e33feb2a3" class="lightbox-link"><img src="../assets/eq_3.png" alt="eq_1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-df1a90ab50e4f38cef56aa1e33feb2a3"><img src="../assets/eq_3.png" alt="eq_1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-08a11586ac28d894ce83fb0827730ee7" class="lightbox-link"><img src="../assets/eq_3.png" alt="eq_1" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-08a11586ac28d894ce83fb0827730ee7"><img src="../assets/eq_3.png" alt="eq_1" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In the above diagram we are looking at the XY plane and Z is pointing into the page. If X&amp;Y are part of a 4-vector then the above equation can be written in matrix form (without affecting Z&amp;W):</p>
-<p><a href="#R-image-5a77ffc785716fcff524f7f68bdcf7fa" class="lightbox-link"><img src="../assets/07_01.png" alt="07_01" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5a77ffc785716fcff524f7f68bdcf7fa"><img src="../assets/07_01.png" alt="07_01" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-381247d49299f482c8e28f9c69ef5bab" class="lightbox-link"><img src="../assets/07_01.png" alt="07_01" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-381247d49299f482c8e28f9c69ef5bab"><img src="../assets/07_01.png" alt="07_01" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>If we want to create rotations for the YZ (around the X axis) and XZ (around the Y axis) planes then the equations are basically the same but the matrix is arranged a bit differently. Here&rsquo;s the matrix for the rotation around the Y axis:</p>
-<p><a href="#R-image-3fcaf71e7aea41b274ee0ab495aa4fec" class="lightbox-link"><img src="../assets/07_02.png" alt="07_01" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-3fcaf71e7aea41b274ee0ab495aa4fec"><img src="../assets/07_02.png" alt="07_01" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-1f4f307d8ba446a4da847abe9155ad7e" class="lightbox-link"><img src="../assets/07_02.png" alt="07_01" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1f4f307d8ba446a4da847abe9155ad7e"><img src="../assets/07_02.png" alt="07_01" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>And the rotation matrix around the X axis:</p>
-<p><a href="#R-image-45e7de2a5c87b561baef8b8f78c12113" class="lightbox-link"><img src="../assets/07_03.png" alt="07_01" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-45e7de2a5c87b561baef8b8f78c12113"><img src="../assets/07_03.png" alt="07_01" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-09e9030eb167af367c373135d3713460" class="lightbox-link"><img src="../assets/07_03.png" alt="07_01" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-09e9030eb167af367c373135d3713460"><img src="../assets/07_03.png" alt="07_01" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h2 id="source-walkthru">Source walkthru</h2>
 <p>The code changes in this tutorial are very minor. We only change the contents of the single transformation matrix in the code.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">cosf</span><span class="p">(</span><span class="n">Scale</span><span class="p">);</span> <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=-</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">);</span> <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span> <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
@@ -187,12 +187,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235001" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235001" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235001" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235001" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235001" defer></script>
-        <script src="../../../../../js/search.js?1708235001" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -390,13 +390,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235001"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235001" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235001" defer></script>
-    <script src="../../../../../js/theme.js?1708235001" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

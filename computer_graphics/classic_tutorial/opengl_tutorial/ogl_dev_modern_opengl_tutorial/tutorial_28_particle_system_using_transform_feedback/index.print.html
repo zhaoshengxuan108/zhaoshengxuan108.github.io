@@ -24,19 +24,19 @@ In order to simulate a natural phenomenon made from particles we usually maintai
     <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" rel="canonical" type="text/html" title="Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
-    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235002"></script>
-    <script src="../../../../../js/variant.js?1708235002"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235103" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235103" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235103" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235103"></script>
+    <script src="../../../../../js/variant.js?1708235103"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -109,8 +109,8 @@ In order to simulate a natural phenomenon made from particles we usually maintai
 <li>Updating the particle attributes means running the same mathematical formula on different data items. This is a perfect example of distributed computing that the GPU excels at. Running it on the CPU means serializing the entire update process. If our CPU is multi core we can take advantage of it and reduce the total amount of time but that requires more work from the application. Running the update process on the GPU means that we get parallel execution for free.</li>
 </ol>
 <p>DirectX10 introduced a new feature known as <em>Stream Output</em> that is very useful for implementing particle systems. OpenGL followed in version 3.0 with the same feature and named it <em>Transform Feedback</em>. The idea behind this feature is that we can connect a special type of buffer (called <em>Transform Feedback Buffer</em> right after the GS (or the VS if the GS is absent) and send our transformed primitives to it. In addition, we can decide whether the primitives will also continue on their regular route to the rasterizer. The same buffer can be connected as a vertex buffer in the next draw and provide the vertices that were output in the previous draw as input into the next draw. This loop enables the two steps above to take place entirely on the GPU with no application involvement (other than connecting the proper buffers for each draw and setting up some state). The following diagram shows the new architecture of the pipeline:</p>
-<p><a href="#R-image-4ac7695a33be12e6a72bba671901989d" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/../assets/pipeline.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4ac7695a33be12e6a72bba671901989d"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/../assets/pipeline.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-608598eee527c29e3f6854ab15d53195" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/../assets/pipeline.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-608598eee527c29e3f6854ab15d53195"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/../assets/pipeline.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>How many primitives end up in the transform feedback buffer? well, if there is no GS the answer is simple - it is based on the number of vertices from the draw call parameters. However, if the GS is present the number of primitives is unknown. Since the GS is capable of creating and destroying primitives on the fly (and can also include loops and branches) we cannot always calculate the total number of primitives that will end up in the buffer. So how can we draw from it later when we don&rsquo;t know exactly the number of vertices it contains? To overcome this challenge transform feedback also introduced a new type of draw call that does not take the number of vertices as a parameter. The system automatically tracks the number of vertices for us for each buffer and later uses that number internally when the buffer is used for input. If we append several times to the transform feedback buffer (by drawing into it several times without using it as input) the number of vertices is increased accordingly. We have the option of reseting the offset inside the buffer whenever we want and the system will also reset the number of vertices.</p>
 <p>In this tutorial we will use transform feedback in order to simulate the effect of fireworks. Fireworks are relatively easy to simulate in terms of the math involved so we will be able to focus on getting transform feedback up and running. The same framework can later be used for other types of particle systems as well.</p>
 <p>OpenGL enforces a general limitation that the same resource cannot be bound for both input and output in the same draw call. This means that if we want to update the particles in a vertex buffer we actually need two transform feedback buffers and toggle between them. On frame 0 we will update the particles in buffer A and render the particles from buffer B and on frame 1 we will update the particles in buffer B and render the particles from buffer A. All this is transparent to the viewer.</p>
@@ -431,8 +431,8 @@ In order to simulate a natural phenomenon made from particles we usually maintai
         </div>
       </main>
     </div>
-    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
-    <script src="../../../../../js/theme.js?1708235002" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235103" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235103" defer></script>
+    <script src="../../../../../js/theme.js?1708235103" defer></script>
   </body>
 </html>

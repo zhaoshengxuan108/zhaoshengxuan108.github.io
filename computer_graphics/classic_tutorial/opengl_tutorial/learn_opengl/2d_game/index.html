@@ -21,18 +21,18 @@
     <meta property="og:site_name" content="Hugo Relearn Theme">
     <title></title><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -130,8 +130,8 @@
 <p>Over these chapters we learned a fair share about OpenGL&rsquo;s inner workings and how we can use them to create fancy graphics. However, aside from a lot of tech demos, we haven&rsquo;t really created a practical application with OpenGL. This is the introduction of a larger series about creating a relatively simple 2D game using OpenGL. The next chapters will demonstrate how we can use OpenGL in a larger, more complicated, setting. Note that the series does not necessarily introduce new OpenGL concepts but more or less show how we can apply these concepts to a larger whole.</p>
 <p>Because we rather keep things simple, we&rsquo;re going to base our 2D game on an already existing 2D arcade game. Introducing Breakout, a classic 2D game released in 1976 on the Atari 2600 console. Breakout requires the player, who controls a small horizontal paddle, to destroy all the bricks by bouncing a small ball against each brick without allowing the ball to reach the bottom edge. Once the player destroys all bricks, he completes the game.</p>
 <p>Below we can see how Breakout originally looked on the Atari 2600:</p>
-<p><a href="#R-image-9e33c8967946427a34214bfe959608fe" class="lightbox-link"><img src="./assets/breakout2600.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-9e33c8967946427a34214bfe959608fe"><img src="./assets/breakout2600.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-a96e4817f8949743d273b6be42567d2b" class="lightbox-link"><img src="./assets/breakout2600.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a96e4817f8949743d273b6be42567d2b"><img src="./assets/breakout2600.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The game has the following mechanics:</p>
 <ul>
 <li>A small paddle is controlled by the player and can only move horizontally within the bounds of the screen.</li>
@@ -154,8 +154,8 @@
 <li>Multiple (customizable) levels</li>
 </ul>
 <p>To get you excited you can see what the game will look like after you&rsquo;ve finished these chapters:</p>
-<p><a href="#R-image-f03527c9e62e516d1bffccd6932f43ba" class="lightbox-link"><img src="./assets/cover.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f03527c9e62e516d1bffccd6932f43ba"><img src="./assets/cover.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-0507d56780c3217df04f52553deb6d84" class="lightbox-link"><img src="./assets/cover.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-0507d56780c3217df04f52553deb6d84"><img src="./assets/cover.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>These chapters will combine a large number of concepts from previous chapters and demonstrate how they can work together as a whole. Therefore, it is important to have at least finished the <a href="https://learnopengl.com/Getting-started/OpenGL" target="_blank">Getting started</a> chapters before working your way through these series.</p>
 <p>Also, several chapters will require concepts from other chapters (Framebuffers for example from the <a href="https://learnopengl.com/Advanced-OpenGL/Framebuffers" target="_blank">Advanced OpenGL</a> section) so where necessary, the required chapters are listed.</p>
 <p>If you believe you&rsquo;re ready to get your hands dirty then move on to the <a href="https://learnopengl.com/In-Practice/2D-Game/Setting-up" target="_blank">next</a> chapter.</p>
@@ -220,8 +220,8 @@
 <li><strong>Program</strong>: <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/3.2d_game/0.full_source/progress/2.program.cpp" target="_blank">code</a>.</li>
 </ul>
 <p>Running the code should give you the following output:</p>
-<p><a href="#R-image-50206feb5d87f523f9ee31bd32d57e84" class="lightbox-link"><img src="./assets/setting-up.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-50206feb5d87f523f9ee31bd32d57e84"><img src="./assets/setting-up.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-f311afe4de911bb91f10c13ad5b3f374" class="lightbox-link"><img src="./assets/setting-up.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f311afe4de911bb91f10c13ad5b3f374"><img src="./assets/setting-up.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>By now we have a solid framework for the upcoming chapters; we&rsquo;ll be continuously extending the game class to host new functionality. Hop over to the <a href="https://learnopengl.com/In-Practice/2D-Game/Rendering-Sprites" target="_blank">next</a> chapter once you&rsquo;re ready.</p>
 <h4 id="rendering-sprites">Rendering Sprites</h4>
 <p>To bring some life to the currently black abyss of our game world, we will render sprites to fill the void. A sprite has many definitions, but it&rsquo;s effectively not much more than a 2D image used together with some data to position it in a larger world (e.g. position, rotation, and size). Basically, sprites are the render-able image/texture objects we use in a 2D game.</p>
@@ -232,8 +232,8 @@
 <p>We don&rsquo;t need any perspective applied to the coordinates, since the game is entirely in 2D, so an orthographic projection matrix would suit the rendering quite well. Because an orthographic projection matrix directly transforms all coordinates to normalized device coordinates, we can choose to specify the world coordinates as screen coordinates by defining the projection matrix as follows:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span> <span class="n">projection</span> <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">ortho</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">800.0f</span><span class="p">,</span> <span class="mf">600.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>  
 </span></span></code></pre></div><p>The first four arguments specify in order the left, right, bottom, and top part of the projection frustum. This projection matrix transforms all <code>x</code> coordinates between <code>0</code> and <code>800</code> to <code>-1</code> and <code>1</code>, and all <code>y</code> coordinates between <code>0</code> and <code>600</code> to <code>-1</code> and <code>1</code>. Here we specified that the top of the frustum has a <code>y</code> coordinate of <code>0</code>, while the bottom has a <code>y</code> coordinate of <code>600</code>. The result is that the top-left coordinate of the scene will be at (<code>0,0</code>) and the bottom-right part of the screen is at coordinate (<code>800,600</code>), just like screen coordinates; the world-space coordinates directly correspond to the resulting pixel coordinates.</p>
-<p><a href="#R-image-d42d26e04699080364aa201c1b45cc7c" class="lightbox-link"><img src="./assets/projection.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d42d26e04699080364aa201c1b45cc7c"><img src="./assets/projection.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-031c1f66636fd5394478d040b79b58d9" class="lightbox-link"><img src="./assets/projection.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-031c1f66636fd5394478d040b79b58d9"><img src="./assets/projection.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>This allows us to specify all vertex coordinates equal to the pixel coordinates they end up in on the screen, which is rather intuitive for 2D games.</p>
 <h5 id="rendering-sprites-1">Rendering sprites</h5>
 <p>Rendering an actual sprite shouldn&rsquo;t be too complicated. We create a textured quad that we can transform with a model matrix, after which we project it using the previously defined orthographic projection matrix.</p>
@@ -338,8 +338,8 @@
 </span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="p">}</span>  
 </span></span></code></pre></div><p>When trying to position objects somewhere in a scene with rotation and scaling transformations, it is advised to first scale, then rotate, and finally translate the object. Because multiplying matrices occurs from right to left, we transform the matrix in reverse order: translate, rotate, and then scale.</p>
 <p>The rotation transformation may still seem a bit daunting. We know from the <a href="https://learnopengl.com/Getting-started/Transformations" target="_blank">transformations</a> chapter that rotations always revolve around the origin (<code>0,0</code>). Because we specified the quad&rsquo;s vertices with (<code>0,0</code>) as the top-left coordinate, all rotations will rotate around this point of (<code>0,0</code>). The origin of rotation is at the top-left of the quad, which produces undesirable results. What we want to do is move the origin of rotation to the center of the quad so the quad neatly rotates around this origin, instead of rotating around the top-left of the quad. We solve this by translating the quad by half its size first, so its center is at coordinate (<code>0,0</code>) before rotating.</p>
-<p><a href="#R-image-eaecf3ce7f69f8aa4612069c67fd7c1e" class="lightbox-link"><img src="./assets/rotation-origin.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-eaecf3ce7f69f8aa4612069c67fd7c1e"><img src="./assets/rotation-origin.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-f19096cc6b64f14f7a438ca24200dd03" class="lightbox-link"><img src="./assets/rotation-origin.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f19096cc6b64f14f7a438ca24200dd03"><img src="./assets/rotation-origin.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Since we first scale the quad, we have to take the size of the sprite into account when translating to the sprite&rsquo;s center, which is why we multiply with the sprite&rsquo;s size vector. Once the rotation transformation is applied, we reverse the previous translation.</p>
 <p>Combining all these transformations, we can position, scale, and rotate each sprite in any way we like. Below you can find the complete source code of the sprite renderer:</p>
 <ul>
@@ -370,8 +370,8 @@
 </span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span>  
 </span></span></code></pre></div><p>Here we position the sprite somewhat close to the center of the screen with its height being slightly larger than its width. We also rotate it by 45 degrees and give it a green color. Note that the position we give the sprite equals the top-left vertex of the sprite&rsquo;s quad.</p>
 <p>If you did everything right you should get the following output:</p>
-<p><a href="#R-image-0e48fe6a7658d0ac6e1c3d683ba3549d" class="lightbox-link"><img src="./assets/rendering-sprites.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-0e48fe6a7658d0ac6e1c3d683ba3549d"><img src="./assets/rendering-sprites.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-94d0d4d4b144e79b6b312739f8ea00ec" class="lightbox-link"><img src="./assets/rendering-sprites.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-94d0d4d4b144e79b6b312739f8ea00ec"><img src="./assets/rendering-sprites.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>You can find the updated game class&rsquo;s source code <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/3.2d_game/0.full_source/progress/3.game.cpp" target="_blank">here</a>.</p>
 <p>Now that we got the render systems working, we can put it to good use in the <a href="https://learnopengl.com/In-Practice/2D-Game/Levels" target="_blank">next</a> chapter where we&rsquo;ll work on building the game&rsquo;s levels.</p>
 <h4 id="levels">Levels</h4>
@@ -411,8 +411,8 @@
 <li>A number higher than 1: a destroyable brick; each subsequent number only differs in color.</li>
 </ul>
 <p>The example level listed above would, after being processed by GameLevel, look like this:</p>
-<p><a href="#R-image-31e69ae0328121e3825e4deb2bbb970b" class="lightbox-link"><img src="./assets/levels-example.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-31e69ae0328121e3825e4deb2bbb970b"><img src="./assets/levels-example.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-95c2376756b0de83bede5fe4e06111f4" class="lightbox-link"><img src="./assets/levels-example.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-95c2376756b0de83bede5fe4e06111f4"><img src="./assets/levels-example.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The GameLevel class uses two functions to generate a level from file. It first loads all the numbers in a two-dimensional vector within its Load function that then processes these numbers (to create all game objects) in its init function.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">GameLevel</span><span class="o">::</span><span class="n">Load</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">levelWidth</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">levelHeight</span><span class="p">)</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
@@ -486,8 +486,8 @@
 </span></span><span class="line"><span class="ln">45</span><span class="cl">    <span class="p">}</span>  
 </span></span><span class="line"><span class="ln">46</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The init function iterates through each of the loaded numbers and adds a GameObject to the level&rsquo;s Bricks vector based on the processed number. The size of each brick is automatically calculated (unit_width and unit_height) based on the total number of bricks so that each brick perfectly fits within the screen bounds.</p>
 <p>Here we load the game objects with two new textures, a <a href="https://learnopengl.com/img/in-practice/breakout/textures/block.png" target="_blank">block</a> texture and a <a href="https://learnopengl.com/img/in-practice/breakout/textures/block_solid.png" target="_blank">solid block</a> texture.</p>
-<p><a href="#R-image-6457407db87d554a0dc727d0a065316e" class="lightbox-link"><img src="./assets/block-textures.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-6457407db87d554a0dc727d0a065316e"><img src="./assets/block-textures.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-5ab14eb7c151a29d89421e86d6c83dfb" class="lightbox-link"><img src="./assets/block-textures.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5ab14eb7c151a29d89421e86d6c83dfb"><img src="./assets/block-textures.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>A nice little trick here is that these textures are completely in gray-scale. The effect is that we can neatly manipulate their colors within the game-code by multiplying their grayscale colors with a defined color vector; exactly as we did within the SpriteRenderer. This way, customizing the appearance of their colors doesn&rsquo;t look too weird or unbalanced.</p>
 <p>The GameLevel class also houses a few other functions, like rendering all non-destroyed bricks, or validating if all non-solid bricks are destroyed. You can find the source code of the GameLevel class below:</p>
 <ul>
@@ -542,12 +542,12 @@
 </span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">Levels</span><span class="p">[</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">Level</span><span class="p">].</span><span class="n">Draw</span><span class="p">(</span><span class="o">*</span><span class="n">Renderer</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The result is then a nicely rendered level that really starts to make the game feel more alive:</p>
-<p><a href="#R-image-35258bb2b1816baf9d15d0dafc755c81" class="lightbox-link"><img src="./assets/levels.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-35258bb2b1816baf9d15d0dafc755c81"><img src="./assets/levels.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-ef626562df560da5cc3b708af033f9a1" class="lightbox-link"><img src="./assets/levels.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ef626562df560da5cc3b708af033f9a1"><img src="./assets/levels.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h6 id="the-player-paddle">The player paddle</h6>
 <p>While we&rsquo;re at it, we may just as well introduce a paddle at the bottom of the scene that is controlled by the player. The paddle only allows for horizontal movement and whenever it touches any of the scene&rsquo;s edges, its movement should halt. For the player paddle we&rsquo;re going to use the <a href="https://learnopengl.com/img/in-practice/breakout/textures/paddle.png" target="_blank">following</a> texture:</p>
-<p><a href="#R-image-78e35439c3a392e1aeb007c36bcca440" class="lightbox-link"><img src="./assets/paddle.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-78e35439c3a392e1aeb007c36bcca440"><img src="./assets/paddle.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c62a98ee68e9136c249c94419d078228" class="lightbox-link"><img src="./assets/paddle.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c62a98ee68e9136c249c94419d078228"><img src="./assets/paddle.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>A paddle object will have a position, a size, and a sprite texture, so it makes sense to define the paddle as a GameObject as well:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// Initial size of the player paddle
 </span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">const</span> <span class="n">glm</span><span class="o">::</span><span class="n">vec2</span> <span class="n">PLAYER_SIZE</span><span class="p">(</span><span class="mf">100.0f</span><span class="p">,</span> <span class="mf">20.0f</span><span class="p">);</span>
@@ -590,8 +590,8 @@
 </span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">}</span> 
 </span></span></code></pre></div><p>Here we move the player paddle either in the left or right direction based on which key the user pressed (note how we multiply the velocity with the deltatime variable). If the paddle&rsquo;s <code>x</code> value would be less than <code>0</code> it would&rsquo;ve moved outside the left edge, so we only move the paddle to the left if the paddle&rsquo;s <code>x</code> value is higher than the left edge&rsquo;s <code>x</code> position (<code>0.0</code>). We do the same for when the paddle breaches the right edge, but we have to compare the right edge&rsquo;s position with the right edge of the paddle (subtract the paddle&rsquo;s width from the right edge&rsquo;s <code>x</code> position).</p>
 <p>Now running the game gives us a player paddle that we can move all across the bottom edge:</p>
-<p><a href="#R-image-65c024cee4acb23c6c7b2ac8bcb13a21" class="lightbox-link"><img src="./assets/levels-player.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-65c024cee4acb23c6c7b2ac8bcb13a21"><img src="./assets/levels-player.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-4535919fa8d0164de4582d39a6717754" class="lightbox-link"><img src="./assets/levels-player.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4535919fa8d0164de4582d39a6717754"><img src="./assets/levels-player.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>You can find the updated code of the Game class here:</p>
 <ul>
 <li><strong>Game</strong>: <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/3.2d_game/0.full_source/progress/4.game.h" target="_blank">header</a>, <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/3.2d_game/0.full_source/progress/4.game.cpp" target="_blank">code</a></li>
@@ -715,13 +715,13 @@
 <p>While the simple shapes do give us easier and more efficient collision detection algorithms, they share a common disadvantage in that these shapes usually do not fully surround the object. The effect is that a collision may be detected that didn&rsquo;t really collide with the actual object; one should always keep in mind that these shapes are just approximations of the real shapes.</p>
 <h6 id="aabb---aabb-collisions">AABB - AABB collisions</h6>
 <p>AABB stands for axis-aligned bounding box, a rectangular collision shape aligned to the base axes of the scene, which in 2D aligns to the x and y axis. Being axis-aligned means the rectangular box has no rotation and its edges are parallel to the base axes of the scene (e.g. left and right edge are parallel to the y axis). The fact that these boxes are always aligned to the axes of the scene makes calculations easier. Here we surround the ball object with an AABB:</p>
-<p><a href="#R-image-d31afa0c619df2a80c5f157394aa813e" class="lightbox-link"><img src="./assets/collisions_ball_aabb.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d31afa0c619df2a80c5f157394aa813e"><img src="./assets/collisions_ball_aabb.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e67570a29100101a6a74ca5d9d9c625f" class="lightbox-link"><img src="./assets/collisions_ball_aabb.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e67570a29100101a6a74ca5d9d9c625f"><img src="./assets/collisions_ball_aabb.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Almost all the objects in Breakout are rectangular based objects, so it makes perfect sense to use axis aligned bounding boxes for detecting collisions. This is exactly what we&rsquo;re going to do.</p>
 <p>Axis aligned bounding boxes can be defined in several ways. One of them is to define an AABB by a top-left and a bottom-right position. The GameObject class that we defined already contains a top-left position (its Position vector), and we can easily calculate its bottom-right position by adding its size to the top-left position vector (Position<code>+</code>Size). Effectively, each GameObject contains an AABB that we can use for collisions.</p>
 <p>So how do we check for collisions? A collision occurs when two collision shapes enter each other&rsquo;s regions e.g. the shape that determines the first object is in some way inside the shape of the second object. For AABBs this is quite easy to determine due to the fact that they&rsquo;re aligned to the scene&rsquo;s axes: we check for each axis if the two object&rsquo; edges on that axis overlap. So we check if the horizontal edges overlap, and if the vertical edges overlap of both objects. If both the horizontal <strong>and</strong> vertical edges overlap we have a collision.</p>
-<p><a href="#R-image-5778b456f0aeaaa7a94f67fd46bbdad3" class="lightbox-link"><img src="./assets/collisions_overlap.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5778b456f0aeaaa7a94f67fd46bbdad3"><img src="./assets/collisions_overlap.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-3aed60f04d88102ec736d23eb0275868" class="lightbox-link"><img src="./assets/collisions_overlap.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-3aed60f04d88102ec736d23eb0275868"><img src="./assets/collisions_overlap.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Translating this concept to code is relatively straightforward. We check for overlap on both axes and if so, return a collision:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="nf">CheckCollision</span><span class="p">(</span><span class="n">GameObject</span> <span class="o">&amp;</span><span class="n">one</span><span class="p">,</span> <span class="n">GameObject</span> <span class="o">&amp;</span><span class="n">two</span><span class="p">)</span> <span class="c1">// AABB - AABB collision
 </span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="p">{</span>
@@ -769,16 +769,16 @@
 <p>While the collision detection does work, it&rsquo;s not very precise since the ball&rsquo;s rectangular collision shape collides with most of the bricks without the ball directly touching them. Let&rsquo;s see if we can figure out a more precise collision detection technique.</p>
 <h6 id="aabb---circle-collision-detection">AABB - Circle collision detection</h6>
 <p>Because the ball is a circle-like object, an AABB is probably not the best choice for the ball&rsquo;s collision shape. The collision code thinks the ball is a rectangular box, so the ball often collides with a brick even though the ball sprite itself isn&rsquo;t yet touching the brick.</p>
-<p><a href="#R-image-79606552b00b930646beb304991bf849" class="lightbox-link"><img src="./assets/collisions_ball_aabb_touch.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-79606552b00b930646beb304991bf849"><img src="./assets/collisions_ball_aabb_touch.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-829688cf96d703eacd04eb4b60771467" class="lightbox-link"><img src="./assets/collisions_ball_aabb_touch.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-829688cf96d703eacd04eb4b60771467"><img src="./assets/collisions_ball_aabb_touch.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>It makes much more sense to represent the ball with a circle collision shape instead of an AABB. For this reason we included a Radius variable within the ball object. To define a circle collision shape, all we need is a position vector and a radius.</p>
-<p><a href="#R-image-9203f3995f19887599ff958369405214" class="lightbox-link"><img src="./assets/collisions_circle.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-9203f3995f19887599ff958369405214"><img src="./assets/collisions_circle.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-f2b5cdd40ae4e491ce2c89341532bdbb" class="lightbox-link"><img src="./assets/collisions_circle.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f2b5cdd40ae4e491ce2c89341532bdbb"><img src="./assets/collisions_circle.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>This does mean we have to update the detection algorithm since it currently only works between two AABBs. Detecting collisions between a circle and a rectangle is a bit more complicated, but the trick is as follows: we find the point on the AABB that is closest to the circle, and if the distance from the circle to this point is less than its radius, we have a collision.</p>
 <p>The difficult part is getting this closest point 
 <span class="math align-center">$\color{red}{\bar{P}}$</span> on the AABB. The following image shows how we can calculate this point for any arbitrary AABB and circle:</p>
-<p><a href="#R-image-2bbecf39b2784f1ecaa9a36113b21486" class="lightbox-link"><img src="./assets/collisions_aabb_circle.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-2bbecf39b2784f1ecaa9a36113b21486"><img src="./assets/collisions_aabb_circle.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c97033d5521969b81ebfff6f09effe26" class="lightbox-link"><img src="./assets/collisions_aabb_circle.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c97033d5521969b81ebfff6f09effe26"><img src="./assets/collisions_aabb_circle.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We first need to get the difference vector between the ball&rsquo;s center 
 <span class="math align-center">$\color{blue}{\bar{C}}$</span> and the AABB&rsquo;s center 
 <span class="math align-center">$\color{green}{\bar{B}}$</span> to obtain 
@@ -787,16 +787,16 @@
 <span class="math align-center">$\color{orange}{{w}}$</span> and 
 <span class="math align-center">$\color{teal}{\bar{h}}$</span> and add it to 
 <span class="math align-center">$\color{green}{\bar{B}}$</span>. The half-extents of a rectangle are the distances between the rectangle&rsquo;s center and its edges: its size divided by two. This returns a position vector that is always located somewhere at the edge of the AABB (unless the circle&rsquo;s center is inside the AABB).</p>
-<p><note>A clamp operation <strong>clamps</strong> a value to a value within a given range. This is often expressed as:<br><a href="#R-image-18f83092a2bf5513a147982bbb707aa5" class="lightbox-link"><img src="./assets/20240215083139.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-18f83092a2bf5513a147982bbb707aa5"><img src="./assets/20240215083139.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a><br>For example, a value of <code>42.0f</code> is clamped to <code>6.0f</code> with a range of <code>3.0f</code> to <code>6.0f</code>, and a value of <code>4.20f</code> would be clamped to <code>4.20f</code>.
+<p><note>A clamp operation <strong>clamps</strong> a value to a value within a given range. This is often expressed as:<br><a href="#R-image-bd0e8a600c8966a68eaab44fa2d61b42" class="lightbox-link"><img src="./assets/20240215083139.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-bd0e8a600c8966a68eaab44fa2d61b42"><img src="./assets/20240215083139.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a><br>For example, a value of <code>42.0f</code> is clamped to <code>6.0f</code> with a range of <code>3.0f</code> to <code>6.0f</code>, and a value of <code>4.20f</code> would be clamped to <code>4.20f</code>.
 Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</code> component within the given range.</note></p>
 <p>This clamped vector 
 <span class="math align-center">$\color{red}{\bar{P}}$</span> is then the closest point from the AABB to the circle. What we then need to do is calculate a new difference vector 
 <span class="math align-center">$\color{purple}{\bar{D}}$</span> that is the difference between the circle&rsquo;s center 
 <span class="math align-center">$\color{blue}{\bar{C}}$</span> and the vector 
 <span class="math align-center">$\color{red}{\bar{P}}$</span>.</p>
-<p><a href="#R-image-47a8541b6d0c61210c913c6f6b31365e" class="lightbox-link"><img src="./assets/collisions_aabb_circle_radius_compare.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-47a8541b6d0c61210c913c6f6b31365e"><img src="./assets/collisions_aabb_circle_radius_compare.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-4285600aa90a016b0d46bf541e67491e" class="lightbox-link"><img src="./assets/collisions_aabb_circle_radius_compare.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4285600aa90a016b0d46bf541e67491e"><img src="./assets/collisions_aabb_circle_radius_compare.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Now that we have the vector 
 <span class="math align-center">$\color{purple}{\bar{D}}$</span>, we can compare its length to the radius of the circle. If the length of 
 <span class="math align-center">$\color{purple}{\bar{D}}$</span> is less than the circle&rsquo;s radius, we have a collision.</p>
@@ -833,8 +833,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 <p>Whenever a collision occurs we want two things to happen: we want to reposition the ball so it is no longer inside the other object and second, we want to change the direction of the ball&rsquo;s velocity so it looks like it&rsquo;s bouncing of the object.</p>
 <h6 id="collision-repositioning">Collision repositioning</h6>
 <p>To position the ball object outside the collided AABB we have to figure out the distance the ball penetrated the bounding box. For this we&rsquo;ll revisit the diagram from the previous chapter:</p>
-<p><a href="#R-image-b7e525b1ff3af4a13786c99559b159f7" class="lightbox-link"><img src="./assets/collisions_aabb_circle_resolution.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-b7e525b1ff3af4a13786c99559b159f7"><img src="./assets/collisions_aabb_circle_resolution.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-9b8f5779956763b3ce35b9b3f566c763" class="lightbox-link"><img src="./assets/collisions_aabb_circle_resolution.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-9b8f5779956763b3ce35b9b3f566c763"><img src="./assets/collisions_aabb_circle_resolution.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Here the ball moved slightly into the AABB and a collision was detected. We now want to move the ball out of the shape so that it merely touches the AABB as if no collision occurred. To figure out how much we need to move the ball out of the AABB we need to retrieve the vector 
 <span class="math align-center">$\color{brown}{\bar{R}}$</span>, which is the level of penetration into the AABB. To get this vector 
 <span class="math align-center">$\color{brown}{\bar{R}}$</span>, we subtract 
@@ -1001,8 +1001,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 <h4 id="particles">Particles</h4>
 <p>A particle is a point moving in space based on some simulation rules. These points are often rendered as tiny 2D quads that are always facing the camera (billboarding) and (usually) contain a texture with large parts of the texture being transparent. A particle, in our OpenGL game case, is then effectively just a moving sprite as we&rsquo;ve been using so far. However, when you put hundreds or even thousands of these particles together you can create amazing effects.</p>
 <p>When working with particles, there is usually an object called a particle emitter or particle generator that, from its location, continuously spawns new particles that decay over time. If such a particle emitter would for example spawn tiny particles with a smoke-like texture, color them less bright the larger the distance from the emitter, and give them a glowy appearance, you&rsquo;d get a fire-like effect:</p>
-<p><a href="#R-image-54c546996d7879a32da4b11f01352faf" class="lightbox-link"><img src="./assets/particles_example.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-54c546996d7879a32da4b11f01352faf"><img src="./assets/particles_example.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-568457be35bb78e4b2fc7e7c4a18c433" class="lightbox-link"><img src="./assets/particles_example.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-568457be35bb78e4b2fc7e7c4a18c433"><img src="./assets/particles_example.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>A single particle often has a life variable that slowly decays once it&rsquo;s spawned. Once its life is less than a certain threshold (usually <code>0</code>), we kill the particle so it can be replaced with a new particle when the next particle spawns. A particle emitter controls all its spawned particles and changes their behavior based on their attributes. A particle generally has the following attributes:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">Particle</span> <span class="p">{</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">glm</span><span class="o">::</span><span class="n">vec2</span> <span class="n">Position</span><span class="p">,</span> <span class="n">Velocity</span><span class="p">;</span>
@@ -1185,8 +1185,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 <li><strong>chaos</strong>: makes use of an edge detection kernel to create interesting visuals and also moves the textured image in a circular fashion for an interesting <em>chaotic</em> effect.</li>
 </ul>
 <p>Below is a glimpse of what these effects are going to look like:</p>
-<p><a href="#R-image-3e3e63c1840f82270ec4deb3837084a5" class="lightbox-link"><img src="./assets/postprocessing_effects.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-3e3e63c1840f82270ec4deb3837084a5"><img src="./assets/postprocessing_effects.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e6ef838e791f85484b5ce57216255992" class="lightbox-link"><img src="./assets/postprocessing_effects.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e6ef838e791f85484b5ce57216255992"><img src="./assets/postprocessing_effects.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Operating on a 2D quad, the vertex shader looks as follows:</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330 core
 </span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec4</span> <span class="n">vertex</span><span class="p">;</span> <span class="c1">// &lt;vec2 position, vec2 texCoords&gt;
@@ -1369,8 +1369,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 </span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">};</span>  
 </span></span></code></pre></div><p>A PowerUp is just a GameObject with extra state, so we can simply define it in a single header file which you can find <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/3.2d_game/0.full_source/power_up.h" target="_blank">here</a>.</p>
 <p>Each powerup defines its type as a string, a duration for how long it is active, and whether it is currently activated. Within Breakout we&rsquo;re going to feature a total of 4 positive powerups and 2 negative powerups:</p>
-<p><a href="#R-image-bb8bcb4c85ece58985bb978fe0949676" class="lightbox-link"><img src="./assets/powerups.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-bb8bcb4c85ece58985bb978fe0949676"><img src="./assets/powerups.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-2b748bb75c2f384d025ff99febad3ea7" class="lightbox-link"><img src="./assets/powerups.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2b748bb75c2f384d025ff99febad3ea7"><img src="./assets/powerups.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <ul>
 <li><strong>Speed</strong>: increases the velocity of the ball by 20%.</li>
 <li><strong>Sticky</strong>: when the ball collides with the paddle, the ball remains stuck to the paddle unless the spacebar is pressed again. This allows the player to better position the ball before releasing it.</li>
@@ -1697,8 +1697,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 </span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="p">}</span>    
 </span></span></code></pre></div><p>The reason for it being slightly different is that we use a different orthographic projection matrix from the one we&rsquo;ve used in the text rendering chapter. In the text rendering chapter all <code>y</code> values ranged from bottom to top, while in the Breakout game all <code>y</code> values range from top to bottom with a <code>y</code> coordinate of <code>0.0</code> corresponding to the top edge of the screen. This means we have to slightly modify how we calculate the vertical offset.</p>
 <p>Since we now render downwards from RenderText&rsquo;s y parameter, we calculate the vertical offset as the distance a glyph is pushed downwards from the top of the glyph space. Looking back at the glyph metrics image from FreeType, this is indicated by the red arrow:</p>
-<p><a href="#R-image-013dcfca448c1d5869645c544417b5eb" class="lightbox-link"><img src="./assets/glyph_offset_1.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-013dcfca448c1d5869645c544417b5eb"><img src="./assets/glyph_offset_1.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-12de469f000d551d7745b0f49885779c" class="lightbox-link"><img src="./assets/glyph_offset_1.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-12de469f000d551d7745b0f49885779c"><img src="./assets/glyph_offset_1.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>To calculate this vertical offset we need to get the top of the glyph space (the length of the black vertical arrow from the origin). Unfortunately, FreeType has no such metric for us. What we do know is that that some glyphs always touch this top edge; characters like &lsquo;H&rsquo;, &lsquo;T&rsquo; or &lsquo;X&rsquo;. So what if we calculate the length of this red vector by subtracting <code>bearingY</code> from any of these <em>top-reaching</em> glyphs by <code>bearingY</code> of the glyph in question. This way, we push the glyph down based on how far its top point differs from the top edge.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">float</span> <span class="n">ypos</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">Characters</span><span class="p">[</span><span class="sc">&#39;H&#39;</span><span class="p">].</span><span class="n">Bearing</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">ch</span><span class="p">.</span><span class="n">Bearing</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>  
 </span></span></code></pre></div><p>In addition to updating the <code>ypos</code> calculation, we also switched the order of the vertices a bit to make sure all the vertices are still front facing when multiplied with the current orthographic projection matrix (as discussed in the <a href="https://learnopengl.com/Advanced-OpenGL/Face-culling" target="_blank">face culling</a> chapter).</p>
@@ -1753,8 +1753,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 </span></span><span class="line"><span class="ln">8</span><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span>  
 </span></span></code></pre></div><p>Here we convert the number of lives to a string, and display it at the top-left of the screen. It&rsquo;ll now look a bit like this:</p>
-<p><a href="#R-image-54aea66a9b7858650b6a554aebcf72b5" class="lightbox-link"><img src="./assets/render_text_lives.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-54aea66a9b7858650b6a554aebcf72b5"><img src="./assets/render_text_lives.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-d82eeecbccc7e834ed9907179d5f7486" class="lightbox-link"><img src="./assets/render_text_lives.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d82eeecbccc7e834ed9907179d5f7486"><img src="./assets/render_text_lives.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>As soon as the ball touches the bottom edge, the player&rsquo;s life total is decreased which is instantly visible at the top-left of the screen.</p>
 <h5 id="level-selection">Level selection</h5>
 <p>Whenever the user is in the game state GAME_MENU, we&rsquo;d like to give the player the control to select the level he&rsquo;d like to play in. With either the &lsquo;w&rsquo; or &rsquo;s&rsquo; key the player should be able to scroll through any of the levels we loaded. Whenever the player feels like the chosen level is indeed the level he&rsquo;d like to play in, he can press the enter key to switch from the game&rsquo;s GAME_MENU state to the GAME_ACTIVE state.</p>
@@ -1788,8 +1788,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 </span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span>  
 </span></span></code></pre></div><p>Here we render the game whenever we&rsquo;re in either the GAME_ACTIVE state or the GAME_MENU state, and whenever we&rsquo;re in the GAME_MENU state we also render two lines of text to inform the player to select a level and/or accept his choice. Note that for this to work when launching the game you do have to set the game&rsquo;s state as GAME_MENU by default.</p>
-<p><a href="#R-image-d7db3d25dbd3beab1d63239066655c61" class="lightbox-link"><img src="./assets/render_text_select.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d7db3d25dbd3beab1d63239066655c61"><img src="./assets/render_text_select.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-cc9f84345523c042883528d36838a5d8" class="lightbox-link"><img src="./assets/render_text_select.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-cc9f84345523c042883528d36838a5d8"><img src="./assets/render_text_select.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>It looks great, but once you try to run the code you&rsquo;ll probably notice that as soon as you press either the &lsquo;w&rsquo; or the &rsquo;s&rsquo; key, the game rapidly scrolls through the levels making it difficult to select the level you want to play in. This happens because the game records the key press over frames until we release the key. This causes the ProcessInput function to process the pressed key more than once.</p>
 <p>We can solve this issue with a little trick commonly found within GUI systems. The trick is to, not only record the keys currently pressed, but also store the keys that have been processed once, until released again. We then check (before processing) whether the key has not yet been processed, and if so, process this key after which we store this key as being processed. Once we want to process the same key again without the key having been released, we do not process the key. This probably sounds somewhat confusing, but as soon as you see it in practice it (probably) starts to make sense.</p>
 <p>First we have to create another array of bool values to indicate which keys have been processed. We define this within the game class:</p>
@@ -1892,8 +1892,8 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
 </span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span>  
 </span></span></code></pre></div><p>If you&rsquo;re then good enough to actually win the game, you&rsquo;d get the following image:</p>
-<p><a href="#R-image-5cd174018040e67f86cd1aa75ac829a8" class="lightbox-link"><img src="./assets/render_text_win.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5cd174018040e67f86cd1aa75ac829a8"><img src="./assets/render_text_win.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-7154daea99d0e3ce433894ffa99c4a9e" class="lightbox-link"><img src="./assets/render_text_win.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7154daea99d0e3ce433894ffa99c4a9e"><img src="./assets/render_text_win.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>And that is it! The final piece of the puzzle of the Breakout game we&rsquo;ve been actively working on. Try it out, customize it to your liking, and show it to all your family and friends!</p>
 <p>You can find the final version of the game&rsquo;s code below:</p>
 <ul>
@@ -1942,12 +1942,12 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -2146,13 +2146,13 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
     <script>
       function useMathJax( config ){
         if( !Object.assign ){
@@ -2181,7 +2181,7 @@ Clamping a 2D vector means we clamp both its <code>x</code> and its <code>y</cod
       }
       useMathJax( JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="../../../../../js/mathjax/tex-mml-chtml.js?1708235000"></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script id="MathJax-script" async src="../../../../../js/mathjax/tex-mml-chtml.js?1708235102"></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

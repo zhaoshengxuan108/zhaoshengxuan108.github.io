@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 40:Stencil Shadow Volume :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.print.html" rel="alternate" type="text/html" title="Tutorial 40:Stencil Shadow Volume :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -143,8 +143,8 @@
 <p>If you&rsquo;ve followed the tutorials thus far you&rsquo;ve actually seen a variation of this technique in our mini series of tutorials on <a href="https://ogldev.org/www/tutorial35/tutorial35.html" target="_blank">Deferred Shading</a>. With deferred shading we needed a way to block the light influence and we&rsquo;ve used a light volume for that purpose. We processed lighting only on stuff within the light volume. Now we are going to do the opposite. We will create a shadow volume and process lighting only on stuff outside of it. Same as in light volume we will use the stencil buffer as a key component of the algorithm. Hence the name - Stencil Shadow Volume.</p>
 <p>The idea behind the shadow volume algorithm is to extend the silhouette of an object which is created when light falls upon it into a volume and then render that volume into the stencil buffer using a couple of simple stencil operations. The key idea is that <strong>when an object is inside the volume (and therefore in shadow) the front polygons of the volume win the depth test against the polygons of the object and the back polygons of the volume fail the same test</strong>.</p>
 <p>We are going to setup the stencil operation according to a method known as <em>Depth Fail</em>. People often start the description of the shadow volume technique using a more straighforward method called <em>Depth Pass</em>, however, that method has a known problem when the viewer itself is inside the shadow volume and Depth Fail fixes that problem. Therefore, I&rsquo;ve skipped Depth Pass altogether and went directly to Depth Fail. Take a look at the following picture:</p>
-<p><a href="#R-image-1779f4346d78dac5949682ec54fde038" class="lightbox-link"><img src="../assets/shadow_volume1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1779f4346d78dac5949682ec54fde038"><img src="../assets/shadow_volume1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-4e76dc069effd8051d7146541e72c4ce" class="lightbox-link"><img src="../assets/shadow_volume1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4e76dc069effd8051d7146541e72c4ce"><img src="../assets/shadow_volume1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We have a light bulb at the bottom left corner and a green object (called an occluder) which casts shadow due to that light. Three round objects are rendered in this scene as well. Object B is shadowed while A &amp; C are not. The red arrows bound the area of the shadow volume (the dashed part of the line is not part of it).</p>
 <p>Let&rsquo;s see how we can utilize the stencil buffer to get shadows working here. We start by rendering the actual objects (A, B, C and the green box) into the depth buffer. When we are done we have the depth of the closest pixels available to us. Then we go over the objects in the scene one by one and create a shadow volume for each one. The example here shows only the shadow volume of the green box but in a complete application we would also create volumes for the round objects because they cast shadows of their own. The shadow volume is created by detecting its silhouette (make sure you fully understand <a href="https://ogldev.org/www/tutorial39/tutorial39.html" target="_blank">tutorial 39</a> before starting this one) and extending it into infinity. We render that volume into the stencil buffer using the following simple rules:</p>
 <ul>
@@ -155,26 +155,26 @@
 <p>Let&rsquo;s see what happens to the stencil buffer using the above scheme. The front and back facing triangles of the volume that are covered by object A fail the depth test. We increment and decrement the values of the pixels covered by object A in the stencil buffer which means they are left at zero. In the case of object B the front facing triangles of the volume win the depth test while the back facing ones fails. Therefore, we only increment the stencil value. The volume triangles (front and back facing) that cover object C win the depth test. Therefore, the stencil value is not updated and remains at zero.</p>
 <p>Note that up till now we haven&rsquo;t touched the color buffer. When we complete all of the above we render all objects once again using the standard lighting shader but this time we set the stencil test such that only pixels whose stencil value is zero will be rendered. This means that only objects A &amp; C will make it to the screen.</p>
 <p>Here&rsquo;s a more complex scene that includes two occluders:</p>
-<p><a href="#R-image-1c7c60984d4c3d5943cca3773553f1d3" class="lightbox-link"><img src="../assets/shadow_volume2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1c7c60984d4c3d5943cca3773553f1d3"><img src="../assets/shadow_volume2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-55ba76007a9ba96f82a5c816f95da61c" class="lightbox-link"><img src="../assets/shadow_volume2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-55ba76007a9ba96f82a5c816f95da61c"><img src="../assets/shadow_volume2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>To make it simpler to detect the shadow volume of the second occluder it is marked by thinner red arrows. You can follow the changes to the stencil buffer (marked by +1 and -1) and see that the algorithm works fine in this case as well. The change from the previous picture is that now A is also in shadow.</p>
 <p>Let&rsquo;s see how to put that knowledge into practice. As we said earlier, we need to render a volume which is created when we extend the silhouette of an occluder. We can start with the code from the previous tutorial which detects the silhouette. All we need to do is to extend the silhouette edges into a volume. This is done by emitting a quad (or actually, four vertices in triangle strip topology) from the GS for each silhouette edge. The first two vertices come from the silhouette edge and the other two vertices are generated when we extend the edge vertices into infinity along the vector from the light position to the vertices. By extending into infinity we make sure the volume captures everything which lies in the path of the shadow. This quad is depicted in the following picture:</p>
-<p><a href="#R-image-e3e40f43ef444c89d394890c00cbb631" class="lightbox-link"><img src="../assets/quad1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e3e40f43ef444c89d394890c00cbb631"><img src="../assets/quad1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-8c380c08261b2f20097d6e34772a02e8" class="lightbox-link"><img src="../assets/quad1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8c380c08261b2f20097d6e34772a02e8"><img src="../assets/quad1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>When we repeat this process of emitting quads from all silhouette edges a volume is created. Is that enough? definitely not. The problem is that this volume looks kind of like a truncated cone without its caps. Since our algorithm depends on checking the depth test of the front and back triangles of the volume we might end up with a case where the vector from the eye to the pixel goes through only either the front or back of the volume:</p>
-<p><a href="#R-image-95bce66ea29154f9b1a75b0c63d48663" class="lightbox-link"><img src="../assets/caps.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-95bce66ea29154f9b1a75b0c63d48663"><img src="../assets/caps.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-f108f0543c7fb39681ac3e7103820db1" class="lightbox-link"><img src="../assets/caps.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f108f0543c7fb39681ac3e7103820db1"><img src="../assets/caps.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The solution to this problem is to generate a volume which is closed on both sides. This is done by creating a front and a back cap to the volume (the dotted lines in the picture above). Creating the front cap is very easy. Every triangle which faces the light becomes part of the front cap. While this may not be the most efficient solution and you could probably create a front cap using fewer triangles it is definitely the simplest solution. The back cap is almost as simple. We just need to extend the vertices of light facing triangle to infinity (along the vector from the light to each vertex) and reverse their order (else the resulting triangle will point inside the volume).</p>
 <p>The word &lsquo;infinity&rsquo; has been mentioned here a few times and we now need to define exactly what this means. Take a look at the following picture:</p>
-<p><a href="#R-image-1ccbc437385d9d37f2c5bf9952e3a064" class="lightbox-link"><img src="../assets/infinity.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1ccbc437385d9d37f2c5bf9952e3a064"><img src="../assets/infinity.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-51fed1ea9b303f27a7c7ba328502a721" class="lightbox-link"><img src="../assets/infinity.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-51fed1ea9b303f27a7c7ba328502a721"><img src="../assets/infinity.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>What we see is a picture of the frustum taken from above. The light bulb emits a ray which goes through point &lsquo;p&rsquo; and continues to infinity. In other words, &lsquo;p&rsquo; is extended to infinity. Obviously, at infinity the position of point p is simply (infinity, infinity, infinity), but we don&rsquo;t care about that. We need to find a way to rasterize the triangles of the shadow volume which means we must project its vertices on the projection plane. This projection plane is in fact the near plane. While &lsquo;p&rsquo; is extended to infinity along the light vector we can still project it back on the near plane. This is done by the dotted line that goes from the origin and crosses the light vector somewhere. We want to find &lsquo;Xp&rsquo; which is the X value of the point where that vector crosses the near plane.</p>
 <p>Let&rsquo;s describe any point on the light vector as &lsquo;p + vt&rsquo; where &lsquo;v&rsquo; is the vector from the light source to point &lsquo;p&rsquo; and &rsquo;t&rsquo; is a scalar which goes from 0 towards infinity. From the above picture and due to triangle similarities we can say that:</p>
-<p><a href="#R-image-141c202b2ba13ea7b850d84cf41195c1" class="lightbox-link"><img src="../assets/infinity1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-141c202b2ba13ea7b850d84cf41195c1"><img src="../assets/infinity1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-072f59f8aaeba53c08598319c456675d" class="lightbox-link"><img src="../assets/infinity1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-072f59f8aaeba53c08598319c456675d"><img src="../assets/infinity1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Where &rsquo;n&rsquo; is the Z value of the near plane. As &rsquo;t&rsquo; goes to infinity we are left with:</p>
-<p><a href="#R-image-d1f12fcff78e96dce21b1cfec41f3d67" class="lightbox-link"><img src="../assets/infinity2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d1f12fcff78e96dce21b1cfec41f3d67"><img src="../assets/infinity2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-92ffef073e2d0e489f826d5a8e8a446e" class="lightbox-link"><img src="../assets/infinity2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-92ffef073e2d0e489f826d5a8e8a446e"><img src="../assets/infinity2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>So this is how we find the projection of &lsquo;p&rsquo; at infinity on the near plane. Now here&rsquo;s a bit of magic - turns out that to calculate Xp and Yp according to the above we just need to multiply the vector (Vx, Vy, Vz, 0) (where &lsquo;V&rsquo; is the vector from the light source to point &lsquo;p&rsquo;) by the view/projection matrix and apply perspective divide on it. We are not going to prove it here by you can try this yourself and see the result. So the bottom line is that whenever we need to rasterize a triangle that contains a vertex which was extended to infinity along some vector we simply multiply that vector by the view/projection matrix while adding a &lsquo;w&rsquo; component with the value of zero to it. We will use that technique extensively in the GS below.</p>
 <h3 id="source-walkthru">Source walkthru</h3>
 <p>(glut_backend.cpp:171)</p>
@@ -474,12 +474,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -677,13 +677,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

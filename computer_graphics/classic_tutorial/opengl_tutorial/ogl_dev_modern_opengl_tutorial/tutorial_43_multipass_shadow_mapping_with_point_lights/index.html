@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.print.html" rel="alternate" type="text/html" title="Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -143,12 +143,12 @@
 <p>The solution to this problem is to recognize that a point light basically casts its light in all directions, so rather than place a rectangular shadow map texture somewhere that will only receive a small portion of that light, we can place the light source in a middle of a texture cube. We now have six rectangular shadow maps and the light has no where to escape. Every light &ldquo;beam&rdquo; has to land on one of these six shadow maps and we can sample from it to do our standard shadow calculations. We have already seen the cube map in action in the skybox tutorial so we are already familiar with it.</p>
 <p>In practice, in order to simulate the notion of spreading light all over we will do six shadow map rendering passes from the location of the light source but each rendering pass will target a different direction. We are going to make this very simple and target the following axis aligned directions: positive/negative X, positive/negative Y and positive/negative Z. Eventually the cubemap faces will contain the distance of all pixels in the scene that are closest to the light source. By comparing this value to the distance of each pixel to the light during the lighting pass we can tell whether that pixel is in light or shadow.</p>
 <p>Take a look at the following picture:</p>
-<p><a href="#R-image-7f5130e3820814dea07d9873bc33865f" class="lightbox-link"><img src="../assets/cubemap2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-7f5130e3820814dea07d9873bc33865f"><img src="../assets/cubemap2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-59333b30522fcf6fd01e6c3524a2e346" class="lightbox-link"><img src="../assets/cubemap2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-59333b30522fcf6fd01e6c3524a2e346"><img src="../assets/cubemap2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Our scene contains a blue sphere and a point light (the yellow light bulb) is stationed nearby. In the first rendering pass we use a texture cube as the framebuffer. Remember that at this stage we don&rsquo;t care about the original camera location or direction. We place the camera at the position of the point light so it always looks like it is located at the middle of the texture cube. In the example above we see that the current rendering direction is the positive Z axis (into the yellow face). At this point we are back to the standard shadow mapping process so using the depth values in the yellow face we can generate the proper shadow for the blue sphere (these depth values are located in the black circle but the actual shadow will be rendered in the second pass).</p>
 <p>The following picture demonstrates the six camera directions that we will use in the first rendering pass:</p>
-<p><a href="#R-image-61ae75ec8abccce686331019cb2b2978" class="lightbox-link"><img src="../assets/cubemap.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-61ae75ec8abccce686331019cb2b2978"><img src="../assets/cubemap.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-6658b4222f2f7300ca8fc4fbb74e56fe" class="lightbox-link"><img src="../assets/cubemap.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6658b4222f2f7300ca8fc4fbb74e56fe"><img src="../assets/cubemap.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Since the same scene is rendered six times in the first rendering pass we call this <em>Multipass Shadow Mapping.</em></p>
 <h3 id="source-walkthru">Source walkthru</h3>
 <p>(shadow_map_fbo.h)</p>
@@ -410,8 +410,8 @@
 </span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="k">return</span> <span class="mf">0.5</span><span class="p">;</span> <span class="c1">// Inside the shadow
 </span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></div><p>The code excerpt above contains the key changes in the lighting FS. The shadow map uniform that was previously sampler2D (in tutorial 24) or sampler2DShadow (in tutorial 42) is now a samplerCube. In order to sample from it we use the LightDirection vector which was calculated as the vector from the point light to the pixel. Note that all the three coordinates (X, Y and Z) of the light direction vector are used for sampling. Since the cube has three dimension we need a three dimension vector in order to select the proper face and the specific texel in that face. Comparison of the sampled value with the distance from the light to the pixel tells us whether we are in light or shadow.</p>
 <p>In this tutorial example I&rsquo;ve placed a couple of spheres facing a point light such that the shadow will fall directly on the quad behind each sphere. Here&rsquo;s the result:</p>
-<p><a href="#R-image-5e68e70e3d9eea150a98b2efad246ff0" class="lightbox-link"><img src="../assets/tutorial43.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5e68e70e3d9eea150a98b2efad246ff0"><img src="../assets/tutorial43.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-61953a5ead8848b585fdbb69a1a5a748" class="lightbox-link"><img src="../assets/tutorial43.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-61953a5ead8848b585fdbb69a1a5a748"><img src="../assets/tutorial43.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 
             <footer class="footline">
             </footer>
@@ -435,12 +435,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235102" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235102" defer></script>
+        <script src="../../../../../js/search.js?1708235102" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -638,13 +638,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235001"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235001" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235001" defer></script>
-    <script src="../../../../../js/theme.js?1708235001" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

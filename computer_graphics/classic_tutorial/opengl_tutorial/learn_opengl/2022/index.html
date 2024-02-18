@@ -21,18 +21,18 @@
     <meta property="og:site_name" content="Hugo Relearn Theme">
     <title></title><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -130,8 +130,8 @@
 <h5 id="introduction">Introduction</h5>
 <h6 id="gpu-computing">GPU Computing</h6>
 <p>In this chapter, we will have a look on the compute shader and try to understand how it works and how we can create and run a compute shader. While traditionally the graphics card (GPU) has been a rendering co-processor which is handling graphics, it got more and more common to use graphics cards for other (not necessarily graphics related) computational tasks (General Purpose Computing on Graphics Processing Units; short: GPGPU-Programming). The reason for this purpose change is performance, as GPUs perform floating-point calculations much faster than today&rsquo;s CPUs. However, this performance boost comes with a hurdle in programming algorithms. Since the GPU is not a serial but a stream processor it&rsquo;s not trivial to program the same algorithms which were designed for the CPU to run on the GPU as well.</p>
-<p><a href="#R-image-b4ad625d696a0c24b766be36661b158a" class="lightbox-link"><img src="./assets/gpu_processing.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-b4ad625d696a0c24b766be36661b158a"><img src="./assets/gpu_processing.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-eac772987f60edac4220abd7ea4d0e68" class="lightbox-link"><img src="./assets/gpu_processing.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-eac772987f60edac4220abd7ea4d0e68"><img src="./assets/gpu_processing.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>A stream processor uses a function/kernel (e.g. a fragment Shader) to run over a set of input records/stream (e.g. fragments) to produce a set of output records (pixels for the final image) in parallel. Due to the parallel execution, each element is processed independently, without any dependencies between elements.</p>
 <p>As stated above the most important (mandatory) aspect of programs running on GPUs is that they must be parallelizable. Sharing of memory is not easily possible and very limited for kernels running on the graphics card, this means that calculations that the kernel performs must be computed independently of each other. For example, it&rsquo;s easy to implement a program that multiplies each element in one stream with the corresponding element (e.g. by index) in a second stream while it&rsquo;s more complicated (or not completely possible in parallel) to accumulate the values of one stream to one single sum value as it always needs the result of the executions before.</p>
 <p>(Even though this operation can be enhanced by the GPU using a kernel that accumulates sub-stream data in parallel and reducing the amount of serial accumulations for bigger streams. The results of the sub-stream data has to be combined in the host program afterwards).</p>
@@ -140,22 +140,22 @@
 <p>To summarize, compute shaders work great for many small parallel batches. Check out: <a href="https://www.youtube.com/watch?v=-P28LKWTzrI" target="_blank">Mythbusters Demo GPU versus CPU</a></p>
 <h5 id="compute-shader-stage">Compute Shader Stage</h5>
 <p>To make GPU computing easier accessible especially for graphics applications while sharing common memory mappings, the OpenGL standard introduced the compute shader in OpenGL version 4.3 as a shader stage for computing arbitrary information. While other GPGPU APIs like OpenCL and CUDA offer more features as they are aimed for heavyweight GPGPU projects, the OpenGL compute shader is intentionally designed to incorporate with other OpenGL functionality and uses GLSL to make it easier to integrate with the existing OpenGL graphics pipeline/application. Using the compute shader in OpenGL graphics applications makes it possible to avoid complicated interfacing, as it would be needed with OpenCL or CUDA.</p>
-<p><a href="#R-image-4d4e43dc7d8c269cc997af68136e8d6c" class="lightbox-link"><img src="./assets/opengl4_3_with_computeShaders.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4d4e43dc7d8c269cc997af68136e8d6c"><img src="./assets/opengl4_3_with_computeShaders.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-93d5c8554a78dea0ba9177e45f4712a9" class="lightbox-link"><img src="./assets/opengl4_3_with_computeShaders.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-93d5c8554a78dea0ba9177e45f4712a9"><img src="./assets/opengl4_3_with_computeShaders.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Compute shaders are general-purpose shaders and in contrast to the other shader stages, they operate differently as they are not part of the graphics pipeline. (see OpenGL 4.3 with Computer Shaders). The compute shader itself defines the data &ldquo;space&rdquo; it operates on. An OpenGL function can be used to define the amount of executions that also initiates the execution of the compute operation. The computer shader does not have user-defined inputs or any outputs as known from the other shaders.</p>
 <p>To pass data to the compute shader, the shader needs to fetch the data for example via texture access, image loads or shader storage block access, which has to be used as target to explicitly write the computed data to an image or shader storage block as well.</p>
 <p>The following table shows the data any shader stage operates on. As shown below, the compute shaders works on an &ldquo;abstract work item&rdquo;.</p>
-<p><a href="#R-image-38c88523804ebe6da459484911c205bf" class="lightbox-link"><img src="./assets/20240215141839.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-38c88523804ebe6da459484911c205bf"><img src="./assets/20240215141839.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-261322c952625f1b2e3c9fc1b42eb432" class="lightbox-link"><img src="./assets/20240215141839.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-261322c952625f1b2e3c9fc1b42eb432"><img src="./assets/20240215141839.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h6 id="compute-space">Compute space</h6>
 <p>The user can use a concept called work groups to define the space the compute shader is operating on. Work Groups are the smallest amount of compute operations that the user can execute (from the host application). Wile the space of the work groups is a three-dimensional space (&ldquo;X&rdquo;, &ldquo;Y&rdquo;, &ldquo;Z&rdquo;) the user can set any of the dimension to 1 to perform the computation in one- or two-dimensional space. In the image below every green cube is one work group.</p>
-<p><a href="#R-image-010adf8e8ef2770f1d2de0af4e725851" class="lightbox-link"><img src="./assets/global_work_groups.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-010adf8e8ef2770f1d2de0af4e725851"><img src="./assets/global_work_groups.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e7607ded1c601f49d9f7e8cedd7ff50d" class="lightbox-link"><img src="./assets/global_work_groups.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e7607ded1c601f49d9f7e8cedd7ff50d"><img src="./assets/global_work_groups.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>During execution of the work groups the order might vary arbitrarily and the program should not rely on the order in which individual groups are processed.</p>
 <p>The work group may contain many compute shader invocations. The amount of invocations of the shader is defined by the local size of the work group, which is again three-dimensional.</p>
 <p>The image below shows how every work group is splitted in its local space invocations represented by the red cubes.</p>
-<p><a href="#R-image-c403a143486841b90c3d72035ef62211" class="lightbox-link"><img src="./assets/local_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c403a143486841b90c3d72035ef62211"><img src="./assets/local_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-61744745aeb7a5ee1faafcc1725c6bc9" class="lightbox-link"><img src="./assets/local_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-61744745aeb7a5ee1faafcc1725c6bc9"><img src="./assets/local_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p><em>An example</em>:
 Given the local size of a computer shader of (128, 1, 1) and executing the shader with a work group count of (16, 8, 64). The shader will be 1,048,576 times invoked separately. This is the product of work group dimensions times the product of the local size of the compute shader: (128 * 1 * 1 * 16 * 8 * 64 = 1,048,576). Each invocation can be uniquely identified by a unique set of inputs.</p>
 <p>While it is possible to communicate using shared variables and special functions between different invocations in a specific work group, it is not effectively possible to communicate between different work groups without potentially deadlocking the system.</p>
@@ -198,8 +198,8 @@ Given the local size of a computer shader of (128, 1, 1) and executing the shade
 <p>We will bind the a 2d image in our shader as the object to write our data onto. The internal format (here rgba32f) needs to be the same as the format of the texture in the host program.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">rgba32f</span><span class="p">,</span> <span class="n">binding</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">uniform</span> <span class="n">image2D</span> <span class="n">imgOutput</span><span class="p">;</span></span></span></code></pre></div><p>We have to use image2d as this represents a single image from a texture. While sampler variables use the entire texture including mipmap levels and array layers, images only have a single image from a texture. <em>Note</em> while most texture sampling functions use normalized texture coordinates [0,1], for images we need the absolute integer texel coordinates. Images and samplers are completely separated including their bindings. While samplers can only read data from textures, image variables can read and/or write data.</p>
 <p>With this set up, we can now write our main function in the shader where we fill the imgOutput with color values. To determine on which pixel we are currently operating in our shader execution we can use the following GLSL Built-in variables shown in the table below:</p>
-<p><a href="#R-image-bed6fcdbe0ab149e3c590541e837fb7b" class="lightbox-link"><img src="./assets/20240215142429.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-bed6fcdbe0ab149e3c590541e837fb7b"><img src="./assets/20240215142429.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-109b6e63ddd0f728762eee23839ea65b" class="lightbox-link"><img src="./assets/20240215142429.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-109b6e63ddd0f728762eee23839ea65b"><img src="./assets/20240215142429.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Using the built-in variables from the table above we will create a simple color gradient (st-map) on our image.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">vec4</span> <span class="n">value</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
@@ -276,8 +276,8 @@ void main()
     vec3 texCol = texture(tex, TexCoords).rgb;      
     FragColor = vec4(texCol, 1.0);
 }</code></pre></div><p><strong>Image Output</strong></p>
-<p><a href="#R-image-ff7823fc3882a5e42fa5f0a4bbc519b1" class="lightbox-link"><img src="./assets/outputColor.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-ff7823fc3882a5e42fa5f0a4bbc519b1"><img src="./assets/outputColor.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c73ddb94342a1d352b5993b244294b8f" class="lightbox-link"><img src="./assets/outputColor.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c73ddb94342a1d352b5993b244294b8f"><img src="./assets/outputColor.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h5 id="adding-time-variable-and-speed-measuring">Adding Time Variable and Speed Measuring</h5>
 <p>We will now add time to the program for performance measuring to test which settings (work group amount/local size) work best for us.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// timing 
@@ -333,14 +333,14 @@ If you know that the location won&rsquo;t change and you want to increase the pe
 <h5 id="altering-local-size">Altering local size</h5>
 <p>Lastly, we can make use of the local size. As it can be seen in the image below the total amount of n dimensional executions is the product of the amount of work groups times local invocations. (compare the calculation in the compute space section above). Currently one pixel corresponds to one work group as we set the local size to 1 in all dimensions (dark gray boxes).</p>
 <p>In this last section, we are going to add some local invocations (small light grey boxes) per work group. In other words, we will split the image in batches of a specific size and run over each of these batches per work group. So we have to alter our shader a little bit to calculate and write to the right texel. You could imagine the final image as an overlay over the work group sheet below where each invocation will then be one pixel of the image:</p>
-<p><a href="#R-image-eb63263d1f4f72c87457818dfa059c00" class="lightbox-link"><img src="./assets/computeShaderLogicalStructure.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-eb63263d1f4f72c87457818dfa059c00"><img src="./assets/computeShaderLogicalStructure.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-06a3bbff2f4e17930cdfb7cb869caec8" class="lightbox-link"><img src="./assets/computeShaderLogicalStructure.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-06a3bbff2f4e17930cdfb7cb869caec8"><img src="./assets/computeShaderLogicalStructure.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>For simplicity, we increase the resolution of our texture to get a number that can be divided by 10 without a rest. Here we will have 1,000,000 pixels though need 1 million shader invocations.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1">// texture size
 </span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">TEXTURE_WIDTH</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">TEXTURE_HEIGHT</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span></span></span></code></pre></div><p>We can now lower the amount of work groups dispatches by the ratio of 10 for each dimension. This means we will execute 10,000 work groups.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glDispatchCompute</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">TEXTURE_WIDTH</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">TEXTURE_HEIGHT</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span></span></span></code></pre></div><p>If we run the program without altering the shader we will see that only 1/100 of the image will be calculated.</p>
-<p><a href="#R-image-354d8e77992555ca15318bf164cbb1bf" class="lightbox-link"><img src="./assets/outputColorAlteringDispatch.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-354d8e77992555ca15318bf164cbb1bf"><img src="./assets/outputColorAlteringDispatch.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c1398831e9e7d8d8b9e93c0c46842574" class="lightbox-link"><img src="./assets/outputColorAlteringDispatch.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c1398831e9e7d8d8b9e93c0c46842574"><img src="./assets/outputColorAlteringDispatch.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>To calculate the whole image again we have to adjust the local_size of the compute shader accordingly. Here we distribute the invocations as well only in 2 dimensions (X and Y).</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 430 core
 </span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="n">layout</span> <span class="p">(</span><span class="n">local_size_x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">local_size_y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">local_size_z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span><span class="p">;</span>
@@ -361,8 +361,8 @@ If you know that the location won&rsquo;t change and you want to increase the pe
 </span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">gl_WorkGroupSize</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">imageStore</span><span class="p">(</span><span class="n">imgOutput</span><span class="p">,</span> <span class="n">texelCoord</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>As seen above we have to adjust the ratio for the relative texel coordinate calculation. The gl_NumWorkGroups variable gives us the amount of the local size per work group. This makes it obvious that the amount of dimensions is the product of the amount of work groups times the amount of local invocations as stated in the introduction.</p>
-<p><a href="#R-image-186e3eab96df88753e64714ee8cbc4cc" class="lightbox-link"><img src="./assets/finalOutput.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-186e3eab96df88753e64714ee8cbc4cc"><img src="./assets/finalOutput.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-5b4b9f03cc410916cb9f28a97453276a" class="lightbox-link"><img src="./assets/finalOutput.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5b4b9f03cc410916cb9f28a97453276a"><img src="./assets/finalOutput.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>You can find the full source code for this demo <a href="https://learnopengl.com/code_viewer_gh.php?code=src/8.guest/2022/5.computeshader_helloworld/compute_shader_hello_world.cpp" target="_blank">here</a>.</p>
 <h5 id="final-words">Final Words</h5>
 <p>The above introduction is meant as a very simple overview of the compute shader and how to make it work. As it is not part of the render pipeline, it can get even more complicated to debug non-working shaders/programs. This implementation only shows one of the ways to manipulate data with the compute shader using image access. Using Uniform Buffers or Shader Storage Buffers is a more common way to manipulate geometry itself like particle or cloth simulations.</p>
@@ -399,12 +399,12 @@ If you know that the location won&rsquo;t change and you want to increase the pe
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -603,13 +603,13 @@ If you know that the location won&rsquo;t change and you want to increase the pe
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235101"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235101" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235101" defer></script>
+    <script src="../../../../../js/theme.js?1708235101" defer></script>
   </body>
 </html>

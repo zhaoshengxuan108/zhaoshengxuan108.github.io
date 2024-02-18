@@ -22,19 +22,19 @@
     <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" rel="canonical" type="text/html" title="Tutorial 21:Spot Light :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 21:Spot Light :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
-    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235002"></script>
-    <script src="../../../../../js/variant.js?1708235002"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235103" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235103" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235103" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235103"></script>
+    <script src="../../../../../js/variant.js?1708235103"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -97,13 +97,13 @@
 <h3 id="background">Background</h3>
 <p>The spot light is the third and final light type that we will review (at least for a little while&hellip;). It is more complex than directional light and point light and essentially borrows stuff from both. The spot light has an origin position and is under the effect of attenuation as distance from target grows (as point light) and its light is pointed at a specific direction (as directional light). The spot light adds the unique attribute of shedding light only within a limited cone that grows wider as light moves further away from its origin. A good example for a spot light is the flashlight. Spot lights are very useful when the character in the game you are developing is exploring an underground dungeon or escaping from prison.</p>
 <p>We already know all the tools to develop the spot light. The missing piece is the cone effect of this light type. Take a look at the following picture:</p>
-<p><a href="#R-image-8a2dc2c0b0b4065e6beba6af626caf6c" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/spotlight.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-8a2dc2c0b0b4065e6beba6af626caf6c"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/spotlight.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-59e27904424398f80cb7c6a9ce341ce0" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/spotlight.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-59e27904424398f80cb7c6a9ce341ce0"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/spotlight.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The spot light direction is defined as the black arrow that points straight down. We want our light to have an effect only on the area limited within the two red lines. The dot product operation again comes to the rescue. We can define the cone of light as the angle between each of the red lines and the light direction (i.e. half the angle between the red lines). We can take the cosine &lsquo;C&rsquo; of that angle and perform a dot product between the light direction &lsquo;L&rsquo; and the vector &lsquo;V&rsquo; from the light origin to the pixel. If the result of the dot product is larger than &lsquo;C&rsquo; (remember that a cosine result grows larger as the angle grows smaller), then the angle between &lsquo;L&rsquo; and &lsquo;V&rsquo; is smaller than the angle between &lsquo;L&rsquo; and the two red lines that define the spot light cone. In that case we want the pixel to receive light. If the angle is larger the pixel does not receive any light from the spot light. In the example above a dot product between &lsquo;L&rsquo; and &lsquo;V&rsquo; will yield a result which is smaller than the dot product between &lsquo;L&rsquo; and either one of the red lines (it is quite obvious that the angle between &lsquo;L&rsquo; and &lsquo;V&rsquo; is larger than the angle between &lsquo;L&rsquo; and the red lines). Therefore, the pixel is outside the cone of light and is not illuminated by the spot light.</p>
 <p>If we go with this &ldquo;receive/doesn&rsquo;t receive light&rdquo; approach we will end up with a highly artificial spot light that has a very noticeable edge between its lit and dark areas. It will look like a perfect circle within total darkness (assuming no other light sources). A more realistic looking spot light is one whose light gradually decreases towards the edges of the circle. We can use the dot product that we calculated (in order to determine whether a pixel is lit or not) as a factor. We already know that the dot product will be 1 (i.e. maximum light) when the vectors &lsquo;L&rsquo; and &lsquo;V&rsquo; are equal. But now we run into some nasty behavior of the cosine function. The spot light angle should not be too large or else the light will be too widespread and we will loose the appearance of a spot light. For example, let&rsquo;s set the angle at 20 degrees. The cosine of 20 degrees is 0.939, but the range [0.939, 1.0] is too small to serve as a factor. There is not enough room there to interpolate values that the eye will be able to notice. The range [0, 1] will provide much better results.</p>
 <p>The approach that we will use is to map the smaller range defined by the spot light angle into the larger range of [0, 1]. Here&rsquo;s how we do it:</p>
-<p><a href="#R-image-3d267d3d51df766bd5f0d528a9ab9b62" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/map.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-3d267d3d51df766bd5f0d528a9ab9b62"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/map.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-7f98fde724200f3e269fbbdd78d48241" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/map.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7f98fde724200f3e269fbbdd78d48241"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/../assets/map.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The principle is very simple - calculate the ratio between the smaller range and the larger range and scale the specific range you want to map by that ratio.</p>
 <h3 id="source-walkthru">Source walkthru</h3>
 <p>(lighting_technique.h:68)</p>
@@ -191,8 +191,8 @@
         </div>
       </main>
     </div>
-    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
-    <script src="../../../../../js/theme.js?1708235002" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235103" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235103" defer></script>
+    <script src="../../../../../js/theme.js?1708235103" defer></script>
   </body>
 </html>

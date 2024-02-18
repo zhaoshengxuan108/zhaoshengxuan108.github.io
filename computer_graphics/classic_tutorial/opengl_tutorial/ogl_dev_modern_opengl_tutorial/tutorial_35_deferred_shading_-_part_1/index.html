@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 35:Deferred Shading - Part 1 :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.print.html" rel="alternate" type="text/html" title="Tutorial 35:Deferred Shading - Part 1 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -142,8 +142,8 @@
 <p>The way we&rsquo;ve been doing lighting since <a href="https://ogldev.org/www/tutorial17/tutorial17.html" target="_blank">tutorial 17</a> is known as <em>Forward Rendering (or Shading)</em>. This is a straightforward approach where we do a set of transformations on the vertices of every object in the VS (mostly translations of the normal and position to clip space) followed by a lighting calculation per pixel in the FS. Since each pixel of every object gets only a single FS invocation we have to provide the FS with information on all light sources and take all of them into account when calculating the light effect per pixel. This is a simple approach but it has its downsides. If the scene is highly complex (as is the case in most modern games) with many objects and a large depth complexity (same screen pixel covered by several objects) we get a lot of wasted GPU cycles. For example, if the depth complexity is 4 it means that the lighting calculations are executed on 3 pixels for nothing because only the topmost pixel counts. We can try to counter that by sorting the objects front to back but that doesn&rsquo;t always work well with complex objects.</p>
 <p>Another problem with forward rendering is when there are many light sources. In that case the light sources tend to be rather small with a limited area of effect (else it will overwhelm the scene). But our FS calculates the effect of every light source, even if it is far away from the pixel. You can try to calculate the distance from the pixel to the light source but that just adds more overhead and branches into the FS. Forward rendering simply doesn&rsquo;t scale well with many light sources. Just image the amount of computation the FS needs to do when there are hundreds of light sources&hellip;</p>
 <p>Deferred shading is a popular technique in <a href="http://en.wikipedia.org/wiki/Deferred_shading#Deferred_shading_in_commercial_games" target="_blank">many games</a> which targets the specific problem above. The key point behind deferred shading is the decoupling of the geometry calculations (position and normal transformations) and the lighting calculations. Instead of taking each object &ldquo;all the way&rdquo;, from the vertex buffer into its final resting place in the framebuffer we seperate the processing into two major passes. In the first pass we run the usual VS but instead of sending the processed attributes into the FS for lighting calculations we forward them into what is known as the <em>G Buffer</em>. This is a logical grouping of several 2D textures and we have a texture per vertex attribute. We seperate the attributes and write them into the different textures all at once using a capability of OpenGL called <em>Multiple Render Targets</em> (MRT). Since we are writing the attributes in the FS the values that end up in the G buffer are the result of the interpolation performed by the rasterizer on the vertex attributes. This stage is called the <em>Geometry Pass</em>. Every object is processed in this pass. Because of the depth test, when the geometry pass is complete the textures in the G buffer are populated by the interpolated attributes of the closest pixels to the camera. This means that all the &ldquo;irrelevant&rdquo; pixels that have failed the depth test have been dropped and what is left in the G buffer are only the pixels for which lighting must be calculated. Here&rsquo;s a typical example of a G buffer of a single frame:</p>
-<p><a href="#R-image-775f68c157f248137641d1b3ba176ca2" class="lightbox-link"><img src="../assets/gbuffer.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-775f68c157f248137641d1b3ba176ca2"><img src="../assets/gbuffer.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-057e3b0e39006e3f775b525e36f7423e" class="lightbox-link"><img src="../assets/gbuffer.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-057e3b0e39006e3f775b525e36f7423e"><img src="../assets/gbuffer.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In the second pass (known as the <em>Lighting Pass</em>) we go over the G buffer pixel by pixel, sample all the pixel attributes from the different textures and do the lighting calculations in pretty much the same way that we are used to. Since all the pixels except the closest ones were already dropped when we created the G buffer we do the lighting calculations only once per pixel.</p>
 <p>How do we traverse the G buffer pixel by pixel? The simplest method is to render a screen space quad. But there is a better way. We said earlier that since the light sources are weak with a limited area of influence we expect many pixels to be irrelevant to them. When the influence of a light source on a pixel is small enough it is better to simply ignore it for peformance reasons. In forward rendering there was no efficient way to do that but in deferred shading we can calculate the dimentions of a sphere around the light source (for points lights; for spot lights we use a cone). That sphere represents the area of influence of the light and outside of it we want to ignore this light source. We can use a very rough model of a sphere with a small number of polygons and simply render it with the light source at the center. The VS will do nothing except translate the position into clip space. The FS will be executed only on the relevant pixels and we will do our lighting calculations there. Some people go even further by calculating a minimal bounding quad that covers that sphere from the point of view of the light. Rendering this quad is even lighter because there&rsquo;s only two triangles. These methods are useful to limit the number of pixels for which the FS is executed to only the ones we are really interested in.</p>
 <p>We will cover deferred shading in three steps (and three tutorials):</p>
@@ -374,12 +374,12 @@
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -577,13 +577,13 @@
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235102"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235102" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235102" defer></script>
+    <script src="../../../../../js/theme.js?1708235102" defer></script>
   </body>
 </html>

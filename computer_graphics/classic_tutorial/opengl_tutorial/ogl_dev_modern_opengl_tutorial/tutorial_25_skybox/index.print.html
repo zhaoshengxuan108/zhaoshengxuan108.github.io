@@ -22,19 +22,19 @@
     <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" rel="canonical" type="text/html" title="Tutorial 25:SkyBox :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 25:SkyBox :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
-    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235002"></script>
-    <script src="../../../../../js/variant.js?1708235002"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235103" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235103" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235103" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235103"></script>
+    <script src="../../../../../js/variant.js?1708235103"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -96,16 +96,16 @@
 
 <h3 id="background">Background</h3>
 <p>A skybox is a technique that makes the scene looks bigger and more impressive by wrapping the viewer with a texture that goes around the camera 360 degrees. The texture is often a combination between the sky and a terrain type such as mountains, skyscapers, etc. As the player explores his surroundings he keeps seeing a part of the skybox hovering above the real models and filling up all those empty pixels. Here&rsquo;s an example of a skybox from the game Half-Life:</p>
-<p><a href="#R-image-54836bffe48aed374e1353a657f7f517" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/Halflife_skybox.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-54836bffe48aed374e1353a657f7f517"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/Halflife_skybox.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-30e7f27a959fecf73e13376d6dbfe739" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/Halflife_skybox.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-30e7f27a959fecf73e13376d6dbfe739"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/Halflife_skybox.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The idea behind the skybox is to render a big cube and place the viewer at its center. As the camera moves the cube follows it so that the viewer can never reach the &ldquo;horizon&rdquo; of the scene. This is similar to real life where we see the sky &ldquo;touch&rdquo; the earth on the horizon but when we move toward the horizon it remains at the same distance from us (pending on land type, etc).</p>
 <p>A special type of texture is mapped on the cube. This texture is created in such a way that if it is cut and folded properly it creates a box where the contents along the edges of the internal faces are perfectly aligned with one another and create a sense of continuity for someone who is located inside the box. For example, see the following texture:</p>
-<p><a href="#R-image-e8b593d5ef6f2771d46b17876f634e71" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/skybox.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e8b593d5ef6f2771d46b17876f634e71"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/skybox.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-4c9f95ddb154d9e6f7233b25759e65e0" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/skybox.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4c9f95ddb154d9e6f7233b25759e65e0"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/skybox.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>If we cut away the white margins of the texture above and fold the remaining parts along the white lines we will get a box with the required properties. OpenGL calls such a texture a <em>Cubemap</em>.</p>
 <p>In order to sample from the cubemap we will use a 3D texture coordinate instead of the 2D coordinate that we have been using thus far. The texture sampler will use this 3D coordinate as a vector and will first find out which of the six faces of the cubemap contains the required texel and then fetch it from within that face. This process can be seen in the following picture which is taken from above (looking down at the box):</p>
-<p><a href="#R-image-995c04e4c581e729a69ceeb0bf9d3906" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/texel_fetch.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-995c04e4c581e729a69ceeb0bf9d3906"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/texel_fetch.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-dc3bb588073e9545c082efb88237f192" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/texel_fetch.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-dc3bb588073e9545c082efb88237f192"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/../assets/texel_fetch.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The proper face is selected based on the highest magnitude component of the texture coordinate. In the above example we see that Z has the largest magnitude (Y cannot be seen but let&rsquo;s assume it is smaller than Z). Since Z has a positive sign the texture sampler will use the face entitled &lsquo;PosZ&rsquo; and will fetch the texel from there (the remaining faces are &lsquo;NegZ&rsquo;, &lsquo;PosX&rsquo;, &lsquo;NegX&rsquo;, &lsquo;PosY&rsquo; and &lsquo;NegY&rsquo;).</p>
 <p>The skybox technique can actually be implemented using a sphere as well as a box. The only difference is that the length of all possible direction vectors in a sphere is equal (since they represent the radius of the sphere) while in a box there are different lengths. The mechanism for texel fetching remains the same. A skybox which uses a sphere is sometimes called a <em>skydome</em>. This is what we will use for the demo of this tutorial. You should play with both options and see what works best for you.</p>
 <h3 id="source-walkthru">Source walkthru</h3>
@@ -279,8 +279,8 @@
         </div>
       </main>
     </div>
-    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
-    <script src="../../../../../js/theme.js?1708235002" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235103" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235103" defer></script>
+    <script src="../../../../../js/theme.js?1708235103" defer></script>
   </body>
 </html>

@@ -23,18 +23,18 @@ In this article, we are scratching the surface of this topic a bit further, sinc
     <meta property="og:site_name" content="Hugo Relearn Theme">
     <title></title><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -141,8 +141,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 <h5 id="ordered-transparency">Ordered transparency</h5>
 <p>The most convenient solution to overcome this issue, is to sort your transparent objects, so they&rsquo;re either drawn from the furthest to the nearest, or from the nearest to the furthest in relation to the camera&rsquo;s position. This way, the depth testing wouldn&rsquo;t affect the outcome of those pixels that have been drawn after/before but over/under a further/closer object. However major the expenditure this method entails for the CPU, it was used in many early games that probably most of us have played.</p>
 <p>For example, the sample image below shows the importance of blending order. The top part of the image produces an incorrect result with unordered alpha blending, while the bottom correctly sorts the geometry. Note lower visibility of the skeletal structure without correct depth ordering. This image is from <a href="http://gpuopen.com/archive/gpu-demos/radeon-hd-5000-series-graphics-real-time-demos/" target="_blank">ATI Mecha Demo</a>:</p>
-<p><a href="#R-image-2604a3384fea3b870ffd3aaec5aa4917" class="lightbox-link"><img src="./assets/ATI_Mecha_Demo_Screenshot.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-2604a3384fea3b870ffd3aaec5aa4917"><img src="./assets/ATI_Mecha_Demo_Screenshot.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-a072b442ea4390d9f5c16b5c561a73b9" class="lightbox-link"><img src="./assets/ATI_Mecha_Demo_Screenshot.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a072b442ea4390d9f5c16b5c561a73b9"><img src="./assets/ATI_Mecha_Demo_Screenshot.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>So far, we have understood that in order to overcome the limitation of current technology to draw transparent objects, we need order for our transparent objects to be displayed properly on the screen. Ordering takes away performance from your application, and since most of 3D applications are running in real-time, this will be so much more evident as you perform sorting at every frame.</p>
 <p>Therefore, we will be looking into the world of order-independent transparency techniques and to find one which better suits our purpose and furthermore our pipeline, so we don&rsquo;t have to sort the objects before drawing.</p>
 <h5 id="order-independent-transparency">Order-independent transparency</h5>
@@ -195,8 +195,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 <p>There are many <a href="https://en.wikipedia.org/wiki/Asymptotic_analysis" target="_blank">asymptotically</a> fast solutions for transparency rendering, such as bounded A-buffer approximations using programmable blending (e.g., <a href="http://software.intel.com/en-us/articles/multi-layer-alpha-blending" target="_blank">Marco Salvi&rsquo;s work</a>), stochastic transparency (as <a href="https://www.computer.org/csdl/journal/tg/2011/08/ttg2011081036/13rRUxBa55X" target="_blank">explained by Eric Enderton and others</a>), and ray tracing. One or more of these will probably dominate at some point, but all were impractical on the game platforms of five or six years ago, including PC DX11/GL4 GPUs, mobile devices with OpenGL ES 3.0 GPUs, and last-generation consoles like PlayStation 4.</p>
 <p><note>In mathematical analysis, asymptotic analysis, also known as asymptotics, is a method of describing limiting behavior.</note></p>
 <p>The below image is a transparent CAD view of a car engine rendered by this technique.</p>
-<p><a href="#R-image-23a203317170b7f58b42037def126b71" class="lightbox-link"><img src="./assets/cad_view_of_an_engine.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-23a203317170b7f58b42037def126b71"><img src="./assets/cad_view_of_an_engine.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-f16834cebd5f5b660976e2c8455414ea" class="lightbox-link"><img src="./assets/cad_view_of_an_engine.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f16834cebd5f5b660976e2c8455414ea"><img src="./assets/cad_view_of_an_engine.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h5 id="theory">Theory</h5>
 <p>This technique renders non-refractive, monochrome transmission through surfaces that themselves have color, without requiring sorting or new hardware features. In fact, it can be implemented with a simple shader for any GPU that supports blending to render targets with more than 8 bits per channel.</p>
 <p>It works best on GPUs with multiple render targets and floating-point texture, where it is faster than sorted transparency and avoids sorting artifacts and popping for particle systems. It also consumes less bandwidth than even a 4-deep RGBA8 K-buffer and allows mixing low-resolution particles with full-resolution surfaces such as glass.</p>
@@ -205,8 +205,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 <p><note>A heuristic technique, or a heuristic, is any approach to problem solving or self-discovery that employs a practical method that is not guaranteed to be optimal, perfect, or rational, but is nevertheless sufficient for reaching an immediate, short-term goal or approximation. In our case, the heuristic is the weighting function.</note></p>
 <p>After all transparent surfaces have been rendered, it then performs a full-screen normalization and compositing pass to reduce errors where the heuristic was a poor approximation of the true inter-occlusion.</p>
 <p>The below image is a glass chess set rendered with this technique. Note that the glass pieces are not refracting any light.</p>
-<p><a href="#R-image-2dc348d36768ad160caeb881bd0ed00b" class="lightbox-link"><img src="./assets/a_glass_chess_set.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-2dc348d36768ad160caeb881bd0ed00b"><img src="./assets/a_glass_chess_set.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-58164a216205bb9b3bb784f1492afb71" class="lightbox-link"><img src="./assets/a_glass_chess_set.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-58164a216205bb9b3bb784f1492afb71"><img src="./assets/a_glass_chess_set.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>For a better understanding and a more detailed explanation of the weight function, please refer to page 5, 6 and 7 of the original paper as the Blended OIT has been implemented and improved by different methods along the years. Link to the paper is provided at the end of this article.</p>
 <h5 id="limitation">Limitation</h5>
 <p>The primary limitation of the technique is that the weighting heuristic must be tuned for the anticipated depth range and opacity of transparent surfaces.</p>
@@ -260,11 +260,11 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 </span></span><span class="line"><span class="ln">13</span><span class="cl">
 </span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1">// blend func: GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA
 </span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span><span class="n">color</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">accum</span><span class="p">.</span><span class="n">rgb</span> <span class="o">/</span> <span class="n">max</span><span class="p">(</span><span class="n">accum</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">),</span> <span class="n">reveal</span><span class="p">);</span></span></span></code></pre></div><p>Use this table as a reference for your render targets:</p>
-<p><a href="#R-image-41dc115799b76172b7b374aabcdde2b6" class="lightbox-link"><img src="./assets/20240215115113.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-41dc115799b76172b7b374aabcdde2b6"><img src="./assets/20240215115113.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-c6661b2a76868515fbb1f2515eaf2376" class="lightbox-link"><img src="./assets/20240215115113.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c6661b2a76868515fbb1f2515eaf2376"><img src="./assets/20240215115113.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>A total of three rendering passes are needed to accomplish the finished result which is down below:</p>
-<p><a href="#R-image-0bf1e055d49ebdf2c409ad77067d6d8c" class="lightbox-link"><img src="./assets/weighted_blended_result.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-0bf1e055d49ebdf2c409ad77067d6d8c"><img src="./assets/weighted_blended_result.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-6516c4c8588a7914668b04cc397ca9a4" class="lightbox-link"><img src="./assets/weighted_blended_result.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6516c4c8588a7914668b04cc397ca9a4"><img src="./assets/weighted_blended_result.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h5 id="details">Details</h5>
 <p>To get started, we would have to setup a quad for our solid and transparent surfaces. The red quad will be the solid one, and the green and blue will be the transparent one. Since we&rsquo;re using the same quad for our screen quad as well, here we define UV values for texture mapping purposes at the screen pass.</p>
 <div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">float</span> <span class="n">quadVertices</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
@@ -497,8 +497,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 </span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span></span></span></code></pre></div><p>Screen shader is just a simple post-processing shader which draws a full-screen quad.</p>
 <p>In a regular pipeline, you would also apply gamma-correction, tone-mapping, etc. in an intermediate post-processing framebuffer before you render to backbuffer, but ensure you are not applying them while rendering your solid and transparent surfaces and also not before composition since this transparency technique needs raw color values for calculating transparent pixels.</p>
 <p>Now, the interesting part is to play with the Z axis of your objects to see order-independence in action. Try to place your transparent objects behind the solid object or mess up the orders entirely.</p>
-<p><a href="#R-image-7264790e3ef51a62b24faadef8984582" class="lightbox-link"><img src="./assets/weighted_blended_reordered.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-7264790e3ef51a62b24faadef8984582"><img src="./assets/weighted_blended_reordered.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-da980b4debeec1ed41703420108e565e" class="lightbox-link"><img src="./assets/weighted_blended_reordered.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-da980b4debeec1ed41703420108e565e"><img src="./assets/weighted_blended_reordered.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In the image above, the green quad is rendered after the red quad, but behind it, and if you move the camera around to see the green quad from behind, you won&rsquo;t see any artifacts.</p>
 <p>As stated earlier, one limitation that this technique imposes is that for scenes with higher depth/alpha complexity we need to tune the weighting function to achieve the correct result. Luckily, a number of tested weighting functions are provided in the paper which you can refer and investigate them for your environment.</p>
 <p>Be sure to also check the colored transmission transparency which is the improved version of this technique in the links below.</p>
@@ -520,36 +520,36 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 <p>It is known as as Linear Interpolation equation or Lerp. For Rotation we cannot use Vector. The reason for that is if we went ahead and tried to use the linear interpolation equation on a vector of X(Pitch),Y(Yaw) &amp; Z(Roll), the interpolation won&rsquo;t be linear. You will encounter weird issues like The Gimbal Lock(See references section below to learn about it). To avoid this issue we use Quaternion for rotations. Quaternion provides something called The Spherical Interpolation or Slerp equation which gives the same result as Lerp but for two rotations A &amp; B. I won&rsquo;t be able to explain how the equation works because its out of the scope for now. You can surely checkout references section below to understand The Quaternion.</p>
 <h5 id="components-of-an-animated-model--skin-bones-and-keyframes">Components of An Animated Model : Skin, Bones and Keyframes</h5>
 <p>The whole process of an animation starts with the addition of the first component which is The Skin in a software like blender or Maya. Skin is nothing but meshes which add visual aspect to the model to tell the viewer how it looks like. But If you want to move any mesh then just like the real world, you need to add Bones. You can see the images below to understand how it looks in software like blender&hellip;.</p>
-<p><a href="#R-image-dc1af688698b92e740102961537a196f" class="lightbox-link"><img src="./assets/skin.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-dc1af688698b92e740102961537a196f"><img src="./assets/skin.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
-<p><a href="#R-image-ea2255990d1c6261cb1799ced56c9d37" class="lightbox-link"><img src="./assets/bones.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-ea2255990d1c6261cb1799ced56c9d37"><img src="./assets/bones.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
-<p><a href="#R-image-f46e48d30cb34d7b88f5e7d548825949" class="lightbox-link"><img src="./assets/merged.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f46e48d30cb34d7b88f5e7d548825949"><img src="./assets/merged.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-ef8bd59335cae6c71297fa360f48b686" class="lightbox-link"><img src="./assets/skin.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ef8bd59335cae6c71297fa360f48b686"><img src="./assets/skin.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-45bc66541f498c21684aa3fb48e3cb12" class="lightbox-link"><img src="./assets/bones.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-45bc66541f498c21684aa3fb48e3cb12"><img src="./assets/bones.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-aef3eaa97318456938f2f0d5994ee282" class="lightbox-link"><img src="./assets/merged.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-aef3eaa97318456938f2f0d5994ee282"><img src="./assets/merged.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>These bones are usually added in hierarchical fashion for characters like humans &amp; animals and the reason is pretty obvious. We want parent-child relationship among limbs. For example, If we move our right shoulder then our right bicep, forearm, hand and fingers should move as well. This is how the hierarchy looks like&hellip;.</p>
-<p><a href="#R-image-1dedf9f883fde330e565a7b1abea91b0" class="lightbox-link"><img src="./assets/parent_child.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1dedf9f883fde330e565a7b1abea91b0"><img src="./assets/parent_child.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-efc7bdd8d45cdc65ffc5714b6c04661a" class="lightbox-link"><img src="./assets/parent_child.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-efc7bdd8d45cdc65ffc5714b6c04661a"><img src="./assets/parent_child.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In the above diagram if you grab the hip bone and move it, all limbs will be affected by its movement.</p>
 <p>At this point, we are ready to create KeyFrames for an animation. Keyframes are poses at different point of time in an animation. We will interpolate between these Keyframes to go from one pose to another pose smoothly in our code. Below you can see how poses are created for a simple 4 frame jump animation&hellip;</p>
-<p><a href="#R-image-8d6514d4c9a9310ec6c0b05074f77823" class="lightbox-link"><img src="./assets/poses.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-8d6514d4c9a9310ec6c0b05074f77823"><img src="./assets/poses.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
-<p><a href="#R-image-0445f51f07ac973f0930ca8014c1c3ec" class="lightbox-link"><img src="./assets/interpolating.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-0445f51f07ac973f0930ca8014c1c3ec"><img src="./assets/interpolating.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-6ef1c5d791aad4d9f252c803b1a95b4c" class="lightbox-link"><img src="./assets/poses.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6ef1c5d791aad4d9f252c803b1a95b4c"><img src="./assets/poses.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-764492e441b8e1809d8bf8c336dd5393" class="lightbox-link"><img src="./assets/interpolating.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-764492e441b8e1809d8bf8c336dd5393"><img src="./assets/interpolating.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <h5 id="how-assimp-holds-animation-data">How Assimp holds animation data</h5>
 <p>We are almost there to the code part but first we need to understand how assimp holds imported animation data. Look at the diagram below..</p>
-<p><a href="#R-image-e0f6783886b42f8e0b6477c5b0cd7363" class="lightbox-link"><img src="./assets/assimp1.jpeg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e0f6783886b42f8e0b6477c5b0cd7363"><img src="./assets/assimp1.jpeg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-356fbada267a861e77c29324f8730a20" class="lightbox-link"><img src="./assets/assimp1.jpeg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-356fbada267a861e77c29324f8730a20"><img src="./assets/assimp1.jpeg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Just like the <a href="https://learnopengl.com/Model-Loading/Assimp" target="_blank">Model Loading</a> section, we will start with the <code>aiScene</code> pointer which holds a pointer to the root node and look what do we have here, an array of Animations. This array of <code>aiAnimation</code> contains the general information like duration of an animation represented here as <code>mDuration</code> and then we have a <code>mTicksPerSecond</code> variable, which controls how fast we should interpolate between frames. If you remember from the last section that an animation has keyframes. Similary, an <code>aiAnimation</code> contains an <code>aiNodeAnim</code> array called Channels. This array of contains all bones and their keyframes which are going to be engaged in an animation. An <code>aiNodeAnim</code> contains name of the bone and you will find 3 types of keys to interpolate between here, Translation,Rotation &amp; Scale.</p>
 <p>Alright, there&rsquo;s one last thing we need to understand and we are good to go for writing some code.</p>
 <h5 id="influence-of-multiple-bones-on-vertices">Influence of multiple bones on vertices</h5>
 <p>When we curl our forearm and we see our biceps muscle pop up. We can also say that forearm bone transformation is affecting vertices on our biceps. Similary, there could be multiple bones affecting a single vertex in a mesh. For characters like solid metal robots all forearm vertices will only be affected by forearm bone but for characters like humans, animals etc, there could be upto 4 bones which can affect a vertex. Let&rsquo;s see how assimp stores that information&hellip;</p>
-<p><a href="#R-image-a8a8f2680d06a875da0720a35bfee19d" class="lightbox-link"><img src="./assets/assimp2.jpeg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-a8a8f2680d06a875da0720a35bfee19d"><img src="./assets/assimp2.jpeg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-40067f03e417850fd2ac5f9c1d05860e" class="lightbox-link"><img src="./assets/assimp2.jpeg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-40067f03e417850fd2ac5f9c1d05860e"><img src="./assets/assimp2.jpeg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>We start with the <code>aiScene</code> pointer again which contains an array of all aiMeshes. Each <code>aiMesh</code> object has an array of <code>aiBone</code> which contains the information like how much influence this <code>aiBone</code> will have on set of vertices on the mesh. aiBone contains the name of the bone, an array of <code>aiVertexWeight</code> which basically tells us how much influence this <code>aiBone</code> will have on what vertices on the mesh. Now we have one more member of <code>aiBone</code> which is offsetMatrix. It&rsquo;s a 4x4 matrix used to transform vertices from model space to their bone space. You can see this in action in images below&hellip;.</p>
-<p><a href="#R-image-e38364a6ebf021295c706551cb1d2ab0" class="lightbox-link"><img src="./assets/mesh_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e38364a6ebf021295c706551cb1d2ab0"><img src="./assets/mesh_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
-<p><a href="#R-image-4e598c64c7138de4d1a4ab681f4b9a88" class="lightbox-link"><img src="./assets/bone_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4e598c64c7138de4d1a4ab681f4b9a88"><img src="./assets/bone_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-058e25175d291c1392e7a1bea26db83f" class="lightbox-link"><img src="./assets/mesh_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-058e25175d291c1392e7a1bea26db83f"><img src="./assets/mesh_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-d07342625b77126b3112ce09998ae05b" class="lightbox-link"><img src="./assets/bone_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d07342625b77126b3112ce09998ae05b"><img src="./assets/bone_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>When vertices are in bone space they will be transformed relative to their bone as they are supposed to. You will soon see this in action in code.</p>
 <h5 id="finally-lets-code">Finally! Let&rsquo;s code.</h5>
 <p>Thank you for making it this far. We will start with directly looking at the end result which is our final vertex shader code. This will give us good sense what we need at the end..</p>
@@ -749,8 +749,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 <p>Phew! You deserve a coffee break at this point.</p>
 <h5 id="boneanimation--animator-classes">Bone,Animation &amp; Animator classes</h5>
 <p>Here&rsquo;s high level view of classes..</p>
-<p><a href="#R-image-fe48d21db893ae7516a3b754d4588c74" class="lightbox-link"><img src="./assets/bird_eye_view.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-fe48d21db893ae7516a3b754d4588c74"><img src="./assets/bird_eye_view.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e11aa682ab206c018510f8fe49e8d987" class="lightbox-link"><img src="./assets/bird_eye_view.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e11aa682ab206c018510f8fe49e8d987"><img src="./assets/bird_eye_view.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Let us remind ourselves what we are trying to achieve. For each rendering frame we want to interpolate all bones in heirarchy smoothly and get their final transformations matrices which will be supplied to shader uniform <code>finalBonesMatrices</code>. Here&rsquo;s what each class does&hellip;</p>
 <p><strong>Bone</strong> : A single bone which reads all keyframes data from <code>aiNodeAnim</code>. It will also interpolate between its keys i.e Translation,Scale &amp; Rotation based on the current animation time.</p>
 <p><strong>AssimpNodeData</strong> : This struct will help us to isolate our <code>**Animation** from Assimp.</code></p>
@@ -950,8 +950,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 </span></span><span class="line"><span class="ln">191</span><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="ln">192</span><span class="cl">	
 </span></span><span class="line"><span class="ln">193</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>We start by creating 3 structs for our key types. Each struct holds a value and a time stamp. Timestamp tells us at what point of an animation we need to interpolate to its value. <code>Bone</code> has a constructor which reads from <code>aiNodeAnim</code> and stores keys and their timestamps to <code>mPositionKeys, mRotationKeys &amp; mScalingKeys </code>. The main interpolation process starts from <code>Update(float animationTime)</code> which gets called every frame. This function calls respective interpolation functions for all key types and combines all final interpolation results and store it to a 4x4 Matrix <code>m_LocalTransform</code>. The interpolations functions for translation &amp; scale keys are similar but for rotation we are using <code>Slerp</code> to interpolate between quaternions. Both <code>Lerp</code> &amp; <code>Slerp</code> takes 3 arguments. First argument takes last key, second argument takes next key and third argument takes value of range 0-1,we call it scale factor here. Let&rsquo;s see how we calculate this scale factor in function <code>GetScaleFactor</code>&hellip;</p>
-<p><a href="#R-image-7927632e07def51c8ecf23eea97dd7bd" class="lightbox-link"><img src="./assets/scale_factor.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-7927632e07def51c8ecf23eea97dd7bd"><img src="./assets/scale_factor.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-f3bd35eaf3315e69cae128dc4e0a7a45" class="lightbox-link"><img src="./assets/scale_factor.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f3bd35eaf3315e69cae128dc4e0a7a45"><img src="./assets/scale_factor.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In code&hellip;</p>
 <p><strong>float midWayLength = animationTime - lastTimeStamp;</strong></p>
 <p><strong>float framesDiff = nextTimeStamp - lastTimeStamp;</strong></p>
@@ -1196,8 +1196,8 @@ In this article, we are scratching the surface of this topic a bit further, sinc
 </span></span></span><span class="line"><span class="ln">63</span><span class="cl"><span class="c1"></span>    <span class="c1">// ------------------------------------------------------------------
 </span></span></span><span class="line"><span class="ln">64</span><span class="cl"><span class="c1"></span>    <span class="n">glfwTerminate</span><span class="p">();</span>
 </span></span><span class="line"><span class="ln">65</span><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span></span></span></code></pre></div><p>We start with loading our <code>Model</code> which will setup bone weight data for the shader and then create an <code>Animation</code> by giving it the path. Then we create our <code>Animator</code> object by passing it the created <code>Animation</code>. In render loop we then update our <code>Animator</code>, take the final bone transformations and give it to shaders. Here&rsquo;s the output we all have been waiting for&hellip;</p>
-<p><a href="#R-image-a76d0d0067c821402d8b36a3ce7f1732" class="lightbox-link"><img src="./assets/output.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-a76d0d0067c821402d8b36a3ce7f1732"><img src="./assets/output.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-3e7d5307ce0bd400ce9af0e2dd86317d" class="lightbox-link"><img src="./assets/output.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-3e7d5307ce0bd400ce9af0e2dd86317d"><img src="./assets/output.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>Download the model used from <a href="https://learnopengl.com/Model-Loading/Assimp" target="_blank">Here.</a> Note that animations and meshes are baked in single DAE(collada) file. You can find the full source code for this demo <a href="https://learnopengl.com/code_viewer_gh.php?code=src/8.guest/2020/skeletal_animation/skeletal_animation.cpp" target="_blank">here</a>.</p>
 <h5 id="further-reading-2">Further reading</h5>
 <ul>
@@ -1229,12 +1229,12 @@ In this article, we are scratching the surface of this topic a bit further, sinc
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -1433,13 +1433,13 @@ In this article, we are scratching the surface of this topic a bit further, sinc
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235101"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235101" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235101" defer></script>
+    <script src="../../../../../js/theme.js?1708235101" defer></script>
   </body>
 </html>

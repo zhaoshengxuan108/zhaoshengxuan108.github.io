@@ -24,19 +24,19 @@ We know that shadow mapping is a two-pass technique and that in the first pass t
     <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" rel="canonical" type="text/html" title="Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
-    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235002"></script>
-    <script src="../../../../../js/variant.js?1708235002"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235103" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235103" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235103" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235103"></script>
+    <script src="../../../../../js/variant.js?1708235103"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -313,8 +313,8 @@ We know that shadow mapping is a two-pass technique and that in the first pass t
 </span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">m_pMesh</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">();</span>
 </span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The render pass starts the same way as in the previous tutorial - we clear both the depth and color buffers, replace the shadow map technique with the lighting technique and bind the shadow map frame buffer object for reading on texture unit 1. Next we render the quad so that it will serve as the ground on which the shadow will appear. It is scaled up a bit, rotated 90 degrees around the X axis (because originally it is facing the camera) and positioned. Note how the WVP is updated based on the location of the camera but for the light WVP we move the camera to the light position. Since the quad model comes without its own texture we manually bind a texture here. The mesh is rendered in the same way.</p>
 <p>Here&rsquo;s an example of the shadow:</p>
-<p><a href="#R-image-7aa196d34f48082611df66ac92bc2473" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/../assets/shadow.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-7aa196d34f48082611df66ac92bc2473"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/../assets/shadow.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-974b17007de7ad740e52dad4102cd33a" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/../assets/shadow.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-974b17007de7ad740e52dad4102cd33a"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/../assets/shadow.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p><a href="https://ogldev.org/www/tutorial25/tutorial25.html" target="_blank">
 </a></p>
 
@@ -325,8 +325,8 @@ We know that shadow mapping is a two-pass technique and that in the first pass t
         </div>
       </main>
     </div>
-    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
-    <script src="../../../../../js/theme.js?1708235002" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235103" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235103" defer></script>
+    <script src="../../../../../js/theme.js?1708235103" defer></script>
   </body>
 </html>

@@ -22,19 +22,19 @@
     <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" rel="canonical" type="text/html" title="Tutorial 37:Deferred Shading - Part 3 :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 37:Deferred Shading - Part 3 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
-    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
-    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235002"></script>
-    <script src="../../../../../js/variant.js?1708235002"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235103" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235103" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235103" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235103" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235103" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235103" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235103"></script>
+    <script src="../../../../../js/variant.js?1708235103"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -121,8 +121,8 @@
 </ul>
 <p>In addition, you can configure different stencil tests and stencil operations for the two faces of each polygon. For example, you can set the comparison function for the front face to be &lsquo;Less Than&rsquo; with a reference value of 3 while the comparison function for the back face is &lsquo;Equal&rsquo; with a reference value of 5. The same goes for the stencil operation.</p>
 <p>This, in a nutshell, is the stencil test. So how can it help us solve the above problems? Well, we are going to take advantage of the ability to increment and decrement the stencil value based on the result of the depth test on the front and back faces of the polygons. Consider the following picture:</p>
-<p><a href="#R-image-201d16bd033c435221ad3fbb543bd025" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-201d16bd033c435221ad3fbb543bd025"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-e6648801ac9b25deea1a6eda33f853cd" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e6648801ac9b25deea1a6eda33f853cd"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The picture shows 3 objects - A, B and C and a yellow sphere that is centered on a light source. The sphere gets projected on the virtual screen and according to the previous tutorial we need to render the light volume and for each rasterized pixel calculate the lighting effect. It is very simple to see that while the entire red line (in reality this is a rectangle because we are looking down at the scene) will reach the fragment shader only a very small subset of it is really relevant because only object B is inside the light volume. Both A and C are outside of it and there are many pixels in the G buffer that don&rsquo;t contain any data at all because there is no object along the way.</p>
 <p>The way we are going to use the stencil buffer to limit the lighting calculations only to the pixels covered by object B is based on the same concept used in a shadowing technique known as <em>Stencil Shadow Volumes</em> (which will be covered by dedicated tutorial sometime in the future&hellip;). Our technique is based on the following interesting property which is evident in the picture above: when we look at the sphere from the camera point of view both its front and back face polygons are behind object A, the same polygons are infront of object C but in the case of object B the front face polygons are infront of it but the back face polygons are behind it. Let&rsquo;s see how we can take advantage of it in the context of the stencil test.</p>
 <p>The techique works as follows:</p>
@@ -136,13 +136,13 @@
 <li>Render the light sphere.</li>
 </ol>
 <p>Let&rsquo;s see the effect of the above scheme on the picture above:</p>
-<p><a href="#R-image-304dae739e0de66c5d639ce581836757" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-304dae739e0de66c5d639ce581836757"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-31dadc2a0228b3c0c6b675a5f4da0add" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-31dadc2a0228b3c0c6b675a5f4da0add"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The picture shows three example vectors from the camera to the screen that cross both the sphere and one of the objects. Each vector is representative for all pixels covered by that particular object. Since the geometry was already rendered and the depth buffer is populated we can check what happens to the depth test when the vector goes through the front and back pixels of the sphere and update the stencil buffer accordingly. In the case of object A both the front and the back pixels fail the depth test. The back face pixel increments the stencil value but this is nullified by the front pixel which decrements it. In the case of object C both the front and back pixels win the depth test so the stencil value remains unchanged. Now pay attention to what happens to object B - the front face pixel wins the depth test but the back face pixel fails it. This means that we increment the value by one.</p>
 <p>This is the core of the technique. We render the geometry into the G buffer, setup the stencil test/operation according to the above and then render the bounding sphere of each light into the stencil buffer. The peculiar stencil setup that we saw guarantees that only the pixels in the stencil buffer covered by objects <strong>inside</strong> the bounding sphere will have a value greater than zero. We call this step the <em>Stencil Pass</em> and since we are only interested in writing into the stencil buffer we use a null fragment shader. Next we render the sphere again using the lighting fragment shader but this time we configure the stencil test to pass only when the stencil value of the pixel is different from zero. All the pixels of objects outside the light volume will fail the stencil test and we will calculate lighting on a very small subset of the pixels that are actually covered by the light sphere.</p>
 <p>Let&rsquo;s see another example, this time with more light sources:</p>
-<p><a href="#R-image-8017ffad7eb8ee66b5cc8197cc270718" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-8017ffad7eb8ee66b5cc8197cc270718"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-0efafb4bdce5f1f17ac3b4ec4632e7bf" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-0efafb4bdce5f1f17ac3b4ec4632e7bf"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/../assets/light_volume2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>As you can see, the logic still works (the case when the camera is inside the light source is left as an exercise for the reader).</p>
 <p>One last note about the stencil buffer - it is not a separate buffer but actually part of the depth buffer. You can have depth/stencil buffer with 24 or 32 bits for depth and 8 bits for stencil in each pixel.</p>
 <h3 id="source-walkthru">Source walkthru</h3>
@@ -390,8 +390,8 @@
         </div>
       </main>
     </div>
-    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
-    <script src="../../../../../js/theme.js?1708235002" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235103" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235103" defer></script>
+    <script src="../../../../../js/theme.js?1708235103" defer></script>
   </body>
 </html>

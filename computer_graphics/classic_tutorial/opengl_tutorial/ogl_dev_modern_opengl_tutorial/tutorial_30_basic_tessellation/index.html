@@ -22,18 +22,18 @@
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 30:Basic Tessellation :: Hugo Relearn Theme">
     <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.print.html" rel="alternate" type="text/html" title="Tutorial 30:Basic Tessellation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
-    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
-    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
-    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
-    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
-    <script src="../../../../../js/url.js?1708235000"></script>
-    <script src="../../../../../js/variant.js?1708235000"></script>
+    <link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235101" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235101" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235101" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235101" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235101" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235101" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235101"></script>
+    <script src="../../../../../js/variant.js?1708235101"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -144,19 +144,19 @@
 <p>One possible way to solve this problem using the existing features of OpenGL is to generate the same model at multiple levels of detail (LOD). For example, highly detailed, average and low. We can then select the version to use based on the distance from the camera. This, however, will require more artist resources and often will not be flexible enough. What we need is a way to start with a low polygon model and subdivide each triangle on the fly into smaller triangles. This, in a nutshell, is Tessellation. Being able to do all this dynamically on the GPU and also select the level of detail per triangle is part of what the Tessellation pipeline in OpenGL 4.x provides.</p>
 <p>Tessellation has been defined and integrated into the OpenGL spec after several years of research both in the academia as well as the industry. Its design was heavily influenced by the mathematical background of geometric surfaces and curves, Bezier patches and subdivision. We will engage Tessellation in two steps. In this tutorial we will focus on the new mechanics of the pipeline in order to get Tessellation up and running without too much mathematical hassle. The technique itself will be simple but it will expose all the relevant components. In the next tutorial we will study Bezier patches and see how to apply them to a Tessellation technique.</p>
 <p>Let&rsquo;s take a look at how Tessellation has been implemented in the graphics pipeline. The core components that are responsible for Tessellation are two new shader stages and in between them a fixed function stage that can be configured to some degree but does not run a shader. The first shader stage is called <em>Tessellation Control Shader</em> (TCS), the fixed function stage is called the <em>Primitive Generator</em> (PG), and the second shader stage is called <em>Tessellation Evaluation Shader</em> (TES). Here&rsquo;s a diagram showing the location of the new stages in the pipeline:</p>
-<p><a href="#R-image-ade89895639c00c80ef2e42c63540608" class="lightbox-link"><img src="../assets/pipeline.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-ade89895639c00c80ef2e42c63540608"><img src="../assets/pipeline.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-89e1f29101d44996096e6aab5e3b8f2f" class="lightbox-link"><img src="../assets/pipeline.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-89e1f29101d44996096e6aab5e3b8f2f"><img src="../assets/pipeline.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The TCS works on a group of vertices called <em>Control Points</em> (CP). The CPs don&rsquo;t have a well defined polygonal form such as a triangle, square, pentagon or whatever. Instead, they define a geometric surface. This surface is usually defined by some polynomial formula and the idea is that moving a CP has an effect on the entire surface. You are probably familiar with some graphic software that allows you to define surfaces or curves using a set of CPs and shape them by moving the CPs. The group of CPs is usually called a <em>Patch</em>. The yellow surface in the following picture is defined by a patch with 16 CPs:</p>
-<p><a href="#R-image-415f621da8c17af88994f0037dbf0f05" class="lightbox-link"><img src="../assets/patch.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-415f621da8c17af88994f0037dbf0f05"><img src="../assets/patch.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-1d5b2104a20302c821cd33d5c4b60c51" class="lightbox-link"><img src="../assets/patch.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1d5b2104a20302c821cd33d5c4b60c51"><img src="../assets/patch.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The TCS takes an input patch and emits an output patch. The developer has the option in the shader to do some transformation on the CPs or even add/delete CPs. In addition to the output patch the control shader calculates a set of numbers called <em>Tessellation Levels</em> (TL). The TLs determine the Tessellation level of detail - how many triangles to generate for the patch. Since all this happens in a shader the developer has the freedom to use any algorithm in order to calculate the TLs. For example, we can decide that the TLs will be 3 if the rasterized triangle is going to cover less than a 100 pixels, 7 in case of 101 to 500 pixels and 12.5 for everything above that (we will later see how the value of the TL translates into coarser or finer Tesssellation). Another algoritm can be based on a distance from the camera. The nice thing about all of this is that each patch can get different TLs according to its own characteristics.</p>
 <p>After the TCS finishes comes the fixed function PG whose job is to do the actual subdivision. This is probably the most confusing point for newcomers. The thing is that the PG doesn&rsquo;t really subdivides the output patch of the TCS. In fact, it doesn&rsquo;t even have access to it. Instead, it takes the TLs and subdivides what is called a <em>Domain</em>. The domain can either be a normalized (in the range of 0.0-1.0) square of 2D coordinates or an equilateral triangle defined by 3D barycentric coordinates:</p>
-<p><a href="#R-image-707714483e4b9766d399cd37188a42a5" class="lightbox-link"><img src="../assets/domains.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-707714483e4b9766d399cd37188a42a5"><img src="../assets/domains.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-96c363c03260c8654515757871539eea" class="lightbox-link"><img src="../assets/domains.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-96c363c03260c8654515757871539eea"><img src="../assets/domains.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p><a href="http://mathworld.wolfram.com/BarycentricCoordinates.html" target="_blank">Barycentric coordinates</a> of a triangle is a method of defining a location inside a triangle as a combination of the weight of the three vertices. The vertices of the triangle as designated as U, V and W and as the location gets closer to one vertex its weight increases while the weight of the other vertices decreases. If the location is exactly on a vertex the weight of that vertex is 1 while the other two are zero. For example, the barycentric coordinate of U is (1,0,0), V is (0,1,0) and W is (0,0,1). The center of the triangle is on the barycentric coordinate of (1/3,1/3,1/3). The interesting property of barycentric coordinates is that if we sum up the individual components of the barycentric coordinate of each and every point inside the triange we always get 1. For simplicity let&rsquo;s focus on the triangle domain from now on.</p>
 <p>The PG takes the TLs and based on their values generates a set of points inside the triangle. Each point is defined by its own barycentric coordinate. The developer can configure the output topology to be either points or triangles. If points are chosen then the PG simply sends them down the pipeline to be rasterized as points. If triangles are chosen the PG connects all the points together so that the entire face of the triangle is tessellated with smaller triangles:</p>
-<p><a href="#R-image-a148e42206d93a856cfa0dcda6e888fc" class="lightbox-link"><img src="../assets/subdivision.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-a148e42206d93a856cfa0dcda6e888fc"><img src="../assets/subdivision.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-36cb162d721f03ca55cebeb2d51cb73f" class="lightbox-link"><img src="../assets/subdivision.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-36cb162d721f03ca55cebeb2d51cb73f"><img src="../assets/subdivision.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>In general, the TLs tell the PG the number of segments on the outer edge of the triangle and the number rings towards the center</p>
 <p>So how do the small triangles in the above picture relate to the patch that we saw earlier? Well, it depends on what you want to do with Tessellation. One very simple option (and the one that we will use in this tutorial) is to skip the whole notion of curved geometric surfaces with their polynomial representation and simply say that the triangles from your model are simply mapped to patches. In that case the 3 triangle vertices become our 3 CPs and the original triangle is both the input and output patch of the TCS. We use the PG to tessellate the triangle domain and generate small &ldquo;generic&rdquo; triangles represented by barycentric coordinates and use a linear combination of these coordinates (i.e. multiply them by the attributes of the original triangle) in order to tessellate the triangles of the original model. In the next tutorial we will see an actual use of the patch as a representative of a geometric surface. At any rate, remember that the PG ignores both the input and output patch of the TCS. All it cares about are the per patch TLs.</p>
 <p>So after the PG has finished subdividing the triangle domain we still need someone to take the results of this subdivision and do something with it. After all, the PG doesn&rsquo;t even have access to the patch. Its only output are barycentric coordinates and their connectivity. Enter the TES. This shader stage has access both to the output patch of the TCS and the barycentric coordinates that the PG generated. The PG executes the TES on every barycentric coordinate and the job of the TES is to generate a vertex for that point. Since the TES has access to the patch it can take stuff from it such as position, normal, etc and use them to generate the vertex. After the PG executes the TES on the three barycentric coordinates of a &ldquo;small&rdquo; triangle it takes the three vertices the TES generated and sends them down as a complete triangle for rasterization.</p>
@@ -230,8 +230,8 @@
 </span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">gl_TessLevelOuter</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetTessLevel</span><span class="p">(</span><span class="n">EyeToVertexDistance0</span><span class="p">,</span> <span class="n">EyeToVertexDistance1</span><span class="p">);</span>  
 </span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">gl_TessLevelInner</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gl_TessLevelOuter</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
 </span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>After generating the output patch we calculate the TLs. The TLs can be set differently for each output patch. OpenGL provides two builtin arrays of floating points for the TLs: gl_TessLevelOuter (size 4) and gl_TessLevelInner (size 2). In the case of a triangle domain we can use only the first 3 members of gl_TessLevelOuter and the first member from gl_TessLevelInner (in addition to the triangle domain there are also the quad and isoline domain that provide different access to arrays). gl_TessLevelOuter[] roughly determines the number of segments on each edge and gl_TessLevelInner[0] roughly determines how many rings the triangle will contain. If we designate the triangle vertices as U, V and W then the corresponding edge for each vertex is the one which is opposite to it:</p>
-<p><a href="#R-image-67460fe29636e9a2ee6b7c23f3b9eadc" class="lightbox-link"><img src="../assets/domain.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-67460fe29636e9a2ee6b7c23f3b9eadc"><img src="../assets/domain.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="#R-image-ba8fbd61a3ebbfacf0ee181888b7c702" class="lightbox-link"><img src="../assets/domain.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ba8fbd61a3ebbfacf0ee181888b7c702"><img src="../assets/domain.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
 <p>The algorithm we use to calculate the TLs is very simple and is based on the distance in world space between the camera and the vertices. It is implemented in the function GetTessLevel (see below). We calculate the distance between the camera and each vertex and call GetTessLevel() three times to update each member in gl_TessLevelOuter[]. Each entry is mapped to an edge according to the picture above (TL of edge 0 goes to gl_TessLevelOuter[0], etc) and the TL for that edge is calculated based on the distance from the camera to the two vertices that create it. The inner TL is selected the same as the TL of edge W.</p>
 <p>You can use any algorithm that you want to calculate the TLs. For example, one algorithm estimates the size of the final triangle on the screen in pixels and sets the TLs such that no tessellated triangle becomes smaller than a given number of pixels.</p>
 <p>(lighting.cs:18)</p>
@@ -339,12 +339,12 @@ Thanks Markus Fjellheim for the tip.</p>
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
-        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
-        <script src="../../../../../js/search.js?1708235000" defer></script>
+        <script src="../../../../../js/auto-complete.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235101" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235101" defer></script>
+        <script src="../../../../../js/search.js?1708235101" defer></script>
       </div>
       <div id="R-homelinks" class="default-animation homelinks">
         <ul>
@@ -542,13 +542,13 @@ Thanks Markus Fjellheim for the tip.</p>
               setTimeout( githubButtonsInit, 400 );
             });
           </script>
-          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          <script async src="../../../../../js/github-buttons.js?1708235101"></script>
           </div>
         </div>
       </div>
     </aside>
-    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
-    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
-    <script src="../../../../../js/theme.js?1708235000" defer></script>
+    <script src="../../../../../js/clipboard.min.js?1708235101" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235101" defer></script>
+    <script src="../../../../../js/theme.js?1708235101" defer></script>
   </body>
 </html>
