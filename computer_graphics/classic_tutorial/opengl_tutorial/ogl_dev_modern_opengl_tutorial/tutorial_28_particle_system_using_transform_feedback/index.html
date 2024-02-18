@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background Particle System is a general name of a large number of techniques that simulate natural phenomena such as smoke, dust, fireworks, rain, etc. The common theme in all these phenomena is that they are composed of a large amount of small particles that move together in a way which is characteristic of each type of phenomenon.
+In order to simulate a natural phenomenon made from particles we usually maintain the position as well as other attributes for each particle (velocity, color, etc) and perform the following steps once per frame:">
+    <meta property="og:title" content="Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background Particle System is a general name of a large number of techniques that simulate natural phenomena such as smoke, dust, fireworks, rain, etc. The common theme in all these phenomena is that they are composed of a large amount of small particles that move together in a way which is characteristic of each type of phenomenon.
+In order to simulate a natural phenomenon made from particles we usually maintain the position as well as other attributes for each particle (velocity, color, etc) and perform the following steps once per frame:">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.print.html" rel="alternate" type="text/html" title="Tutorial 28:Particle System using Transform Feedback :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#source-walkthru">Source walkthru</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 28:Particle System using Transform Feedback</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" title="Tutorial 27:Billboarding and the Geometry Shader (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" title="Tutorial 29:3D Picking (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-28particle-system-using-transform-feedback">Tutorial 28:Particle System using Transform Feedback</h1>
+
+<h3 id="background">Background</h3>
+<p><em>Particle System</em> is a general name of a large number of techniques that simulate natural phenomena such as smoke, dust, fireworks, rain, etc. The common theme in all these phenomena is that they are composed of a large amount of small particles that move together in a way which is characteristic of each type of phenomenon.</p>
+<p>In order to simulate a natural phenomenon made from particles we usually maintain the position as well as other attributes for each particle (velocity, color, etc) and perform the following steps once per frame:</p>
+<ol>
+<li>Update the attributes of each particle. This step usually involves some math calculations (ranging from very simple to very complex - depending on the complexity of the phenomenon).</li>
+<li>Render the particles (as simple colored points or full blown texture mapped billboard quads).</li>
+</ol>
+<p>In the past step 1 usually took place on the CPU. The application would access the vertex buffer, scan its contents and update the attributes of each and every particle. Step 2 was more straightforward and took place on the GPU as any other type of rendering. There are two problems with this approach:</p>
+<ol>
+<li>Updating the particles on the CPU requires the OpenGL driver to copy the contents of the vertex buffer from the GPU memory (on discrete cards this means over the PCI bus) to the CPU memory. The phenomena that we are insterested in usually require a large amount of particles. 10,000 particles is not a rare number in that regard. If each particle takes up 64 bytes and we are running at 60 frames per second (very good frame rate) this means copying back and forth 640K from the GPU to the CPU 60 times each second. This can have an negative effect on the performance of the application. As the number of particles grows larger the effect increases.</li>
+<li>Updating the particle attributes means running the same mathematical formula on different data items. This is a perfect example of distributed computing that the GPU excels at. Running it on the CPU means serializing the entire update process. If our CPU is multi core we can take advantage of it and reduce the total amount of time but that requires more work from the application. Running the update process on the GPU means that we get parallel execution for free.</li>
+</ol>
+<p>DirectX10 introduced a new feature known as <em>Stream Output</em> that is very useful for implementing particle systems. OpenGL followed in version 3.0 with the same feature and named it <em>Transform Feedback</em>. The idea behind this feature is that we can connect a special type of buffer (called <em>Transform Feedback Buffer</em> right after the GS (or the VS if the GS is absent) and send our transformed primitives to it. In addition, we can decide whether the primitives will also continue on their regular route to the rasterizer. The same buffer can be connected as a vertex buffer in the next draw and provide the vertices that were output in the previous draw as input into the next draw. This loop enables the two steps above to take place entirely on the GPU with no application involvement (other than connecting the proper buffers for each draw and setting up some state). The following diagram shows the new architecture of the pipeline:</p>
+<p><a href="#R-image-4ac7695a33be12e6a72bba671901989d" class="lightbox-link"><img src="../assets/pipeline.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4ac7695a33be12e6a72bba671901989d"><img src="../assets/pipeline.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>How many primitives end up in the transform feedback buffer? well, if there is no GS the answer is simple - it is based on the number of vertices from the draw call parameters. However, if the GS is present the number of primitives is unknown. Since the GS is capable of creating and destroying primitives on the fly (and can also include loops and branches) we cannot always calculate the total number of primitives that will end up in the buffer. So how can we draw from it later when we don&rsquo;t know exactly the number of vertices it contains? To overcome this challenge transform feedback also introduced a new type of draw call that does not take the number of vertices as a parameter. The system automatically tracks the number of vertices for us for each buffer and later uses that number internally when the buffer is used for input. If we append several times to the transform feedback buffer (by drawing into it several times without using it as input) the number of vertices is increased accordingly. We have the option of reseting the offset inside the buffer whenever we want and the system will also reset the number of vertices.</p>
+<p>In this tutorial we will use transform feedback in order to simulate the effect of fireworks. Fireworks are relatively easy to simulate in terms of the math involved so we will be able to focus on getting transform feedback up and running. The same framework can later be used for other types of particle systems as well.</p>
+<p>OpenGL enforces a general limitation that the same resource cannot be bound for both input and output in the same draw call. This means that if we want to update the particles in a vertex buffer we actually need two transform feedback buffers and toggle between them. On frame 0 we will update the particles in buffer A and render the particles from buffer B and on frame 1 we will update the particles in buffer B and render the particles from buffer A. All this is transparent to the viewer.</p>
+<p>In addition, we will also have two techniques - one technique will be responsible for updating the particles and the other for rendering. We will use the billboarding technique from the previous tutorial for rendering so make sure you are familiar with it.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(particle_system.h:29)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">ParticleSystem</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">ParticleSystem</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="o">~</span><span class="n">ParticleSystem</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">bool</span> <span class="nf">InitParticleSystem</span><span class="p">(</span><span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Pos</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">void</span> <span class="nf">Render</span><span class="p">(</span><span class="kt">int</span> <span class="n">DeltaTimeMillis</span><span class="p">,</span> <span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">VP</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">CameraPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="kt">bool</span> <span class="n">m_isFirst</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">m_currVB</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">m_currTFB</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_particleBuffer</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_transformFeedback</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">PSUpdateTechnique</span> <span class="n">m_updateTechnique</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">BillboardTechnique</span> <span class="n">m_billboardTechnique</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">RandomTexture</span> <span class="n">m_randomTexture</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">Texture</span><span class="o">*</span> <span class="n">m_pTexture</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="kt">int</span> <span class="n">m_time</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>The ParticleSystem class encapsulates all the mechanics involved in managing the transform feedback buffer. One instance of this class is created by the application and initialized with the world space position of the fireworks launcher. In the main render loop the ParticleSystem::Render() function is called and takes three parameters: the delta time from the previous call in milliseconds, the product of the viewport and projection matrices and the world space position of the camera. The class also has a few attributes: an indicator for the first time Render() is called, two indices that specify which buffer is currently the vertex buffer (input) and which is the transform feedback buffer (output), two handles for the vertex buffers, two handles for the transform feedback objects, the update and render techniques, a texture that contains random numbers, the texture that will be mapped on the particles and the current global time variable.</p>
+<p>(particle_system.cpp:31)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">Particle</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="kt">float</span> <span class="n">Type</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Pos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Vel</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="kt">float</span> <span class="n">LifetimeMillis</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>Each particle has the above structure. A particle can be either a launcher, a shell or a secondary shell. The launcher is static and is responsible for generating the other particles. It is unique in the system. The launcher periodically creates shell particles and fires them upwards. After a few seconds the shells explode into secondary shells that fly into random directions. All particles except the launcher has a lifetime which is tracked by the system in milliseconds. When the lifetime reaches a certain threshold the particle is removed. Each particle also has a current position and velocity. When a particle is created it is given some velocity (a vector). This velocity is influenced by gravity which pulls the particle down. On every frame we use the velocity to update the world position of the particle. This position is used later to render the particle.</p>
+<p>(particle_system.cpp:67)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">ParticleSystem</span><span class="o">::</span><span class="n">InitParticleSystem</span><span class="p">(</span><span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Pos</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Particle</span> <span class="n">Particles</span><span class="p">[</span><span class="n">MAX_PARTICLES</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">ZERO_MEM</span><span class="p">(</span><span class="n">Particles</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">Particles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Type</span> <span class="o">=</span> <span class="n">PARTICLE_TYPE_LAUNCHER</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">Particles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Pos</span> <span class="o">=</span> <span class="n">Pos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">Particles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Vel</span> <span class="o">=</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0001f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">Particles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">LifetimeMillis</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">glGenTransformFeedbacks</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">m_transformFeedback</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">m_particleBuffer</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="n">glBindTransformFeedback</span><span class="p">(</span><span class="n">GL_TRANSFORM_FEEDBACK</span><span class="p">,</span> <span class="n">m_transformFeedback</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_particleBuffer</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Particles</span><span class="p">),</span> <span class="n">Particles</span><span class="p">,</span> <span class="n">GL_DYNAMIC_DRAW</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">glBindBufferBase</span><span class="p">(</span><span class="n">GL_TRANSFORM_FEEDBACK_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m_particleBuffer</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span></span></span></code></pre></div><p>This is the first part of the initialization of the particle system. We set up storage for all the particles on the stack and initialize just the first particle as a launcher (the remaining particles will be created at render time). The position of the launcher is also the starting position of all the particles it is going to create and the velocity of the launcher is their starting velocity (the launcher itself is static). We are going to use two transform feedback buffers and toggle between them (drawing into one while using the other as input and vice verse) so we create two transform feedback objects using the function glGenTransformFeedbacks. The transform feedback object encapsulates all the state that is attached to the transform feedback object. We also create two buffer objects - one for each transform feedback object. We then perform the same series of operations for both objects (see below).</p>
+<p>We start by binding a transform feedback object to the GL_TRANSFORM_FEEDBACK target using glBindTransformFeedback() function. This makes the object &ldquo;current&rdquo; so that following operations (relevant to transform feedback) are performed on it. Next we bind the the corresponding buffer object to the GL_ARRAY_BUFFER which makes it a regular vertex buffer and load the contents of the particle array into it. Finally we bind the corresponding buffer object to the GL_TRANSFORM_FEEDBACK_BUFFER target and specify the buffer index as zero. This makes this buffer a transform feedback buffer and places it as index zero. We can have the primitives redirected into more than one buffer by binding several buffers at different indices. Here we only need one buffer. So now we have two transform feedback objects with corresponding buffer objects that can serve both as vertex buffers as well as transform feedback buffers.</p>
+<p>We won&rsquo;t review the remainder of the InitParticleSystem() function because there is nothing new there. We simply need to initialize the two techniques (members of the ParticleSystem class) and set some static state into them as well as load the texture that will be mapped on the particles. Check the code for more details.</p>
+<p>(particle_system.cpp:124)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">ParticleSystem</span><span class="o">::</span><span class="n">Render</span><span class="p">(</span><span class="kt">int</span> <span class="n">DeltaTimeMillis</span><span class="p">,</span> <span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">VP</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">CameraPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_time</span> <span class="o">+=</span> <span class="n">DeltaTimeMillis</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">UpdateParticles</span><span class="p">(</span><span class="n">DeltaTimeMillis</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">RenderParticles</span><span class="p">(</span><span class="n">VP</span><span class="p">,</span> <span class="n">CameraPos</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">m_currVB</span> <span class="o">=</span> <span class="n">m_currTFB</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">m_currTFB</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_currTFB</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the main render function of the ParticleSystem class. It is responsible for updating the global time counter and toggling between the two buffer indices (&rsquo;m_currVB&rsquo; is the current vertex buffer and is initialized to 0 while &rsquo;m_currTFB&rsquo; is the current transform feedback buffer and is initialized to 1). The main job of this function is to call the two private functions that update the particle attributes and then render them. Let&rsquo;s take a look at how we update the particles.</p>
+<p>(particle_system.cpp:137)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">ParticleSystem</span><span class="o">::</span><span class="n">UpdateParticles</span><span class="p">(</span><span class="kt">int</span> <span class="n">DeltaTimeMillis</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">m_updateTechnique</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">m_updateTechnique</span><span class="p">.</span><span class="n">SetTime</span><span class="p">(</span><span class="n">m_time</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">m_updateTechnique</span><span class="p">.</span><span class="n">SetDeltaTimeMillis</span><span class="p">(</span><span class="n">DeltaTimeMillis</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="n">m_randomTexture</span><span class="p">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">RANDOM_TEXTURE_UNIT</span><span class="p">);</span></span></span></code></pre></div><p>We start the particle update by enabling the corresponding technique and setting some dynamic state into it. The technique will need to know the amount of time that has passed from the previous render because this is the factor in the movement equation and it needs the global time as a semi random seed for accessing the random texture. We dedicate GL_TEXTURE3 as the texture unit for binding random textures. The random texture is used to provide directions for the generated particles (we will later see how this texture is created).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_RASTERIZER_DISCARD</span><span class="p">);</span></span></span></code></pre></div><p>The next function call is something that we haven&rsquo;t seen before. Since the only purpose of the draw call further down this function is to update the transform feedback buffer we prefer to cut the flow of primitives after that and prevent them from also being rasterized to the screen. We have another draw call later on that does that. Calling glEnable() with the GL_RASTERIZER_DISCARD flag tells the pipeline to discard all primitives before they reach the rasterizer (but after the optional transform feedback stage).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_particleBuffer</span><span class="p">[</span><span class="n">m_currVB</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">  <span class="n">glBindTransformFeedback</span><span class="p">(</span><span class="n">GL_TRANSFORM_FEEDBACK</span><span class="p">,</span> <span class="n">m_transformFeedback</span><span class="p">[</span><span class="n">m_currTFB</span><span class="p">]);</span></span></span></code></pre></div><p>The next two calls handle the toggling between the roles of the two buffers that we have created. &rsquo;m_currVB&rsquo; is used as an index (either 0 or 1) into the array of VBs and we bind the buffer in that slot as a vertex buffer (for input). &rsquo;m_currTFB&rsquo; is used as an index (always opposing &rsquo;m_currVB&rsquo;) into the transform feedback object array and we bind the object in that slot as transform feedback (which brings along with it the attached state - the actual buffer).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">GL_FLOAT</span><span class="p">,</span><span class="n">GL_FALSE</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Particle</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// type  
+</span></span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="c1"></span>  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">GL_FLOAT</span><span class="p">,</span><span class="n">GL_FALSE</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Particle</span><span class="p">),(</span><span class="k">const</span> <span class="n">GLvoid</span><span class="o">*</span><span class="p">)</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// position  
+</span></span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="c1"></span>  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">GL_FLOAT</span><span class="p">,</span><span class="n">GL_FALSE</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Particle</span><span class="p">),(</span><span class="k">const</span> <span class="n">GLvoid</span><span class="o">*</span><span class="p">)</span><span class="mi">16</span><span class="p">);</span> <span class="c1">// velocity  
+</span></span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="c1"></span>  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">GL_FLOAT</span><span class="p">,</span><span class="n">GL_FALSE</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Particle</span><span class="p">),(</span><span class="k">const</span> <span class="n">GLvoid</span><span class="o">*</span><span class="p">)</span><span class="mi">28</span><span class="p">);</span> <span class="c1">// lifetime
+</span></span></span></code></pre></div><p>We already know the next few function calls. They simply set up the vertex attributes of the particles in the vertex buffer. You will later see how we make sure that the input layout is the same as the output layout.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glBeginTransformFeedback</span><span class="p">(</span><span class="n">GL_POINTS</span><span class="p">);</span></span></span></code></pre></div><p>The real fun starts here. glBeginTransformFeedback() makes transform feedback active. All the draw calls after that, and until glEndTransformFeedback() is called, redirect their output to the transform feedback buffer according to the currently bound transform feedback object. This function also takes a topology parameter. The way transform feedback works is that only complete primitives (i.e. lists) can be written into the buffer. This means that if you draw four vertices in triangle strip topology or six vertices in triangle list topology, you end up with six vertices (two triangles) in the feedback buffer in both cases. The available topologies to this function are therefore:</p>
+<ul>
+<li>GL_POINTS - the draw call topology must also be GL_POINTS.</li>
+<li>GL_LINES - the draw call topology must be GL_LINES, GL_LINE_LOOP or GL_LINE_STRIP.</li>
+<li>GL_TRIANGLES - the draw call topology must be GL_TRIANGLES, GL_TRIANGLE_STRIP or GL_TRIANGLE_FAN.</li>
+</ul>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">m_isFirst</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_POINTS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">m_isFirst</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">6</span><span class="cl">    <span class="n">glDrawTransformFeedback</span><span class="p">(</span><span class="n">GL_POINTS</span><span class="p">,</span> <span class="n">m_transformFeedback</span><span class="p">[</span><span class="n">m_currVB</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="p">}</span></span></span></code></pre></div><p>As described earlier, we have no way of knowing how many particles end up in the buffer and transform feedback supports this. Since we generate and destroy particles based on the launcher frequency and each particle lifetime, we cannot tell the draw call how many particles to process. This is all true - except for the very first draw. In this case we know that our vertex buffer contains only the launcher and the &ldquo;system&rdquo; doesn&rsquo;t have any record of previous transform feedback activity so it cannot tell the number of particles on its own. This is why the first draw must be handled explicitly using a standard glDrawArrays() function of a single point. The remaining draw calls will be done using glDrawTransformFeedback(). This function doesn&rsquo;t need to be told how many vertices to process. It simply checks the input buffer and draws all the vertices that have been previously written into it (when it was bound as a transform feedback buffer). Note that whenever we bind a transform feedback object the number of vertices in the buffer becomes zero because we called glBindBufferBase() on that buffer while the transform feedback object was originally bound (see the initialization part) with the parameter zero as the offset. OpenGL remembers that so we don&rsquo;t need to call glBindBufferBase() again. It simply happens behind the scenes when the transform feedback object is bound.</p>
+<p>glDrawTransformFeedback() takes two parameters. The first one is the topology. The second one is the transform feedback object to which the current vertex buffer is attached. Remember that the currently bound transform feedback object is m_transformFeedback[m_currTFB]. This is the target of the draw call. The number of vertices to process as input comes from the transform feedback object which was bound as a target in the previous time we went through ParticleSystem::UpdateParticles(). If this is confusing, simply remember that when we draw into transform feedback object #1 we want to take the number of vertices to draw from transform feedback #0 and vice versa. Today&rsquo;s input is tomorrow&rsquo;s output.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glEndTransformFeedback</span><span class="p">();</span></span></span></code></pre></div><p>Every call to glBeginTransformFeedback() must be paired with glEndTransformFeedback(). If you miss that things will break pretty quick.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">3</span><span class="p">);}</span></span></span></code></pre></div><p>The end of the function is standard. When we get to this point all the particles have been updated. Let&rsquo;s see how to render them in their new positions.</p>
+<p>(particle_system.cpp:177)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">ParticleSystem</span><span class="o">::</span><span class="n">RenderParticles</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">VP</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">CameraPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">m_billboardTechnique</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">m_billboardTechnique</span><span class="p">.</span><span class="n">SetCameraPosition</span><span class="p">(</span><span class="n">CameraPos</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">m_billboardTechnique</span><span class="p">.</span><span class="n">SetVP</span><span class="p">(</span><span class="n">VP</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="n">m_pTexture</span><span class="o">-&gt;</span><span class="n">Bind</span><span class="p">(</span><span class="n">COLOR_TEXTURE_UNIT</span><span class="p">);</span></span></span></code></pre></div><p>We start the actual rendering by enabling the billboarding technique and setting some state into it. Each particle will be extended into a quad and the texture that we bind here will be mapped on its face.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glDisable</span><span class="p">(</span><span class="n">GL_RASTERIZER_DISCARD</span><span class="p">);</span></span></span></code></pre></div><p>Rasterization was disabled while we were writing into the feedback buffer. We enable it by disabling the GL_RASTERIZER_DISCARD feature.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_particleBuffer</span><span class="p">[</span><span class="n">m_currTFB</span><span class="p">]);</span></span></span></code></pre></div><p>When we wrote into the transform feedback buffer we bound m_transformFeedback[m_currTFB] as the transform feedback object (the target). That object has m_particleBuffer[m_currTFB] as the attached vertex buffer. We now bind this buffer to provide the input vertices for rendering.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Particle</span><span class="p">),</span> <span class="p">(</span><span class="k">const</span> <span class="n">GLvoid</span><span class="o">*</span><span class="p">)</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// position  
+</span></span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">glDrawTransformFeedback</span><span class="p">(</span><span class="n">GL_POINTS</span><span class="p">,</span> <span class="n">m_transformFeedback</span><span class="p">[</span><span class="n">m_currTFB</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);}</span></span></span></code></pre></div><p>The particle in the transform feedback buffer has four attributes. In order to render it we only need position so only a single attribute is enabled. Make sure that the stride (distance between that attribute in two consecutive vertices) is set to sizeof(Particle) to accomodate the three attributes that we ignore. Failing to do so will result in a corrupted image.</p>
+<p>In order to draw we use glDrawTransformFeedback() again. The second parameter is the transform feedback object that matches the input vertex buffer. This object &ldquo;knows&rdquo; how many vertices to draw.</p>
+<p>(ps_update_technique.cpp:151)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">PSUpdateTechnique</span><span class="o">::</span><span class="n">Init</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">Technique</span><span class="o">::</span><span class="n">Init</span><span class="p">())</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">AddShader</span><span class="p">(</span><span class="n">GL_VERTEX_SHADER</span><span class="p">,</span> <span class="n">pVS</span><span class="p">))</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">AddShader</span><span class="p">(</span><span class="n">GL_GEOMETRY_SHADER</span><span class="p">,</span> <span class="n">pGS</span><span class="p">))</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="k">const</span> <span class="n">GLchar</span><span class="o">*</span> <span class="n">Varyings</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">Varyings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;Type1&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">Varyings</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;Position1&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">Varyings</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;Velocity1&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">Varyings</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;Age1&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">glTransformFeedbackVaryings</span><span class="p">(</span><span class="n">m_shaderProg</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">Varyings</span><span class="p">,</span> <span class="n">GL_INTERLEAVED_ATTRIBS</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">Finalize</span><span class="p">())</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">24</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">m_deltaTimeMillisLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gDeltaTimeMillis&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="n">m_randomTextureLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gRandomTexture&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">m_timeLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gTime&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">m_launcherLifetimeLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gLauncherLifetime&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">m_shellLifetimeLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gShellLifetime&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="n">m_secondaryShellLifetimeLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gSecondaryShellLifetime&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">m_deltaTimeMillisLocation</span> <span class="o">==</span> <span class="n">INVALID_UNIFORM_LOCATION</span> <span class="o">||</span>    
+</span></span><span class="line"><span class="ln">35</span><span class="cl">      <span class="n">m_timeLocation</span> <span class="o">==</span> <span class="n">INVALID_UNIFORM_LOCATION</span> <span class="o">||</span>    
+</span></span><span class="line"><span class="ln">36</span><span class="cl">      <span class="n">m_randomTextureLocation</span> <span class="o">==</span> <span class="n">INVALID_UNIFORM_LOCATION</span><span class="p">)</span> <span class="p">{</span>    	
+</span></span><span class="line"><span class="ln">37</span><span class="cl">      <span class="n">m_launcherLifetimeLocation</span> <span class="o">==</span> <span class="n">INVALID_UNIFORM_LOCATION</span> <span class="o">||</span>    
+</span></span><span class="line"><span class="ln">38</span><span class="cl">      <span class="n">m_shellLifetimeLocation</span> <span class="o">==</span> <span class="n">INVALID_UNIFORM_LOCATION</span> <span class="o">||</span>    
+</span></span><span class="line"><span class="ln">39</span><span class="cl">      <span class="n">m_secondaryShellLifetimeLocation</span> <span class="o">==</span> <span class="n">INVALID_UNIFORM_LOCATION</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">40</span><span class="cl">      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">41</span><span class="cl">   <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">42</span><span class="cl">   <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">43</span><span class="cl">  
+</span></span><span class="line"><span class="ln">44</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>You now understand the mechanics of creating a transform feedback object, attaching a buffer to it and rendering into it. But there is still the question of what exactly goes into the feedback buffer? Is it the entire vertex? Can we specify only a subset of the attributes and what is the order between them? The answer to these questions lies in the code in boldface above. This function initializes the PSUpdateTechnique which handles the update of the particles. We use it within the scope of glBeginTransformFeedback() and glEndTransformFeedback(). To specify the attributes that go into the buffer we have to call glTransformFeedbackVaryings() <strong>before the technique program is linked</strong>. This function takes four parameters: the program handle, an array of strings with the name of the attributes, the number of strings in the array and either GL_INTERLEAVED_ATTRIBS or GL_SEPARATE_ATTRIBS. The strings in the array must contain names of output attributes from the last shader before the FS (either VS or GS). When transform feedback is active these attributes will be written into the buffer per vertex. The order will match the order inside the array. The last parameter to glTransformFeedbackVaryings() tells OpenGL either to write all the attributes as a single structure into a single buffer (GL_INTERLEAVED_ATTRIBS). Or to dedicate a single buffer for each attribute (GL_SEPARATE_ATTRIBS). If you use GL_INTERLEAVED_ATTRIBS you can only have a single transform feedback buffer bound (as we do). If you use GL_SEPARATE_ATTRIBS you will need to bind a different buffer to each slot (according to the number of attributes). Remember that the slot is specified as the second parameter to glBindBufferBase(). In addition, you are limited to no more than GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS attribute slots (which is usually 4).</p>
+<p>Other than glTransformFeedbackVaryings() the initialization stuff is pretty standard. But note that the FS is missing from it. If we disable rasterization when we update the particles we don&rsquo;t need a FS&hellip;</p>
+<p>(ps_update.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="kt">float</span> <span class="n">Type</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Velocity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="n">in</span> <span class="kt">float</span> <span class="n">Age</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">out</span> <span class="kt">float</span> <span class="n">Type0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Position0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Velocity0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">out</span> <span class="kt">float</span> <span class="n">Age0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">Type0</span> <span class="o">=</span> <span class="n">Type</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">Position0</span> <span class="o">=</span> <span class="n">Position</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">Velocity0</span> <span class="o">=</span> <span class="n">Velocity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">Age0</span> <span class="o">=</span> <span class="n">Age</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the VS of the particle update technique and as you can see - it is very simple. All it does is pass through the vertices to the GS (where the real action takes place).</p>
+<p>(ps_update.gs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="n">in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="n">out</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">max_vertices</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="n">out</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">in</span> <span class="kt">float</span> <span class="n">Type0</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">Position0</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">Velocity0</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">in</span> <span class="kt">float</span> <span class="n">Age0</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">out</span> <span class="kt">float</span> <span class="n">Type1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Position1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Velocity1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="n">out</span> <span class="kt">float</span> <span class="n">Age1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gDeltaTimeMillis</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler1D</span> <span class="n">gRandomTexture</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gLauncherLifetime</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gShellLifetime</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gSecondaryShellLifetime</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">
+</span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="cp">#define PARTICLE_TYPE_LAUNCHER 0.0f
+</span></span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="cp">#define PARTICLE_TYPE_SHELL 1.0f
+</span></span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="cp">#define PARTICLE_TYPE_SECONDARY_SHELL 2.0f</span></span></span></code></pre></div><p>That&rsquo;s the start of the GS in the particle update technique with all the declarations and definitions that we will need. We are going to get points as input and provide points as output. All the attributes we will get from the VS will also end up in the transform feedback buffer (after having gone through some processing). There are a few uniform variables that we depend on and we also enable the application to configure the frequency of the launcher and the lifetime of the shell and the secondary shell (the launcher generates one shell according to its frequency and the shell explodes to secondary shells after its configured lifetime is expired).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">vec3</span> <span class="nf">GetRandomDir</span><span class="p">(</span><span class="kt">float</span> <span class="n">TexCoord</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">vec3</span> <span class="n">Dir</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gRandomTexture</span><span class="p">,</span> <span class="n">TexCoord</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">Dir</span> <span class="o">-=</span> <span class="n">vec3</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="k">return</span> <span class="n">Dir</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is a utility function that we will use to generate a random direction for the shells. The directions are stored in a 1D texture whose elements are 3D vectors (floating point). We will later see how we populate the texture with random vectors. This function simply takes a floating point value and uses it to sample from the texture. Since all the values in the texture are in the [0.0-1.0] range we substract the vector (0.5,0.5,0.5) from the sampled result in order to move the values into the [-0.5 - 0.5] range. This allows the particles to fly in all directions.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="kt">float</span> <span class="n">Age</span> <span class="o">=</span> <span class="n">Age0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">gDeltaTimeMillis</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">Type0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">PARTICLE_TYPE_LAUNCHER</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Age</span> <span class="o">&gt;=</span> <span class="n">gLauncherLifetime</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">      <span class="n">Type1</span> <span class="o">=</span> <span class="n">PARTICLE_TYPE_SHELL</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">      <span class="n">Position1</span> <span class="o">=</span> <span class="n">Position0</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>      
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">      <span class="n">vec3</span> <span class="n">Dir</span> <span class="o">=</span> <span class="n">GetRandomDir</span><span class="p">(</span><span class="n">gTime</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">);</span>      
+</span></span><span class="line"><span class="ln">10</span><span class="cl">      <span class="n">Dir</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">Dir</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>      
+</span></span><span class="line"><span class="ln">11</span><span class="cl">      <span class="n">Velocity1</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">Dir</span><span class="p">)</span> <span class="o">/</span> <span class="mf">20.0</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">12</span><span class="cl">      <span class="n">Age1</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">13</span><span class="cl">      <span class="n">EmitVertex</span><span class="p">();</span>      
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="n">EndPrimitive</span><span class="p">();</span>      
+</span></span><span class="line"><span class="ln">15</span><span class="cl">      <span class="n">Age</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">Type1</span> <span class="o">=</span> <span class="n">PARTICLE_TYPE_LAUNCHER</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">Position1</span> <span class="o">=</span> <span class="n">Position0</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="n">Velocity1</span> <span class="o">=</span> <span class="n">Velocity0</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">Age1</span> <span class="o">=</span> <span class="n">Age</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="n">EmitVertex</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="n">EndPrimitive</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="p">}</span></span></span></code></pre></div><p>The main function of the GS contains the processing of the particles. We start by updating the age of the particle at hand and then we branch according to its type. The code above handles the case of the launcher particle. If the launcher&rsquo;s lifetime has expired we generate a shell particle and emit it into the transform feedback buffer. The shell gets the position of the launcher as a starting point and a random direction from the random texture. We use the global time as a pseudo random seed (not really random but the results are good enough). We make sure the minimum Y value of the direction is 0.5 so that the shell is emitted in the general direction of the sky. The direction vector is then normalized and divided by 20 to provide the velocity vector (you may need to tune that for your system). The age of the new particle is ofcourse zero and we also reset the age of the launcher to get that process started again. In addition, we always output the launcher itself back into the buffer (else no more particles will be created).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="kt">float</span> <span class="n">DeltaTimeSecs</span> <span class="o">=</span> <span class="n">gDeltaTimeMillis</span> <span class="o">/</span> <span class="mf">1000.0f</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="kt">float</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">Age0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="kt">float</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">Age</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">5</span><span class="cl">    <span class="n">vec3</span> <span class="n">DeltaP</span> <span class="o">=</span> <span class="n">DeltaTimeSecs</span> <span class="o">*</span> <span class="n">Velocity0</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln">6</span><span class="cl">    <span class="n">vec3</span> <span class="n">DeltaV</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="n">DeltaTimeSecs</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.81</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span></span></span></code></pre></div><p>Before we start handling the shell and the secondary shell we setup a few variables that are common to both. The delta time is translated from milliseconds to seconds. We translate the old age of the particle (t1) and the new age (t2) to seconds as well. The change in the position is calculated according to the equation &lsquo;position = time * velocity&rsquo;. Finally we calculate the change in velocity by multiplying the delta time by the gravity vector. The particle gains a velocity vector when it is born, but after that the only force that affects it (ignoring wind, etc) is gravity. The speed of a falling object on earth increases by 9.81 meters per second for every second. Since the direction is downwards we get a negative Y component and zero on the X and Z. We use a bit of a simplified calculation here but it serves its purpose.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Type0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">PARTICLE_TYPE_SHELL</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">Age</span> <span class="o">&lt;</span> <span class="n">gShellLifetime</span><span class="p">)</span> <span class="p">{</span>        
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="n">Type1</span> <span class="o">=</span> <span class="n">PARTICLE_TYPE_SHELL</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="n">Position1</span> <span class="o">=</span> <span class="n">Position0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">DeltaP</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">        <span class="n">Velocity1</span> <span class="o">=</span> <span class="n">Velocity0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">DeltaV</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="n">Age1</span> <span class="o">=</span> <span class="n">Age</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">EmitVertex</span><span class="p">();</span>        
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">EndPrimitive</span><span class="p">();</span>      
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">      <span class="p">}</span>      
+</span></span><span class="line"><span class="ln">10</span><span class="cl">      <span class="k">else</span> <span class="p">{</span>        
+</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>          
+</span></span><span class="line"><span class="ln">12</span><span class="cl">          <span class="n">Type1</span> <span class="o">=</span> <span class="n">PARTICLE_TYPE_SECONDARY_SHELL</span><span class="p">;</span>          
+</span></span><span class="line"><span class="ln">13</span><span class="cl">          <span class="n">Position1</span> <span class="o">=</span> <span class="n">Position0</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>          
+</span></span><span class="line"><span class="ln">14</span><span class="cl">          <span class="n">vec3</span> <span class="n">Dir</span> <span class="o">=</span> <span class="n">GetRandomDir</span><span class="p">((</span><span class="n">gTime</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">);</span>          
+</span></span><span class="line"><span class="ln">15</span><span class="cl">          <span class="n">Velocity1</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">Dir</span><span class="p">)</span> <span class="o">/</span> <span class="mf">20.0</span><span class="p">;</span>          
+</span></span><span class="line"><span class="ln">16</span><span class="cl">          <span class="n">Age1</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>          
+</span></span><span class="line"><span class="ln">17</span><span class="cl">          <span class="n">EmitVertex</span><span class="p">();</span>          
+</span></span><span class="line"><span class="ln">18</span><span class="cl">          <span class="n">EndPrimitive</span><span class="p">();</span>        
+</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="p">}</span>      
+</span></span><span class="line"><span class="ln">20</span><span class="cl">      <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="p">}</span></span></span></code></pre></div><p>We now take care of the shell. As long as the age of this particle hasn&rsquo;t reached its configured lifetime it remains in the system and we only update its position and velocity based on the deltas we calculated earlier. Once it reaches the end of its life it is destroyed and instead we generate 10 secondary particles and emit them into the buffer. They all gain the position of their parent shell but each gets its own random velocity vector. In the case of the secondary shell we don&rsquo;t limit the direction so the explosion looks real.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl">    <span class="k">else</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">Age</span> <span class="o">&lt;</span> <span class="n">gSecondaryShellLifetime</span><span class="p">)</span> <span class="p">{</span>        
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">        <span class="n">Type1</span> <span class="o">=</span> <span class="n">PARTICLE_TYPE_SECONDARY_SHELL</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">        <span class="n">Position1</span> <span class="o">=</span> <span class="n">Position0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">DeltaP</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">        <span class="n">Velocity1</span> <span class="o">=</span> <span class="n">Velocity0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">DeltaV</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">        <span class="n">Age1</span> <span class="o">=</span> <span class="n">Age</span><span class="p">;</span>        
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">EmitVertex</span><span class="p">();</span>        
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">EndPrimitive</span><span class="p">();</span>      
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">      <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Handling of the secondary shell is similar to the shell, except that when it reaches the end of its life it simply dies and no new particle is generated.</p>
+<p>(random_texture.cpp:37)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">RandomTexture</span><span class="o">::</span><span class="n">InitRandomTexture</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Size</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Vector3f</span><span class="o">*</span> <span class="n">pRandomData</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Vector3f</span><span class="p">[</span><span class="n">Size</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Size</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">pRandomData</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="n">RandomFloat</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">pRandomData</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">y</span> <span class="o">=</span> <span class="n">RandomFloat</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">pRandomData</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">z</span> <span class="o">=</span> <span class="n">RandomFloat</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">glGenTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_textureObj</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_1D</span><span class="p">,</span> <span class="n">m_textureObj</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">glTexImage1D</span><span class="p">(</span><span class="n">GL_TEXTURE_1D</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_RGB</span><span class="p">,</span> <span class="n">Size</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="n">GL_RGB</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">pRandomData</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">glTexParameterf</span><span class="p">(</span><span class="n">GL_TEXTURE_1D</span><span class="p">,</span> <span class="n">GL_TEXTURE_MIN_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">glTexParameterf</span><span class="p">(</span><span class="n">GL_TEXTURE_1D</span><span class="p">,</span> <span class="n">GL_TEXTURE_MAG_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">glTexParameterf</span><span class="p">(</span><span class="n">GL_TEXTURE_1D</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_S</span><span class="p">,</span> <span class="n">GL_REPEAT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="k">delete</span> <span class="p">[]</span> <span class="n">pRandomData</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="k">return</span> <span class="nf">GLCheckError</span><span class="p">();}</span></span></span></code></pre></div><p>The RandomTexture class is a useful tool that can provide random data from within the shaders. It is a 1D texture with the GL_RGB internal format and floating point data type. This means that every element is a vector of 3 floating point values. Note that we set the wrap mode to GL_REPEAT. This allows us to use any texture coordinate to access the texture. If the texture coordinate is more than 1.0 it is simply wrapped around so it always retrieves a valid value. In this series of tutorials the texture unit 3 will be dedicated for random textures. You can see the setup of the texture units in the header file engine_common.h.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

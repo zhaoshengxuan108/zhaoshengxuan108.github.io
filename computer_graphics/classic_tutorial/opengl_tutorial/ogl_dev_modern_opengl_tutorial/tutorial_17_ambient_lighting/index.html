@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 17:Ambient Lighting :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background Lighting is one of the most important subjects in the field of 3D graphics. Modeling it correctly adds a lot to the visual appeal of the rendered scene. The reason the word &lsquo;modeling&rsquo; is used is because you cannot simulate exactly what nature does. The real light is made of huge amounts of particles called &lsquo;photons&rsquo; and behaves as waves and particles simultaneously (the &lsquo;wave-particle duality&rsquo; of light). If you try to calculate the effect of each photon in your program you&rsquo;ll run out of compute power really quick.">
+    <meta property="og:title" content="Tutorial 17:Ambient Lighting :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background Lighting is one of the most important subjects in the field of 3D graphics. Modeling it correctly adds a lot to the visual appeal of the rendered scene. The reason the word &lsquo;modeling&rsquo; is used is because you cannot simulate exactly what nature does. The real light is made of huge amounts of particles called &lsquo;photons&rsquo; and behaves as waves and particles simultaneously (the &lsquo;wave-particle duality&rsquo; of light). If you try to calculate the effect of each photon in your program you&rsquo;ll run out of compute power really quick.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 17:Ambient Lighting :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 17:Ambient Lighting :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.print.html" rel="alternate" type="text/html" title="Tutorial 17:Ambient Lighting :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#background">Background</a></li>
+    <li><a href="#source-walkthru">Source walkthru</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 17:Ambient Lighting</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" title="Tutorial 16:Basic Texture Mapping (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" title="Tutorial 18:Diffuse Lighting (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-17ambient-lighting">Tutorial 17:Ambient Lighting</h1>
+
+<h2 id="background">Background</h2>
+<p>Lighting is one of the most important subjects in the field of 3D graphics. Modeling it correctly adds a lot to the visual appeal of the rendered scene. The reason the word &lsquo;modeling&rsquo; is used is because you cannot simulate exactly what nature does. The real light is made of huge amounts of particles called &lsquo;photons&rsquo; and behaves as waves and particles simultaneously (the &lsquo;wave-particle duality&rsquo; of light). If you try to calculate the effect of each photon in your program you&rsquo;ll run out of compute power really quick.</p>
+<p>Therefore, several light models have been developed over the years that capture the core effect that light has when it falls on objects and makes them visible. These light models have become more and more complex as the 3D graphics field advanced and more compute power became available. In the course of the next few tutorials we will go through the basic lighting models that are simpler to implement but contribute immensely to the overall atmosphere of the scene.</p>
+<p>The basic light model is called &lsquo;Ambient/Diffuse/Specular&rsquo;. Ambient light is the type of light you see when you go outside in a usual sunny day. Even though the sun is traveling across the sky and its light rays hit the world at different angles in different parts of the day, most of the stuff will be visible, even if it is in shadow. Since light bounces off everything it eventually hits everything so objects that are not in the direct path of the sun are also lit. Even a light bulb in a room behaves like the sun in that sense and spreads ambient light because if the room is not too big everything is lit equally. The ambient light is modeled as light that has no origin, no direction and has an equal effect on all objects in the scene.</p>
+<p>Diffuse lighting emphasizes the fact that the angle by which the light hits the surface effects the brightness by which the object is lit. When light hits an object on one side that side is brighter than the other side (the side not directly infront of the light source). We just saw that the sun spreads ambient light which has no specific direction. However, the sun also has diffuse properties in its light. When it hits a tall building you can usually see that one side of the building is lighter than the other side. The most important property of diffuse light is its direction.</p>
+<p>Specular lighting is more a property of the object, rather than the light itself. This is what makes parts of things shine when light hits them at a very specific angle and the viewer is positioned at a specific point. Metalic objects often have some kind of specular property. For example, a car in a bright sunny day can sometimes shine off its edges. Calculating specular lighting must take into consideration both the direction the light hits (and bounces off) as well as the position of the viewer.</p>
+<p>In 3D applications you usually don&rsquo;t create ambient, diffuse or specular lights directly. Instead, you use light sources such as the sun (when outdoor), a light bulb (indoors) or a flashlight (in a cave). These light source types can have different combinations of ambient, diffuse and specualr intensities as well as specialized properties. For example, a flashlight has a cone of light and things that are far off it are not illuminated by it at all.</p>
+<p>In the following tutorials we will develop several useful light source types and study the basic light model as we go along.</p>
+<p>We will start with a light source called &lsquo;directional light&rsquo;. A directional light has a direction but no specific origin. This means that all light rays are parallel to each other. The direction of light is specified by a vector and that vector is used to calculate the light on all objects in the scene, regardless of their position. The sun fits very nicely into the category of a directional light. If you try to calculate the precise angle by which the sun hits two adjacent buildings you will end up with two values that are almost identical (i.e. the difference between them will be an extremely tiny fraction). This is because the sun is located some 150 million killometers away. Therefore, we simply disregard its position and take only the direction into account.</p>
+<p>Another important property of a directional light is that its brightness remains the same regardless of the distance from the lit object. This is in contrast to another light source which we will study in the coming tutorials, the point light, whose brightness becomes weaker and weaker as it gets further away (e.g. the light bulb).</p>
+<p>The following picture illustrates a directional light:</p>
+<p><a href="#R-image-4a3d5a4d3541bccd5def636332d8b863" class="lightbox-link"><img src="../assets/directional_light.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4a3d5a4d3541bccd5def636332d8b863"><img src="../assets/directional_light.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>We already saw that the sun has both ambient as well as diffuse properties in its light. We are going to develop the ambient part here and the diffuse part in the next tutorial.</p>
+<p>In the previous tutorial we learned how to sample the color of a pixel from a texture. The color has three channels (red, green and blue) and each channel is a single byte. This means that the value of the color can range from 0 to 255. Different combination of channels create different colors. When all channels are zero the color is black. When they are all 255 the color is white. Everything else is in between. By scaling all channels by the same fraction you can have the same basic color but make it brighter or darker (depending on the scaling factor).</p>
+<p>When white light hits a surface the reflected color is simply the color of the surface. It can be a bit lighter or darker, depending on the power of the light source, but it is still the same basic color. If the light source is pure red (255,0,0) the reflected color can only be some type of red. This is because the light has no red and blue channels that can reflect back from the surface. If the surface is pure blue the end result will be utter black. The bottom line is that light can only expose the actual color of an object, it cannot &ldquo;paint&rdquo; it.</p>
+<p>We will specify the color of light sources as a trio of floating point values in the range [0-1]. By multiplying the color of light by the color of the object we get the reflected color. However, we also want to take the ambient intensity of light into account. Therefore, the ambient intensity will be specified as a single floating point value in the range [0-1] which will also be multiplied by all channels of the reflected color that we&rsquo;ve just calculated. This will be the final color. The following equation summarizes the calculation of ambient light:</p>
+<p><a href="#R-image-7ab36a7e294f5a9970d9e8818654575a" class="lightbox-link"><img src="../assets/ambient_light.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7ab36a7e294f5a9970d9e8818654575a"><img src="../assets/ambient_light.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>In this tutorial code sample you will be able to play with the &lsquo;a&rsquo; and &rsquo;s&rsquo; keys to increase or decrease the intensity of the ambient light and see the effect it has on the textured pyramid from the previous tutorial. This is only the ambient part of a directional light so the direction itself is not yet involved. This will change in the next tutorial when we study diffuse lighting. For now you will see that the pyramid is lit the same regardless of where you look at it.</p>
+<p>The ambient light is considered by many as something to be avoided as much as possible. This is because it looks somewhat artificial and the simplicity of implementation doesn&rsquo;t contribute much to the realism of the scene. By using advanced methods such as global illumination one can eliminate the need for ambient light because the light that reflects off objects and hits other objects can also be taken into account. Since we are not there yet you will usually need some small amount of ambient light to avoid cases where one side of an object is lit and the other is in complete darkness. At the end of the day getting light to look good invloves a lot of playing with the parameters and tune-work.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<p>Our code samples are growing more complex over time and this trend will continue. In this tutorial, in addition to implementing ambient lighting, we also do a major restructure of the code. This will put the code in a better position for the tutorials ahead. The major changes are:</p>
+<ol>
+<li>Encapsulating shader manangement in the Technique class. This includes activities such as compilation and linkage. From now on we will be implementing our visual effects in classes that are derived from the Technique class.</li>
+<li>Moving of GLUT initialization and callback management into the GLUTBackend component. This component registers itself to receive callback calls from GLUT and forwards them to the application using a C++ interface called ICallbacks.</li>
+<li>Moving the global functions and variables in the main cpp file into a class that can be considered &ldquo;the application&rdquo;. In the future we will extend this into a base class for all applications which will provide common functionality for all. This approach is very popular in many game engines and frameworks.</li>
+</ol>
+<p>Most of the code in this tutorial (except the lighting specific code) is not new and has simply been rearranged according to the above design principles. Therefore, only the new headers files are reviewed.</p>
+<p>(glut_backend.h:24)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">GLUTBackendInit</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">bool</span> <span class="nf">GLUTBackendCreateWindow</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Width</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Height</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">bpp</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isFullScreen</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">pTitle</span><span class="p">);</span></span></span></code></pre></div><p>A lot of the GLUT specific code has been moved to a &ldquo;GLUT backend&rdquo; component which makes it easier to initialize GLUT and create a window using the above simple functions.</p>
+<p>(glut_backend.h:28)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">GLUTBackendRun</span><span class="p">(</span><span class="n">ICallbacks</span><span class="o">*</span> <span class="n">pCallbacks</span><span class="p">);</span></span></span></code></pre></div><p>After GLUT is initialized and a window is created the next step is to execute GLUT main loop using the above wrapper function. The new addition here is the ICallbacks interface which helps in registering GLUT callback functions. Instead of having each application register the callbacks on its own the GLUT backend component registers its own private functions and delivers the event to the object specified in the call to the function above. The main application class will often implement this interface on its own and simply pass itself as a paramemter in the call to GLUTBackendRun. This approach was selected for this tutorial too.</p>
+<p>(technique.h:25)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">Technique</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Technique</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="o">~</span><span class="n">Technique</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">Init</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="kt">void</span> <span class="nf">Enable</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">protected</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">bool</span> <span class="n">AddShader</span><span class="p">(</span><span class="n">GLenum</span> <span class="n">ShaderType</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">pShaderText</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="kt">bool</span> <span class="nf">Finalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">GLint</span> <span class="nf">GetUniformLocation</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">pUniformName</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_shaderProg</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">GLuint</span><span class="o">&gt;</span> <span class="n">ShaderObjList</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">ShaderObjList</span> <span class="n">m_shaderObjList</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>In the previous tutorials all the grind work of compiling and linking the shaders was part of the application responsibility. The Technique class helps by wrapping the common functionality into itself and allowing derived class to focus on the core of the effect (a.k.a the &lsquo;Technique&rsquo;).</p>
+<p>Each technique must first be initialized by calling the Init() function. The derived technique must call Init() of the base class (which creates the OpenGL program object) and can add its own private initialization here.</p>
+<p>After a Technique object is created and initialized the usual sequence is for the derived technique class to call the protected function AddShader() on as many GLSL shaders (provided in a character array) as needed. Lastly, Finalize() is called to link the objects. The function Enable() is actually a wrapper for glUseProgram() so it must be called whenever switching a technique and calling the draw function.</p>
+<p>This class tracks the intermediate compiled objects and after linking deletes them using glDeleteShader(). This helps in reducing the amount of resources your application is consuming. For better performance OpenGL applications often compile all shaders during load time and not during run time. By removing the objects immediately after linking you help keep the OpenGL resources consumed by your app low. The program object itself is deleted in the destructor using glDeleteProgram().</p>
+<p>(tutorial17.cpp:49)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">Tutorial17</span> <span class="o">:</span> <span class="k">public</span> <span class="n">ICallbacks</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Tutorial17</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="o">~</span><span class="n">Tutorial17</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="kt">bool</span> <span class="nf">Init</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="kt">void</span> <span class="nf">Run</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">GLUTBackendRun</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">IdleCB</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">SpecialKeyboardCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">Key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">36</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  
+</span></span><span class="line"><span class="ln">39</span><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">KeyboardCB</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">Key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>  
+</span></span><span class="line"><span class="ln">40</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">41</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">42</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">43</span><span class="cl">  
+</span></span><span class="line"><span class="ln">44</span><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">PassiveMouseCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>  
+</span></span><span class="line"><span class="ln">45</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">46</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">47</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">48</span><span class="cl">  
+</span></span><span class="line"><span class="ln">49</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">50</span><span class="cl">  <span class="kt">void</span> <span class="n">CreateVertexBuffer</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">51</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">52</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">53</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">54</span><span class="cl">  
+</span></span><span class="line"><span class="ln">55</span><span class="cl">  <span class="kt">void</span> <span class="nf">CreateIndexBuffer</span><span class="p">()</span>  
+</span></span><span class="line"><span class="ln">56</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">57</span><span class="cl">    <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">58</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">59</span><span class="cl">  
+</span></span><span class="line"><span class="ln">60</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_VBO</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">61</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_IBO</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">62</span><span class="cl">  <span class="n">LightingTechnique</span><span class="o">*</span> <span class="n">m_pEffect</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">63</span><span class="cl">  <span class="n">Texture</span><span class="o">*</span> <span class="n">m_pTexture</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">64</span><span class="cl">  <span class="n">Camera</span><span class="o">*</span> <span class="n">m_pGameCamera</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">65</span><span class="cl">  <span class="kt">float</span> <span class="n">m_scale</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">66</span><span class="cl">  <span class="n">DirectionalLight</span> <span class="n">m_directionalLight</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">67</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>This is a skeleton of the main application class which encapsulates the remaining code we are already familiar with. Init() takes care of creating the effect, loading the texture and creating the vertex/index buffers. Run() calls GLUTBackendRun() and passes the object itself as a parameter. Since the class implements the ICallbacks interface all the GLUT events end up in the proper methods of the class. In addition, all the variables that were previously part of the global section of the file are now private attributes in the class.</p>
+<p>(lighting_technique.h:25)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">DirectionalLight</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="kt">float</span> <span class="n">AmbientIntensity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>This is the beginning of the defintion of the directional light. Right now, only the ambient part exists and the direction itself is still absent. We will add the direction in the next tutorial when we review diffuse lighting. The structure contains two fields - a color and an ambient intensity. The color determines what color channels of the objects can be reflected back and in what intensity. For example, if the color is (1.0, 0.5, 0.0) then the red channel of the object will be reflected fully, the green channel will be scaled down by half and the blue channel will be dropped completely. This is because an object can only reflect the incoming light (light sources are different - they emit light and need to be handled separately). In the case of the sun the usual color would be pure white (1.0, 1.0, 1.0).</p>
+<p>The AmbientIntensity specifies how dim or bright is the light. You can have a pure white light with intensity of 1.0 so that the object is full lit or an intensity of 0.1 which means the object will be visible but appear very dim.</p>
+<p>(lighting_technique.h:31)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">LightingTechnique</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Technique</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">LightingTechnique</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">Init</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">void</span> <span class="nf">SetWVP</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">WVP</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="kt">void</span> <span class="nf">SetTextureUnit</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">TextureUnit</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">void</span> <span class="nf">SetDirectionalLight</span><span class="p">(</span><span class="k">const</span> <span class="n">DirectionalLight</span><span class="o">&amp;</span> <span class="n">Light</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_WVPLocation</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_samplerLocation</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_dirLightColorLocation</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_dirLightAmbientIntensityLocation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>Here is the first example of the usage of the Technique class. LightingTechnique is a derived class that implements lighting using the common functionality of compiling and linking provided by the base class. The Init() function must be called after the object is created. It simply calls Technique::AddShader() and Techique::Finalize() to generate the GLSL program.</p>
+<p>(lighting.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="k">struct</span> <span class="nc">DirectionalLight</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">vec3</span> <span class="n">Color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">float</span> <span class="n">AmbientIntensity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="n">uniform</span> <span class="n">DirectionalLight</span> <span class="n">gDirectionalLight</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler2D</span> <span class="n">gSampler</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">texture2D</span><span class="p">(</span><span class="n">gSampler</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">.</span><span class="n">xy</span><span class="p">)</span> <span class="o">*</span>     
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">vec4</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Color</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">)</span> <span class="o">*</span>      
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The vertex shader remains unchanged in this tutorial. It keeps passing the position (after having multiplied it by the WVP matrix) and the texture coordinates. All the new logic goes into the fragment shader. The new addition here is the use of the &lsquo;struct&rsquo; keyword to define the directional light. As you can see, this keyword is used in practically the same way as in C/C++. The structure is identical to the one we have in the application code and we must keep it that way so that the application and the shader can communicate.</p>
+<p>There is now a new uniform variable of the DirectionalLight type that the application needs to update. This variable is used in the calculation of the final pixel color. As before, we sample the texture to get the base color. We then multiply it by the color and ambient intensity, per the formula above. This concludes the calculation of the ambient light.</p>
+<p>(lighting_technique.cpp:44)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">m_WVPLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gWVP&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">m_samplerLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gSampler&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">m_dirLightColorLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gDirectionalLight.Color&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">m_dirLightAmbientIntensityLocation</span> <span class="o">=</span> <span class="n">GetUniformLocation</span><span class="p">(</span><span class="s">&#34;gDirectionalLight.AmbientIntensity&#34;</span><span class="p">);</span></span></span></code></pre></div><p>In order to access the DirectionalLight uniform variable from the application you must get the location of both of its fields independently. The LightingTechnique class has four GLuint location variables in order to access the uniforms in the vertex and the fragment shader. The WVP and sampler locations are fetched in the familiar way. The color and ambient intensity are fetched in the way that we see above - by specifying the name of the uniform variable in the shader followed by a dot and then the name of the field in the structure itself. Setting the value of these variables is done in the same way as any other variable. The LightingTechnique class provides two methods to set the directional light and the WVP matrix. The Tutorial17 class calls them prior to each draw to update the values.</p>
+<p>This tutorial allows you to play with the ambient intensity using the &lsquo;a&rsquo; and &rsquo;s&rsquo; keys that increase and decrease it, respectively. Follow the KeyboardCB() function in the Tutorial17 class to see how this is done.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=UpJs-kgtoSQ&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=14" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

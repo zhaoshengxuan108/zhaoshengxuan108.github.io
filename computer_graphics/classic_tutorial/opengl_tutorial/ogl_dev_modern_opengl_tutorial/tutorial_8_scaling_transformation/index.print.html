@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 8:Scaling Transformation :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background The scaling transformation is very simple. Its purpose is to either increase or decrease the size of the object. You may want to do that, for example, when you want to create some differentiation using the same model (large and small trees that are actually the same) or when you want to match the size of the object to its role in the world. For the above examples you would probably want to scale the vertices position in the same amount on all three axis.">
+    <meta property="og:title" content="Tutorial 8:Scaling Transformation :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background The scaling transformation is very simple. Its purpose is to either increase or decrease the size of the object. You may want to do that, for example, when you want to create some differentiation using the same model (large and small trees that are actually the same) or when you want to match the size of the object to its role in the world. For the above examples you would probably want to scale the vertices position in the same amount on all three axis.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 8:Scaling Transformation :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" rel="canonical" type="text/html" title="Tutorial 8:Scaling Transformation :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 8:Scaling Transformation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 8:Scaling Transformation</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-8scaling-transformation">Tutorial 8:Scaling Transformation</h1>
+
+<h2 id="background">Background</h2>
+<p>The scaling transformation is very simple. Its purpose is to either increase or decrease the size of the object. You may want to do that, for example, when you want to create some differentiation using the same model (large and small trees that are actually the same) or when you want to match the size of the object to its role in the world. For the above examples you would probably want to scale the vertices position in the same amount on all three axis. However, sometimes you may want to scale just one or two axis, causing the model to become &ldquo;thicker&rdquo; or &ldquo;leaner&rdquo;.</p>
+<p>Developing the transformation matrix is very simple. We start with the identity matrix and remember that the reason that multiplying it by a vector leave the vector unchanged is that each of the &lsquo;1&rsquo;s in the diagonal is multiplied by one of the components in turn. None of the components can affect the other. Therefore, replacing any one of that &lsquo;1&rsquo;s with another value will cause the object to increase on that axis if the other value is larger than 1 or decrease on that axis if the other value is smaller then one.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">);</span> <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">);</span> <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">);</span> <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0f</span><span class="p">;</span>    <span class="n">World</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mf">1.0f</span><span class="p">;</span></span></span></code></pre></div><p>The only change from the previous tutorial is that we replace the world transformation matrix according to the above description. As you can see, we scale each of the three axis by a number that swings between -1 and 1. In the range (0,1] the triangle is anywhere between being very tiny and its original size and when the diagonal is zero it disappears completely. In the range [-1,0) looks the same only reversed because the scaling value in the diagonal actually changed the sign of the position.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=aJRrgka4dpU&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=10" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

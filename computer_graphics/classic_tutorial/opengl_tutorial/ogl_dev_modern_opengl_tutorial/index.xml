@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OGL dev 教程 on Hugo Relearn Theme</title>
+    <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html</link>
+    <description>Recent content in OGL dev 教程 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial 1:Open a window</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html</guid>
+      <description>Background Thanks to Mariano Suligoy you can read this tutorial in Spanish.
+The OpenGL spec does not specify any API in order to create and manipulate windows. Modern windowing systems that support OpenGL include a sub-system that provides the binding between an OpenGL context and the windowing system. In the X Window system that interface is called GLX. Microsoft provides WGL (pronounced: Wiggle) for Windows and MacOS has CGL. Working directly with these interfaces in order to create a window in which to display graphics is usually grunt work which is why we use a high level library that abstracts away the fine details.</description>
+    </item>
+    <item>
+      <title>Tutorial 2:Hello dot!</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html</guid>
+      <description>Background This is our first encounter with GLEW, the OpenGL Extension Wrangler Library. GLEW helps you deal with the headache that can accompany the management of extensions in OpenGL. Once initialized it queries for all the available extensions on your platform, dynamically loads them and provides easy access via a single header file.
+In this tutorial we will see the usage of vertex buffer objects (VBOs) for the first time. As the name implies, they are used to store vertices.</description>
+    </item>
+    <item>
+      <title>Tutorial 3:First Triangle</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html</guid>
+      <description>Background This tutorial is very short. We simply expand the previous tutorial to render a triangle.
+In this tutorial we rely on the normalized box again. Visible vertices must be inside the box so that viewport transformation will map them to the visible coordinates of the window. When looking down the negative Z axis this box looks like that:
+Point (-1.0, -1.0) is mapped to the bottom left hand of the window, (-1.</description>
+    </item>
+    <item>
+      <title>Tutorial 4:Shaders</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html</guid>
+      <description>Background From this tutorial forward every effect and technique we will implement will be done using shaders. Shaders are the modern way of doing 3D graphics. In a way you could claim that this is a step back as most of the 3D functionality that was provided by the fixed function pipeline and required the developer to only specify configuration parameters (lighting attributes, rotation values, etc) must now be implemented by the developer (via shaders), however, this programmability enables great flexibility and innovation.</description>
+    </item>
+    <item>
+      <title>Tutorial 5:Uniform Variables</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html</guid>
+      <description>Background In this tutorial we meet a new type of shader variables - uniform variables. The difference between attribute and uniform variable is that attribute variables contain data which is vertex specific so they are reloaded with a new value from the vertex buffer for each shader invocation while the value of uniform variables remains constant accross the entire draw call. This means that you load the value before making the draw call and then you can access the same value in each invocation of the vertex shader.</description>
+    </item>
+    <item>
+      <title>Tutorial 6:Translation Transformation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html</guid>
+      <description>Background In this tutorial we start looking at the various transformations that take an object in 3D and enable it to be displayed on screen while keeping the illusion of depth in the scene. The common way to do this is to represent each transformation using a matrix, multiply them one by one and then multiply the vertex position by the final product. Each tutorial will be dedicated to examining one transformation.</description>
+    </item>
+    <item>
+      <title>Tutorial 7:Rotation Transformation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html</guid>
+      <description>Background Next on our transforation list is the rotation, that is, given an angle and a point we want to rotate the point around one of the axis. We will always change two out of the trio X, Y and Z and leave the third component unchanged. This means that the path will lie on one of the three major planes: XY (when turning around Z), YZ (when turning around X) and XZ (when turning around Y).</description>
+    </item>
+    <item>
+      <title>Tutorial 8:Scaling Transformation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html</guid>
+      <description>Background The scaling transformation is very simple. Its purpose is to either increase or decrease the size of the object. You may want to do that, for example, when you want to create some differentiation using the same model (large and small trees that are actually the same) or when you want to match the size of the object to its role in the world. For the above examples you would probably want to scale the vertices position in the same amount on all three axis.</description>
+    </item>
+    <item>
+      <title>Tutorial 9:Interpolation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html</guid>
+      <description>Background This tutorial demonstrates a very important part of the 3D pipeline - the interpolation that the rasterizer performs on variables that come out of the vertex shader. As you have already seen, in order to get something meaningful on the screen you need to designate one of the VS output variables as &amp;lsquo;gl_Position&amp;rsquo;. This is a 4-vector that contains the homogenuous coordinates of the vertex. The XYZ components of that vector are divided by the W component (a process known as perspective divide and is dealt with in the tutorial dedicated to that subject) and any component which goes outside the normalized box ([-1,1]) gets clipped.</description>
+    </item>
+    <item>
+      <title>Tutorial 10:Indexed Draws</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html</guid>
+      <description>Background OpenGL provides several draw functions. glDrawArrays() that we have been using until now falls under the category of &amp;ldquo;ordered draws&amp;rdquo;. This means that the vertex buffer is scanned from the specified offset and every X (1 for points, 2 for lines, etc) vertices a primitive is emitted. This is very simple to use but the downside is if a vertex is part of several primitives then it must be present several times in the vertex buffer.</description>
+    </item>
+    <item>
+      <title>Tutorial 11:Concatenating Transformations</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html</guid>
+      <description>Background In the last few tutorials we have developed several transformations that give us the flexibility of moving an object anywhere in the 3D world. We still have a couple more to learn (camera control and perspective projection) but as you probably already guessed, a combination of the transformation is required. In most cases you will want to scale the object to fit your 3D world, rotate it into the required orientation, move it somewhere, etc.</description>
+    </item>
+    <item>
+      <title>Tutorial 12:Perspective Projection</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html</guid>
+      <description>Background We have finally reached the item that represents 3D graphics best - the projection from the 3D world on a 2D plane while maintaining the appearance of depth. A good example is a picture of a road or railway-tracks that seem to converge down to a single point far away in the horizon.
+We are going to generate the transformation that satisfies the above requirement and we have an additional requirement we want to &amp;ldquo;piggyback&amp;rdquo; on it which is to make life easier for the clipper by representing the projected coordinates in a normalized space of -1 to +1.</description>
+    </item>
+    <item>
+      <title>Tutorial 13:Camera Space</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html</guid>
+      <description>Background In the last several tutorials we saw two types of transformations. The first type were transformations that change the position (translation), orientation (rotation) or size (scaling) of an object. These transformations allow us to place an object anywhere within the 3D world. The second type was the perpsective projection transformation that takes the position of a vertex in the 3D world and projects it into a 2D world (i.e. a plane).</description>
+    </item>
+    <item>
+      <title>Tutorial 14:Camera Control - Part 1</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html</guid>
+      <description>Background In the previous tutorial we learned how to position the camera anywhere in the 3D world. The next logical step is to allow the user to control it. Movement will be unrestricted - the user will be able to move in all directions. Controlling the camera will be done using two input devices - the keyboard will control our position and the mouse will change our view target. This is very similar to what most first person shooters are doing.</description>
+    </item>
+    <item>
+      <title>Tutorial 15:Camera Control - Part 2</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html</guid>
+      <description>Background In this tutorial we complete the implementation of the camera by enabling direction control using the mouse. There are various levels of freedom which are associated with the design of the camera. We are going to enable the level of control you come to expect in a first person game (shooter or otherwise). This means we will be able to turn the camera 360 degrees (around the positive Y axis), which corresponds to turning your head left or right and completing a full circle with your body.</description>
+    </item>
+    <item>
+      <title>Tutorial 16:Basic Texture Mapping</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html</guid>
+      <description>Background Texture mapping means applying any type of picture on one or more faces of a 3D model. The picture (a.k.a &amp;rsquo;texture&amp;rsquo;) can be anything but is often a pattern such as bricks, foliage, barren land, etc, that adds realism to the scene. For example, compare the following images:
+To get texture mapping working you need to do three things: load a texture into OpenGL, supply texture coordinates with the vertices (to map the texture to them) and perform a sampling operation from the texture using the texture coordinates in order to get the pixel color.</description>
+    </item>
+    <item>
+      <title>Tutorial 17:Ambient Lighting</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html</guid>
+      <description>Background Lighting is one of the most important subjects in the field of 3D graphics. Modeling it correctly adds a lot to the visual appeal of the rendered scene. The reason the word &amp;lsquo;modeling&amp;rsquo; is used is because you cannot simulate exactly what nature does. The real light is made of huge amounts of particles called &amp;lsquo;photons&amp;rsquo; and behaves as waves and particles simultaneously (the &amp;lsquo;wave-particle duality&amp;rsquo; of light). If you try to calculate the effect of each photon in your program you&amp;rsquo;ll run out of compute power really quick.</description>
+    </item>
+    <item>
+      <title>Tutorial 18:Diffuse Lighting</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html</guid>
+      <description>Background The main difference between ambient light and diffuse light is the fact that diffuse light is dependent on the direction of the rays of light while ambient light ignores it completely. When only ambient light is present the entire scene is equally lit. Diffuse light makes the parts of objects that face the light brighter than the parts that are opposite from it.
+Diffuse light also adds a twist where the angle by which the light strikes the surface determines the brightness of that surface.</description>
+    </item>
+    <item>
+      <title>Tutorial 19:Specular Lighting</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html</guid>
+      <description>Background When we calculated ambient lighting the only factor was the strength of light. Then we progressed to diffuse lighting which added the direction of light into the equation. Specular lighting includes these factors and adds a new element into the mix - the position of the viewer. The idea is that when light strikes a surface at some angle it is also reflected away at the same angle (on the other side of the normal).</description>
+    </item>
+    <item>
+      <title>Tutorial 20:Point Light</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html</guid>
+      <description>Background We have studied the three basic light models (ambient, diffuse and specular) under the umbrella of directional light. Directional light is a light type which is characterized by a single direction vector and the lack of any origin. Therefore, it doesn&amp;rsquo;t grow weaker with distance (in fact, you can&amp;rsquo;t even define its distance from its target). We are now going to review the point light type which has both an origin as well as a fading effect which grows stronger as objects move away from it.</description>
+    </item>
+    <item>
+      <title>Tutorial 21:Spot Light</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html</guid>
+      <description>Background The spot light is the third and final light type that we will review (at least for a little while&amp;hellip;). It is more complex than directional light and point light and essentially borrows stuff from both. The spot light has an origin position and is under the effect of attenuation as distance from target grows (as point light) and its light is pointed at a specific direction (as directional light).</description>
+    </item>
+    <item>
+      <title>Tutorial 22:Loading models using the Open Asset Import Library</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html</guid>
+      <description>Background We have made it thus far using manually generated models. As you can imagine, the process of specifying the position and other attributes for each and every vertex in an object does not scale well. A box, pyramid and a simple tiled surface are OK, but what about something like a human face? In the real world of games and commercial applications the process of mesh creation is handled by artists that use modeling programs such as Blender, Maya and 3ds Max.</description>
+    </item>
+    <item>
+      <title>Tutorial 23:Shadow Mapping - Part 1</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html</guid>
+      <description>Background The concept of shadow is inseparable from the concept of light, as you need light in order to cast a shadow. There are many techniques that generate shadows and in this two part tutorial we are going to study one of the more basic and simple ones - shadow mapping.
+When it comes to rasterization and shadows the question that you ask yourself is - is this pixel located in shadow or not?</description>
+    </item>
+    <item>
+      <title>Tutorial 24:Shadow Mapping - Part 2</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html</guid>
+      <description>Background In the previous tutorial we learned the basic principle behind the shadow mapping technique and saw how to render the depth into a texture and later display it on the screen by sampling from the depth buffer. In this tutorial we will see how to use this capability and display the shadow itself.
+We know that shadow mapping is a two-pass technique and that in the first pass the scene is rendered from the point of view of the light.</description>
+    </item>
+    <item>
+      <title>Tutorial 25:SkyBox</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html</guid>
+      <description>Background A skybox is a technique that makes the scene looks bigger and more impressive by wrapping the viewer with a texture that goes around the camera 360 degrees. The texture is often a combination between the sky and a terrain type such as mountains, skyscapers, etc. As the player explores his surroundings he keeps seeing a part of the skybox hovering above the real models and filling up all those empty pixels.</description>
+    </item>
+    <item>
+      <title>Tutorial 26:Normal Mapping</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html</guid>
+      <description>Background Our lighting technique results are not too bad. The light is nicely interpolated over the model and conveys a sense of realism to the scene. This, however, can be improved tremendously. In fact, the same interpolation is actually an obstacle because sometimes, especially when the undelying texture represents a bumpy surface, it makes it look too flat. As an example, take a look at the following two images:
+The left image definitely looks better the than the right one.</description>
+    </item>
+    <item>
+      <title>Tutorial 27:Billboarding and the Geometry Shader</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html</guid>
+      <description>Background We&amp;rsquo;ve been utilizing the vertex and the fragment shaders from early on in this series of tutorials but in fact we left out an important shader stage called the Geometry Shader (GS). This type of shader was introduced by Microsoft in DirectX10 and was later incorporated into the core OpenGL in version 3.2. While the VS is executed per vertex and the FS is executed per pixel the GS is executed per primitive.</description>
+    </item>
+    <item>
+      <title>Tutorial 28:Particle System using Transform Feedback</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html</guid>
+      <description>Background Particle System is a general name of a large number of techniques that simulate natural phenomena such as smoke, dust, fireworks, rain, etc. The common theme in all these phenomena is that they are composed of a large amount of small particles that move together in a way which is characteristic of each type of phenomenon.
+In order to simulate a natural phenomenon made from particles we usually maintain the position as well as other attributes for each particle (velocity, color, etc) and perform the following steps once per frame:</description>
+    </item>
+    <item>
+      <title>Tutorial 29:3D Picking</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html</guid>
+      <description>Background The ability to match a mouse click on a window showing a 3D scene to the primitive (let&amp;rsquo;s assume a triangle) who was fortunate enough to be projected to the exact same pixel where the mouse hit is called 3D Picking. This can be useful for various interactive use cases which require the application to map a mouse click by the user (which is 2D in nature) to something in the local/world space of the objects in the scene.</description>
+    </item>
+    <item>
+      <title>Tutorial 30:Basic Tessellation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html</guid>
+      <description>Background Tessellation is an exciting new feature in OpenGL 4.x. The core problem that Tessellation deals with is the static nature of 3D models in terms of their detail and polygon count. The thing is that when we look at a complex model such as a human face up close we prefer to use a highly detailed model that will bring out the tiny details (e.g. skin bumps, etc). A highly detailed model automatically translates to more triangles and more compute power required for processing.</description>
+    </item>
+    <item>
+      <title>Tutorial 31:PN Triangles Tessellation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html</guid>
+      <description>Background In the previous tutorial we got introduced to Tessellation in OpenGL 4.x (this tutorial relies heavily on the material covered by the previous one so make sure you are familiar with it). We enabled all the relevant stages and learned how to subdivide our mesh and displace the vertices that were created by the Tessellation process in order to transform a dull flat quad into a complex rocky terrain. Usage of the Tessellation pipeline was fairly simple, though.</description>
+    </item>
+    <item>
+      <title>Tutorial 32:Vertex Array Objects</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html</guid>
+      <description>Background The Vertex Array Object (a.k.a VAO) is a special type of object that encapsulates all the data that is associated with the vertex processor. Instead of containing the actual data, it holds references to the vertex buffers, the index buffer and the layout specification of the vertex itself. The advantage is that once you set up the VAO for a mesh you can bring in the entire mesh state by simply binding the VAO.</description>
+    </item>
+    <item>
+      <title>Tutorial 33:Instanced Rendering</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html</guid>
+      <description>Background Imagine that you want to render a scene where a huge army is moving across the land. You have a model of a soldier and you want to render a few thousand soldiers. One way to do it is to dispatch as many draw calls as there are soldiers while changing relevant uniform variables in between. For example, each soldier is located in a different spot, each soldier can be up to 10% taller or shorter than the average, etc.</description>
+    </item>
+    <item>
+      <title>Tutorial 34:GLFX - An OpenGL Effect Library</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html</guid>
+      <description>Update (Feb-16, 2022) This tutorial is deprecated. It was an experiment on using effect files (see below) but Max Aizenshtein who developed the GLFX library left the place where he and I worked together and I was not able to continue maintaining it because I&amp;rsquo;m not familiar with LEX and YACC. If you&amp;rsquo;re interested feel free to look around and if you want to pick up GLFX development let me know (though I&amp;rsquo;ll probably continue using plain GLSL in my tutorials to be in line with what most people expect).</description>
+    </item>
+    <item>
+      <title>Tutorial 35:Deferred Shading - Part 1</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html</guid>
+      <description>Background The way we&amp;rsquo;ve been doing lighting since tutorial 17 is known as Forward Rendering (or Shading). This is a straightforward approach where we do a set of transformations on the vertices of every object in the VS (mostly translations of the normal and position to clip space) followed by a lighting calculation per pixel in the FS. Since each pixel of every object gets only a single FS invocation we have to provide the FS with information on all light sources and take all of them into account when calculating the light effect per pixel.</description>
+    </item>
+    <item>
+      <title>Tutorial 36:Deferred Shading - Part 2</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html</guid>
+      <description>Background In the previous tutorial we learned the basics of deferred shading and populated the G-Buffer with the combined results of the geometry pass. If you ran the demo you saw how the contents of the G-Buffer look like. Today we will complete the basic implementation of deferred shading and our final scene should look the same (well, about the same&amp;hellip;) as if it was created using forward rendering. By the time we finish this tutorial a problem will become evident.</description>
+    </item>
+    <item>
+      <title>Tutorial 37:Deferred Shading - Part 3</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html</guid>
+      <description>Background Our implementation of deferred shading may seem ok right now, but when looking closely you can see a couple of problems that were mentioned at the end of the previous tutorial. The first one is that due to back face culling the light disappears as soon as the camera enters the light volume. The second problem is related to bounding the area effected by the light. The thing is that since we are selecting the pixels to do lighting calculations on by drawing up a sphere around the light source and that sphere gets projected to screen space before rasterization, every pixel covered by the sphere in screen space enters the calculation, even if it is very far away (and effectively outside the light volume).</description>
+    </item>
+    <item>
+      <title>Tutorial 38:Skeletal Animation With Assimp</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html</guid>
+      <description>Background Finally, it is here. The tutorial that millions of my readers (I may be exaggerating here, but definitely a few ;-) ) have been asking for. Skeletal animation, also known as Skinning, using the Assimp library.
+Skeletal animation is actually a two part process. The first one is executed by the artist and the second by you, the programmer (or rather, the engine that you wrote). The first part takes place inside the modeling software and is called Rigging.</description>
+    </item>
+    <item>
+      <title>Tutorial 39:Silhouette Detection</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html</guid>
+      <description>Background Today we are going to discuss one way in which the silhouette of an object can be detected. To make things clearer, I&amp;rsquo;m referring to the silhouette of a 3D object which is created when light falls upon it from an arbitrary direction. Moving the light source will likely change the silhouette accordingly. This is entirely different from silhouette detection in image space that deals with finding the boundaries of an object in a 2D picture (which is usually not dependant on the location of the light source).</description>
+    </item>
+    <item>
+      <title>Tutorial 40:Stencil Shadow Volume</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html</guid>
+      <description>Background In tutorials 23 &amp;amp; 24 we studied the shadow map technique which is a relatively simple way to get shadows into your 3D world. Shadow maps are in a disadvantage when trying to generate a shadow for a point light source. You need a direction vector in order to generate the shadow map and since a point light casts its light all over the place it is difficult to get such a vector.</description>
+    </item>
+    <item>
+      <title>Tutorial 41:Object Motion Blur</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html</guid>
+      <description>Background Motion Blur is a very popular technique in fast pace 3D games whose purpose is to add a blurring effect to moving objects. This enhances the sense of realism experienced by the player. Motion Blur can be accomplished in various ways. There is a camera based Motion Blur which focuses on camera movement and there is an object based Motion Blur. In this tutorial we will study one of the options to accomplish the later.</description>
+    </item>
+    <item>
+      <title>Tutorial 42:Percentage Closer Filtering</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html</guid>
+      <description>Background In tutorial 24 we saw how to implement shadows using a technique called Shadow Mapping. The shadows that result from Shadow Mapping aren&amp;rsquo;t that great and there is quite a lot of aliasing there, as you can see in the following picture:
+This tutorial describes a method (one of many) to reduce that problem. It is called Percentage Closer Filtering, or PCF. The idea is to sample from the shadow map around the current pixel and compare its depth to all the samples.</description>
+    </item>
+    <item>
+      <title>Tutorial 43:Multipass Shadow Mapping With Point Lights</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html</guid>
+      <description>Background In tutorial 24 we learned the basics of Shadow Mapping - first a rendering pass from the light point of view using the light direction as the viewing vector and then a second pass from the camera point of view using the data from the first pass for shadow calculation. At this point most programmers will ask themselves: this is fine for directional/spot light but what if I want to generate shadows from a point light?</description>
+    </item>
+    <item>
+      <title>Tutorial 44:GLFW</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html</guid>
+      <description>Background In the first tutorial we learned that OpenGL doesn&amp;rsquo;t deal directly with windowing and that this responsibility is left to other APIs (GLX, WGL, etc). To make life simpler for ourselves we used GLUT to handle the windowing API. This makes our tutorials portable between different OSs. We&amp;rsquo;ve been using GLUT exclusively, until today. We are now going to take a look at another popular library that handles the same stuff as GLUT.</description>
+    </item>
+    <item>
+      <title>Tutorial 45:Screen Space Ambient Occlusion</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html</guid>
+      <description>Credits: SSAO tutorial by John Chapman Background Do you remember how our lighting model began evolving? Back in tutorial 17 we took a first look at the lighting model, starting with the ambient lighting type. The ambient lighting which is supposed to mimic the general feeling of &amp;ldquo;everything is bright&amp;rdquo; that you get in a highly lit, mid-day environment, was implemented using a single floating point value that was attached to each lighting source and we multiplied that value by the color of the surface which we sampled from the texture bound to that surface.</description>
+    </item>
+    <item>
+      <title>Tutorial 46:SSAO With Depth Reconstruction</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html</guid>
+      <description>Background In the previous tutorial we studied the Screen Space Ambient Occlusion algorithm. We used a geometry buffer which contained the view space position of all the pixels as a first step in our calculations. In this tutorial we are going to challenge ourselves by calculating the view space position directly from the depth buffer. The advantage of this approach is that much less memory is required because we will only need one floating point value per pixel instead of three.</description>
+    </item>
+    <item>
+      <title>Tutorial 47:Shadow Mapping with Directional Lights</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html</guid>
+      <description>Credits: some of the images were take from Clipart Panda and ClipArtHut
+Background The Shadow Mapping algorithm that we explored in tutorial 23 and tutorial 24 used a spot light as the light source. The algorithm itself is based on the idea of rendering into a shadow map from the light point of view. This is simple with spot lights because they behave in the same way as our standard camera.</description>
+    </item>
+    <item>
+      <title>Tutorial 48:User Interface with Ant Tweak Bar</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html</guid>
+      <description>Background In this tutorial we are going to leave 3D for a while and focus on adding something practical and useful to our programs. We will learn how to integrate a user interface library which will help in configuring the various values that interest us in the tutorials. The library that we will use is called Ant Tweak Bar (a.k.a ATB) which is hosted at anttweakbar.sourceforge.net. There are many options available and if you do some research on the subject you will find a lot of discussions and opinions on the matter.</description>
+    </item>
+    <item>
+      <title>Tutorial 49:Cascaded Shadow Mapping</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html</guid>
+      <description>Background Let&amp;rsquo;s take a close up look of the shadow from tutorial 47:
+As you can see, the qaulity of the shadow is not high. It&amp;rsquo;s too blocky. We&amp;rsquo;ve touched on the reason for that blockiness at the end of tutorial 47 and referred to it as Perspective Aliasing which means a large number of pixels in view space being mapped to the same pixel in the shadow map. This means that all these pixels will either be in shadow or in light, contributing to the sense of blockiness.</description>
+    </item>
+  </channel>
+</rss>

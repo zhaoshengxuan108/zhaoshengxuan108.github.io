@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>光线追踪 on Hugo Relearn Theme</title>
+    <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/index.html</link>
+    <description>Recent content in 光线追踪 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ray Tracing in One Weekend</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html</guid>
+      <description>Contents Ray Tracing in One Weekend
+1 Overview
+2 Output an Image
+2.1 The PPM Image Format
+2.2 Creating an Image File
+2.3 Adding a Progress Indicator
+3 The vec3 Class
+3.1 Color Utility Functions 4 Rays, a Simple Camera, and Background
+4.1 The ray Class 4.2 Sending Rays Into the Scene 5 Adding a Sphere
+5.1 Ray-Sphere Intersection 5.2 Creating Our First Raytraced Image 6 Surface Normals and Multiple Objects</description>
+    </item>
+    <item>
+      <title>Ray Tracing The Next Week</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html</guid>
+      <description>Contents Ray Tracing in One Weekend
+1 Overview
+2 Output an Image
+2.1 The PPM Image Format
+2.2 Creating an Image File
+2.3 Adding a Progress Indicator
+3 The vec3 Class
+3.1 Color Utility Functions 4 Rays, a Simple Camera, and Background
+4.1 The ray Class 4.2 Sending Rays Into the Scene 5 Adding a Sphere
+5.1 Ray-Sphere Intersection 5.2 Creating Our First Raytraced Image 6 Surface Normals and Multiple Objects</description>
+    </item>
+    <item>
+      <title>Ray Tracing The Rest of Your Life</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html</guid>
+      <description>Contents Ray Tracing in One Weekend
+1 Overview
+2 Output an Image
+2.1 The PPM Image Format
+2.2 Creating an Image File
+2.3 Adding a Progress Indicator
+3 The vec3 Class
+3.1 Color Utility Functions 4 Rays, a Simple Camera, and Background
+4.1 The ray Class 4.2 Sending Rays Into the Scene 5 Adding a Sphere
+5.1 Ray-Sphere Intersection 5.2 Creating Our First Raytraced Image 6 Surface Normals and Multiple Objects</description>
+    </item>
+    <item>
+      <title>Scratchapixe 系列短文</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html</guid>
+      <description>Contents Introduction to Raytracing: A Simple Method for Creating 3D Images
+How Does it Work The Raytracing Algorithm in a Nutshell Implementing the Raytracing Algorithm Adding Reflection and Refraction Writing a Basic Raytracer Where Do I Start? A Very Gentle Introduction to Computer Graphics Programming
+Understanding How It Works! A Gentle Introduction to Computer Graphics Programming Describing Objects Populating the Virtual World Creating an Image of this Virtual World What Have We Learned?</description>
+    </item>
+  </channel>
+</rss>

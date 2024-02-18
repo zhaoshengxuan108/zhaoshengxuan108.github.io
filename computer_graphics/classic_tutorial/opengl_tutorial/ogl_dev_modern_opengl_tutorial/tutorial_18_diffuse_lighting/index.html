@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 18:Diffuse Lighting :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background The main difference between ambient light and diffuse light is the fact that diffuse light is dependent on the direction of the rays of light while ambient light ignores it completely. When only ambient light is present the entire scene is equally lit. Diffuse light makes the parts of objects that face the light brighter than the parts that are opposite from it.
+Diffuse light also adds a twist where the angle by which the light strikes the surface determines the brightness of that surface.">
+    <meta property="og:title" content="Tutorial 18:Diffuse Lighting :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background The main difference between ambient light and diffuse light is the fact that diffuse light is dependent on the direction of the rays of light while ambient light ignores it completely. When only ambient light is present the entire scene is equally lit. Diffuse light makes the parts of objects that face the light brighter than the parts that are opposite from it.
+Diffuse light also adds a twist where the angle by which the light strikes the surface determines the brightness of that surface.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 18:Diffuse Lighting :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 18:Diffuse Lighting :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.print.html" rel="alternate" type="text/html" title="Tutorial 18:Diffuse Lighting :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#source-walkthru">Source walkthru</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 18:Diffuse Lighting</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" title="Tutorial 17:Ambient Lighting (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" title="Tutorial 19:Specular Lighting (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-18diffuse-lighting">Tutorial 18:Diffuse Lighting</h1>
+
+<h3 id="background">Background</h3>
+<p>The main difference between ambient light and diffuse light is the fact that diffuse light is dependent on the direction of the rays of light while ambient light ignores it completely. When only ambient light is present the entire scene is equally lit. Diffuse light makes the parts of objects that face the light brighter than the parts that are opposite from it.</p>
+<p>Diffuse light also adds a twist where the angle by which the light strikes the surface determines the brightness of that surface. This concept is demonstrated by the following picture:</p>
+<p><a href="#R-image-1a6837801a17cb57f16584c6bdb21942" class="lightbox-link"><img src="../assets/light_angle.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1a6837801a17cb57f16584c6bdb21942"><img src="../assets/light_angle.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Let&rsquo;s assume that the strength of both light rays is the same and the only difference is their direction. The model of diffuse light says that the surface on the left will be brighter than the surface on the right because the surface on the right is hit at a sharper angle than the surface on the left. In fact, the surface on the left will be the brightest possible because the light there hits at an angle of 90 degrees.</p>
+<p>The model of diffuse light is actually based on <a href="http://en.wikipedia.org/wiki/Lambert%27s_cosine_law" target="_blank">Lambert&rsquo;s cosine law</a> that says that the intensity of light reflected from a surface is directly proportional to the cosine of the angle between the observer&rsquo;s line of sight and the surface normal. Note that we changed this a bit by using the direction of light instead of the observer&rsquo;s line of sight (which we will use in specular light).</p>
+<p>To calculate the intensity of light in the diffuse model we are going to simply use the cosine of the angle between the light and the surface normal (whereas Lambert&rsquo;s law refers to the more general concept of &lsquo;directionaly proportional&rsquo;). Consider the following picture:</p>
+<p><a href="#R-image-e3dd08b18fc947aca7741e42e3106453" class="lightbox-link"><img src="../assets/lambert_law.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e3dd08b18fc947aca7741e42e3106453"><img src="../assets/lambert_law.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>We see four light rays hitting the surface at different angles. The surface normal is the green arrow pointing out from the surface. Light ray A has the greatest strength. The angle between A and the normal is zero and the cosine of zero is 1. This means that after we multiply the intensity of light (three channels of 0 to 1) by the color of the surface we will multiply by 1. We can&rsquo;t get any better than this with diffuse light. Light ray B hits the surface at an angle between 0 and 90. This means that the angle between B and the normal is also between 0 and 90 and the cosine of that angle is between 0 and 1. We will scale the result of the multiplication above by the cosine of that angle which means the intensity of light will definitely be less than light ray A.</p>
+<p>Things become different with light rays C and D. C hits the surface directly from the side, at an angle of 0. The angle between C and the normal is exactly 90 degrees and the cosine is 0. This results in C having no effect on lighting the surface at all! The angle between D and the normal is obtuse which means the cosine is some negative number which is smaller than 0 and larger or equal to -1. The end result is the same as C - no effect on the surface brightness.</p>
+<p>From this discussion we draw an important conclusion - in order to have any effect on the brightness of a surface the light must hit the surface such that the angle between it and the surface normal will be greater or equal to zero and up to (but not including!) 90 degrees.</p>
+<p>We see that the surface normal plays an important part in the calculation of diffuse light. The examples above were very simple - the surface was a single line and there was only one normal to consider. In the real world we have objects that are composed of multiple polygon and the normal of each polygon is a bit different than the one next to it. Here&rsquo;s an example:</p>
+<p><a href="#R-image-80adff7373d27bebe7e33638c2027485" class="lightbox-link"><img src="../assets/normals.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-80adff7373d27bebe7e33638c2027485"><img src="../assets/normals.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Since the normal is the same across the face of a polygon, it is enough to calculate the diffuse light in the vertex shader. All the three vertices in a triangle would have the same color and this will be the color of the entire triangle. However, this won&rsquo;t look too good. We will have a bunch of polygons where each one has a particular color which is slightly different than the one next to it and we will see how color breaks at the edges. This can definitely be improved.</p>
+<p>The trick is to use a concept known as a &lsquo;vertex normal&rsquo;. A vertex normal is the average of the normals of all the triangles that share the vertex. Instead of having the vertex shader calculate the diffuse light we only pass through the vertex normal as an attribute to the fragment shader and nothing more. The rasterizer will get three different normals and will need to interpolate between them. The fragement shader will be invoked for each pixel with the specific normal for this pixel. We can then calculate the diffuse light at the pixel level using that specific normal. The result will be a lighting effect which nicely changes across the triangle face and between neighboring triangles. This technique is known as <a href="http://en.wikipedia.org/wiki/Phong_shading" target="_blank">Phong Shading</a>. Here&rsquo;s how the vertex normals look like after interpolation:</p>
+<p><a href="#R-image-683e8eeb4d05c1b2f6800f7d17c56092" class="lightbox-link"><img src="../assets/vertex_normals.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-683e8eeb4d05c1b2f6800f7d17c56092"><img src="../assets/vertex_normals.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>You may find the pyramid model that we have been using in the last few tutorials a bit strange looking with those vertex normals and decide to stick with the original normals. This is OK. However, as models become more complex (and we will see that in the future) and their surfaces become smoother I think you will find the vertex normals more appropriate.</p>
+<p>The only thing left to worry about is the coordinate space in which diffuse lighting calculations are going to take place. The vertices and their normals are specified in a local coordinate space and are transformed in the vertex shader all the way to clip space by the WVP matrix that we supply to the shader. However, specifying the direction of light in world space is the most logical course of action. After all, the direction of light is the result of some light source which is positioned in the world somewhere (even the sun is located in the &ldquo;world&rdquo;, albeit many miles away) and sheds its light in a particular direction. Therefore, we will need to transform the normals to world space before the calculation.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(lighting_technique.h:25)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">DirectionalLight</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="kt">float</span> <span class="n">AmbientIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Direction</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="kt">float</span> <span class="n">DiffuseIntensity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>This is the new DirectionalLight structure. There are two new members here: the direction is a 3 dimensional vector specified in world space and the intensity is a floating point number (will be used in the same way as the ambient intensity).</p>
+<p>(lighting.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWorld</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Normal0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">TexCoord0</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">Normal0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the updated vertex shader. We have a new vertex attribute, the normal, that the application will need to supply. In addition, the world transformation has its own uniform variable and we will need to supply it in addition to the WVP matrix. The vertex shader transforms the normal to world space using the world matrix and passes it to the fragment shader. Note how the 3 dimensional normal is extended to a 4 dimensional vector, multiplied by the 4 dimensional world matrix and then reduced back to 3 dimensions using the notation (&hellip;).xyz. This capability of the GLSL language is called &lsquo;swizzling&rsquo; and allows great flexibility in vector manipulations. For example, if you have a 3 dimensional vector v(1,2,3) you can write: vec4 n = v.zzyy and then vector n will contain (3,3,2,2). Remember that when we extend the normal from 3 to 4 dimensions we must place zero at the fourth component. This nullifies the effect of translation in the world matrix (the fourth column). The reason is that vectors cannot be moved like points. They can only be scaled or rotated.</p>
+<p>(lighting.fs:1)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="k">struct</span> <span class="nc">DirectionalLight</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">vec3</span> <span class="n">Color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="kt">float</span> <span class="n">AmbientIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="kt">float</span> <span class="n">DiffuseIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">vec3</span> <span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>Here is the beginning of the fragment shader. It now receives the interpolated vertex normal that was transformed by the vertex shader to world space. The DirectionalLight structure was extended to match the one in the C++ code and contains the new light attributes.</p>
+<p>(lighting.fs:19)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">vec4</span> <span class="n">AmbientColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span></span></span></code></pre></div><p>There is no change in the calculation of the ambient color factor. We calculate and store it here and use it in the final formula below.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="kt">float</span> <span class="n">DiffuseFactor</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">normalize</span><span class="p">(</span><span class="n">Normal0</span><span class="p">),</span> <span class="o">-</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">);</span></span></span></code></pre></div><p>This is the core of the diffuse light calculation. We calculate the cosine of the angle between the light vector and the normal by doing a dot product between them. There are three things to note here:</p>
+<ol>
+<li>The normal passed from the vertex shader is normalized before it is used. This is because the interpolation the vector went through may have changed its length and it is no longer a unit vector.</li>
+<li>The light direction is reversed. If you think about this for a moment you will see that light that hits a surface at a right angle is actualy 180 degrees away from the surface normal (which simply points back at the light source). By reversing the direction of light in this case we get a vector which equals the normal. Therefore, the angle between them is zero, which is what we want.</li>
+<li>The light vector is not normalized. It will be a waste of GPU resources to normalize the same vector over and over again for all pixels. Instead, we make sure we normalize the vector the application passes is normalized before the draw call is made.</li>
+</ol>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">vec4</span> <span class="n">DiffuseColor</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">DiffuseFactor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">DiffuseColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">DiffuseIntensity</span> <span class="o">*</span> <span class="n">DiffuseFactor</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="n">DiffuseColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Here we calculate the diffuse term which depends on the color of light, the diffuse intensity and the direction of light. If the diffuse factor is negative or equals to zero it means that light strikes the surface at an obtuse angle (either &ldquo;from the side&rdquo; or &ldquo;from behind&rdquo;). In that case the diffuse light has no effect and the DiffuseColor vector is initialized to zero. If the angle is greater than zero we calculate the diffuse color by multiplying the basic light color by the constant diffuse intensity and then scaling the result by the diffuse factor. If the angle between the light and the normal is 0 the diffuse factor will be 1 which will provide the maximum light strength.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">texture2D</span><span class="p">(</span><span class="n">gSampler</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">.</span><span class="n">xy</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">AmbientColor</span> <span class="o">+</span> <span class="n">DiffuseColor</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the final lighting calculation. We add the ambient and diffuse terms and multiply the result by the color which is sampled from the texture. Now you can see that even if diffuse light has no effect on the surface (due to direction), the ambient light can still light it up, if it exists.</p>
+<p>(lighting_technique.cpp:144)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">LightingTechnique</span><span class="o">::</span><span class="n">SetDirectionalLight</span><span class="p">(</span><span class="k">const</span> <span class="n">DirectionalLight</span><span class="o">&amp;</span> <span class="n">Light</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glUniform3f</span><span class="p">(</span><span class="n">m_dirLightLocation</span><span class="p">.</span><span class="n">Color</span><span class="p">,</span> <span class="n">Light</span><span class="p">.</span><span class="n">Color</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Light</span><span class="p">.</span><span class="n">Color</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">Light</span><span class="p">.</span><span class="n">Color</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_dirLightLocation</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">,</span> <span class="n">Light</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Direction</span> <span class="o">=</span> <span class="n">Light</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="n">Direction</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="n">glUniform3f</span><span class="p">(</span><span class="n">m_dirLightLocation</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Direction</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Direction</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">Direction</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">8</span><span class="cl">  <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_dirLightLocation</span><span class="p">.</span><span class="n">DiffuseIntensity</span><span class="p">,</span> <span class="n">Light</span><span class="p">.</span><span class="n">DiffuseIntensity</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function sets the parameters of the directional light into the shader. It was extended to cover the direction vector and the diffuse intensity. Note that the direction vector is normalized before it is set. The LightingTechnique class also fetches the direction and diffuse intensity uniform locations from the shader as well as the world matrix uniform location. There is also a function to set the world transformation matrix. All this stuff is pretty routine by now and the code is not quoted here. Check the source for more details.</p>
+<p>(tutorial18.cpp:35)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="nc">Vertex</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">m_pos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Vector2f</span> <span class="n">m_tex</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">m_normal</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">Vertex</span><span class="p">()</span> <span class="p">{}</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">Vertex</span><span class="p">(</span><span class="n">Vector3f</span> <span class="n">pos</span><span class="p">,</span> <span class="n">Vector2f</span> <span class="n">tex</span><span class="p">)</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">m_pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">m_tex</span> <span class="o">=</span> <span class="n">tex</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="n">m_normal</span> <span class="o">=</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>The updated Vertex structure now includes the normal. It is initialized automatically to zero by the constructor and we have a dedicated function that scans all the vertices and calculates the normals.</p>
+<p>(tutorial18.cpp:197)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">CalcNormals</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span><span class="o">*</span> <span class="n">pIndices</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">IndexCount</span><span class="p">,</span> <span class="n">Vertex</span><span class="o">*</span> <span class="n">pVertices</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">VertexCount</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">IndexCount</span> <span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Index0</span> <span class="o">=</span> <span class="n">pIndices</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Index1</span> <span class="o">=</span> <span class="n">pIndices</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Index2</span> <span class="o">=</span> <span class="n">pIndices</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">Vector3f</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">pVertices</span><span class="p">[</span><span class="n">Index1</span><span class="p">].</span><span class="n">m_pos</span> <span class="o">-</span> <span class="n">pVertices</span><span class="p">[</span><span class="n">Index0</span><span class="p">].</span><span class="n">m_pos</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">Vector3f</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">pVertices</span><span class="p">[</span><span class="n">Index2</span><span class="p">].</span><span class="n">m_pos</span> <span class="o">-</span> <span class="n">pVertices</span><span class="p">[</span><span class="n">Index0</span><span class="p">].</span><span class="n">m_pos</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">Vector3f</span> <span class="n">Normal</span> <span class="o">=</span> <span class="n">v1</span><span class="p">.</span><span class="n">Cross</span><span class="p">(</span><span class="n">v2</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">Normal</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">pVertices</span><span class="p">[</span><span class="n">Index0</span><span class="p">].</span><span class="n">m_normal</span> <span class="o">+=</span> <span class="n">Normal</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="n">pVertices</span><span class="p">[</span><span class="n">Index1</span><span class="p">].</span><span class="n">m_normal</span> <span class="o">+=</span> <span class="n">Normal</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="n">pVertices</span><span class="p">[</span><span class="n">Index2</span><span class="p">].</span><span class="n">m_normal</span> <span class="o">+=</span> <span class="n">Normal</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">VertexCount</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">pVertices</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">m_normal</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function takes an array of vertices and indices, fetches the vertices of each triangle according to the indices and calculates its normal. In the first loop we only accumulate the normals into each of the three triangle vertices. For each triangle the normal is calculated as a cross product between the two edges that are coming out of the first vertex. Before accumulating the normal in the vertex we make sure we normalize it. The reaons is that the result of the cross product is not guaranteed to be of unit length. In the second loop we scan the array of vertices directly (since we don&rsquo;t care about the indices any more) and normalize the normal of each vertex. This operation is equivalent to averaging out the accumulated sum of normals and leaves us with a vertex normal that is of a unit length. This function is called before the vertex buffer is created in order to get the calculated vertex normals into the buffer along with the other vertex attributes.</p>
+<p>(tutorial18.cpp:131)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">WorldTransformation</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">m_pEffect</span><span class="o">-&gt;</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">WorldTransformation</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="p">...</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">...</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Vertex</span><span class="p">),</span> <span class="p">(</span><span class="k">const</span> <span class="n">GLvoid</span><span class="o">*</span><span class="p">)</span><span class="mi">20</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">...</span>  
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span></span></span></code></pre></div><p>These are the main changes to the render loop. The pipeline class has a new function that provides the world transformation matrix (in addition to the WVP matrix). The world matrix is calculated as the multiplication of the scaling matrix by the rotation matrix and finally by the translation matrix. We enable and disable the third vertex attribute array and specify the offset of the normal within each vertex in the vertex buffer. The offset is 20 because the normal is preceded by the position (12 bytes) and the texture coordinates (8 bytes).</p>
+<p>To complete the demo that we see in this tutorial&rsquo;s picture we must also specify the diffuse intensity and the light direction. This is done in the constructor of the Tutorial18 class. The diffuse intensity is set to 0.8 and the direction of light is from left to right. The ambient intensity was decreased all the way down to zero to amplify the effect of diffuse light. You can play with the keys &lsquo;z&rsquo; and &lsquo;x&rsquo; to control the diffuse intensity (as well as &lsquo;a&rsquo; and &rsquo;s&rsquo; from the previous tutorial that governs ambient intensity).</p>
+<p><strong>Mathematical note</strong>
+There are many sources online that tell you that you need the transpose of the inverse of the world matrix in order to transform the normal vector. This is correct, however, we usually don&rsquo;t need to go that far. Our world matrices are always orthogonal (their vectors are always orthogonal). Since the inverse of an orthogonal matrix is equal to its transpose, the transpose of the inverse is actually the transpose of the transpose, so we end up with the original matrix. As long as we avoid doing distortions (scaling one axis differently than the rest) we are fine with the approach I presented above.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=UpJs-kgtoSQ&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=14" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

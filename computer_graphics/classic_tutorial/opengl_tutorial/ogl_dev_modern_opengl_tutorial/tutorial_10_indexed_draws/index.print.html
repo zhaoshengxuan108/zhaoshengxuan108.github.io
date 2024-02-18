@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 10:Indexed Draws :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background OpenGL provides several draw functions. glDrawArrays() that we have been using until now falls under the category of &ldquo;ordered draws&rdquo;. This means that the vertex buffer is scanned from the specified offset and every X (1 for points, 2 for lines, etc) vertices a primitive is emitted. This is very simple to use but the downside is if a vertex is part of several primitives then it must be present several times in the vertex buffer.">
+    <meta property="og:title" content="Tutorial 10:Indexed Draws :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background OpenGL provides several draw functions. glDrawArrays() that we have been using until now falls under the category of &ldquo;ordered draws&rdquo;. This means that the vertex buffer is scanned from the specified offset and every X (1 for points, 2 for lines, etc) vertices a primitive is emitted. This is very simple to use but the downside is if a vertex is part of several primitives then it must be present several times in the vertex buffer.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 10:Indexed Draws :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" rel="canonical" type="text/html" title="Tutorial 10:Indexed Draws :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 10:Indexed Draws :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 10:Indexed Draws</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-10indexed-draws">Tutorial 10:Indexed Draws</h1>
+
+<h2 id="background">Background</h2>
+<p>OpenGL provides several draw functions. glDrawArrays() that we have been using until now falls under the category of &ldquo;ordered draws&rdquo;. This means that the vertex buffer is scanned from the specified offset and every X (1 for points, 2 for lines, etc) vertices a primitive is emitted. This is very simple to use but the downside is if a vertex is part of several primitives then it must be present several times in the vertex buffer. That is, there is no concept of sharing. Sharing is provided by the draw functions that belong to the &ldquo;indexed draws&rdquo; category. Here in addition to the vertex buffer there is also an index buffer that contains indices into the vertex buffer. Scanning the index buffer is similar to scanning the vertex buffer - every X indices a primitive is emitted. To exercise sharing you simply repeat the index of the shared vertex several times. Sharing is very important for memory efficiency because most objects are represented by some closed mesh of triangles and most vertices participate in more than one triangle.</p>
+<p>Here is an example of an ordered draw:</p>
+<p><a href="#R-image-75a3845f68fa9836f2b66a3a22beb346" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/../assets/ordered_draw.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-75a3845f68fa9836f2b66a3a22beb346"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/../assets/ordered_draw.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>If we are rendering triangles the GPU will generate the following set: V0/1/2, V3/4/5, V6/7/8, etc.</p>
+<p>Here is an example of an indexed draw:</p>
+<p><a href="#R-image-92a8e746de2e5a168d923161a34a005c" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/../assets/indexed_draw.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-92a8e746de2e5a168d923161a34a005c"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/../assets/indexed_draw.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>In this case the GPU will generate the following triangles: V2/0/1, V5/2/4, V6/5/7, etc.</p>
+<p>Using index draws in OpenGL requires generating and populating an index buffer. That buffer must be bound in addition to the vertex buffer before the draw call and a different API must be used.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">GLuint</span> <span class="n">IBO</span><span class="p">;</span></span></span></code></pre></div><p>We added another buffer object handle for the index buffer.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">Vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vector3f</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">Vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">Vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">Vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span></span></span></code></pre></div><p>To demonstrate vertex sharing we need a mesh which is a bit more complex. Many tutorials use the famous spinning cube for that. This requires 8 vertices and 12 triangles. Since I&rsquo;m lazy I use the spinning pyramid instead. This requires only 4 vertices and 4 triangles and is much easier to generate manually&hellip;</p>
+<p>When looking at these vertices from the top (along the Y axis) we get the following layout:</p>
+<p><a href="#R-image-d7f65405987885265fa19e50a80ca402" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/../assets/pyramid.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d7f65405987885265fa19e50a80ca402"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/../assets/pyramid.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Indices</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>              
+</span></span><span class="line"><span class="ln">2</span><span class="cl">                          <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>              
+</span></span><span class="line"><span class="ln">3</span><span class="cl">                          <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>              
+</span></span><span class="line"><span class="ln">4</span><span class="cl">                          <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span></span></span></code></pre></div><p>The index buffer is populated using an array of indices. The indices match the location of the vertices in the vertex buffer. When looking at the array and the diagram above you can see that the last triangle is the pyramid base while the other three make up its faces. The pyramid is not symmetric but is very easy to specify.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">IBO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ELEMENT_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">IBO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ELEMENT_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Indices</span><span class="p">),</span> <span class="n">Indices</span><span class="p">,</span> <span class="n">GL_STATIC_DRAW</span><span class="p">);</span></span></span></code></pre></div><p>We create and then populate the index buffer using the array of indices. You can see that the only difference in creating vertex and index buffers is that vertex buffers take GL_ARRAY_BUFFER as the buffer type while index buffers take GL_ELEMENT_ARRAY_BUFFER.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ELEMENT_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">IBO</span><span class="p">);</span></span></span></code></pre></div><p>In addition to binding the vertex buffer we must also bind the index buffer prior to drawing. Again, we use the GL_ELEMENT_ARRAY_BUFFER as the buffer type.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glDrawElements</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">GL_UNSIGNED_INT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></span></span></code></pre></div><p>We use glDrawElements instead of glDrawArrays. The first parameter is the primitive type to render (same as glDrawArrays). The second parameter is the number of indices in the index buffer to use for primitive generation. The next parameter is the type of each index. The GPU must be told the size of each individual index else it will not know how to parse the buffer. Possible values here are GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT. If the index range is small you want the smaller types that are more space efficient and if the index range is large you want the larger types. The final parameter tells the GPU the offset in bytes from the start of the index buffer to the location of the first index to scan. This is useful when the same index buffer contains the indices of multiple objects. By specifying the offset and count you can tell the GPU which object to render. In our case we want to start at the beginning so we specify zero. Note that the type of the last parameter is GLvoid* so if you specify anything other than zero you need to cast it to that type.</p>
+<h2 id="comments">Comments</h2>
+<p>Oct-23, 2021 - by voytechj on youtube: the OpenGL pipeline includes a post transform cache that stores the results of the vertex shader. If the same vertex passes through the pipeline again (a case identified by the reuse of the index) the processing of the vertex shader can be skipped by fetching the cache results. Therefore, the advantage of indexed draws is not only in memory saving but in performance as well. More info in the OpenGL wiki</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

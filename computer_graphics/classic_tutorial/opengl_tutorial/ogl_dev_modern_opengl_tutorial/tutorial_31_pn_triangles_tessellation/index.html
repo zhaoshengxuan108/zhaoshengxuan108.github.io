@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In the previous tutorial we got introduced to Tessellation in OpenGL 4.x (this tutorial relies heavily on the material covered by the previous one so make sure you are familiar with it). We enabled all the relevant stages and learned how to subdivide our mesh and displace the vertices that were created by the Tessellation process in order to transform a dull flat quad into a complex rocky terrain. Usage of the Tessellation pipeline was fairly simple, though.">
+    <meta property="og:title" content="Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In the previous tutorial we got introduced to Tessellation in OpenGL 4.x (this tutorial relies heavily on the material covered by the previous one so make sure you are familiar with it). We enabled all the relevant stages and learned how to subdivide our mesh and displace the vertices that were created by the Tessellation process in order to transform a dull flat quad into a complex rocky terrain. Usage of the Tessellation pipeline was fairly simple, though.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.print.html" rel="alternate" type="text/html" title="Tutorial 31:PN Triangles Tessellation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#source-walkthru">Source walkthru</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 31:PN Triangles Tessellation</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" title="Tutorial 30:Basic Tessellation (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" title="Tutorial 32:Vertex Array Objects (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-31pn-triangles-tessellation">Tutorial 31:PN Triangles Tessellation</h1>
+
+<h3 id="background">Background</h3>
+<p>In the <a href="http://ogldev.atspace.co.uk/www/tutorial30/tutorial30.html" target="_blank">previous tutorial</a> we got introduced to Tessellation in OpenGL 4.x (this tutorial relies heavily on the material covered by the previous one so make sure you are familiar with it). We enabled all the relevant stages and learned how to subdivide our mesh and displace the vertices that were created by the Tessellation process in order to transform a dull flat quad into a complex rocky terrain. Usage of the Tessellation pipeline was fairly simple, though. The evaluation in the TES was just an interpolation of the vertices of the original triangle using the barycentric coordinates generated by the PG. Since the results of the interpolation were located on the plane of the original triangle we had to use displacement mapping in order to create bumps on the surface.</p>
+<p>In this tutorial we will explore a more advanced Tessellation technique known as <em>PN (Point-Normal) Triangles</em>. This technique was the subject of a <a href="http://alex.vlachos.com/graphics/CurvedPNTriangles.pdf" target="_blank">2001 paper by Vlachos et al</a> and was also covered in a GDC2011 presenation called <a href="http://www.nvidia.com/content/PDF/GDC2011/John_McDonald.pdf" target="_blank">&ldquo;Tessellation On Any Budget&rdquo;</a> by John McDonald. The idea explored by these papers was to replace each triangle in the original mesh by a geometric surface known as a <em><a href="http://en.wikipedia.org/wiki/B%c3%a9zier_surface" target="_blank">Bezier Surface</a></em> in order to smooth out a low polygon mesh.</p>
+<p>Bezier Surfaces were invented by Pierre Bezier in the 1960s as a method of describing the curves of automobile bodies. In a nutshell, a Bezier Surface is polynomial function which described a smooth and continuous surface which is fully contained within a set of control points (CP). The polynomial has a special attribute whereas by moving a CP the surface is affected mostly in the vicinity of that CPs. The effect becomes less visible as we move away from that CP. You can picture this as a highly delicate and flexible cloth lying on the floor. If you pull the cloth upwards at a specific point the curve that will be formed will become less and less noticeable in the distant parts of the cloth (if the cloth was infinitely flexible the effect may even become non-existant at some point).</p>
+<p>The polynomial of the Bezier surface is defined over the unit square. That is, by plugging into the function various combinations of two numbers in the range [0-1] we get a point in 3D space which is exactly on the smooth surface that the polynomial describes. If you plug in many pairs of numbers in the unit square and plot the result on the screen you will eventually get a good approximation of the surface.</p>
+<p>We are going to use a special case of a Bezier Surface called a <em>Bezier Triangle</em> which has the following form:</p>
+<p><a href="#R-image-813dcf76c0d61b9ac602148e23eac1f6" class="lightbox-link"><img src="../assets/bezier_tri.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-813dcf76c0d61b9ac602148e23eac1f6"><img src="../assets/bezier_tri.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Let&rsquo;s decipher this step by step. &lsquo;u/v/w&rsquo; are barycentric coordinates (i.e. they always maintain the equation &lsquo;u + v + w = 1&rsquo;). The ten &lsquo;Bxyz&rsquo; are CPs. We are going to deviate a bit from the classical definition of a Bezier Triangle and place the CPs as follows:</p>
+<p><a href="#R-image-e497604d54cb08bafed94b18d6af338a" class="lightbox-link"><img src="../assets/control_points.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e497604d54cb08bafed94b18d6af338a"><img src="../assets/control_points.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>As you can see, the general form of the CPs resembles a somewhat puffy surface on top of a triangle. By evaluating a lot of barycentric coordinates in the polynomial above we will get an exproximation of that surface in 3D space.</p>
+<p>Let&rsquo;s see how to integrate these mathematical concepts into the Tessellation pipeline. We are going to start with a triangle and this will be our input patch (same as in the previous tutorial). We will generate the 10 CPs and determine the TLs in the TCS. The PG will subdivide the triangle domain according to the TLs and the TES will be executed for each new point. The TES will plug the barycentric coordinates from the PG and the 10 CPs from the TCS into the polynomial of the Bezier triangle and the result will be a coordinate on the puffy surface. From here on things will run as usual.</p>
+<p>The one thing we still need to figure out is how to generate the CPs. The method suggested by the PN Triangles algorithm is as follows:</p>
+<ul>
+<li>The original vertices of the triangle remain unchanged (and are named B003, B030 and B300).</li>
+<li>Two midpoints are generated on each edge - one on 1/3 of the way the other on 2/3.</li>
+<li>Each midpoint is projected on the plane created by the nearest vertex and its normal:</li>
+</ul>
+<p><a href="#R-image-501ef92a911ab2771ea4ba28deeef84e" class="lightbox-link"><img src="../assets/cp_projection.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-501ef92a911ab2771ea4ba28deeef84e"><img src="../assets/cp_projection.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>The picture above shows the triangle from the side. Each of the two endpoints has its own normal (in green) from the original mesh. The combination of a point and a normal creates a plane. We take the two midpoints that were calculated earlier and project them to the plane of the nearest vertex (see the dashed arrows).</p>
+<ul>
+<li>In order to calculate the position of B111 we take a vector from the original triangle center (average of the three vertices) to the average of the 6 midpoints (after projection). We continue along that vector for one half of its length.</li>
+</ul>
+<p>The reasoning behind this scheme is very simple. When you have an area of the mesh which is fairly flat it means that most vertex normals there will point towards the same general direction which will not be far off from the true triangle normal. This means that when we project the midpoints on the planes they would not move away very far from the triangle surface. This will result in a mild &ldquo;puffiness&rdquo; in that area. But if the area is very curved it means the midpoints would move further away to overcome the jagged nature of that area. In the demo you can see that we start with a low polygon model of Suzanne, Blender&rsquo;s mascot character, which has about 500 polygons. Breaking of the silhouette is very noticeable, particularly around Suzanne&rsquo;s head. By projecting the midpoints as described above to create CPs and using the Tessellator to evaluate the Bezier Triangle created by this CPs we are able to provide a much smoother model without any artistic resources.</p>
+<p><strong>References:</strong></p>
+<ul>
+<li>Vlachos Alex, Jorg Peters, Chas Boyd and Jason L. Mitchell. &ldquo;Curved PN Triangles&rdquo;. Proceedings of the 2001 Symposium interactive 3D graphics (2001): 159-66.</li>
+<li>John McDonald. &ldquo;Tessellation On Any Budget&rdquo;. Game Developers Conference, 2011.</li>
+</ul>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(lighting.vs:13)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">WorldPos_CS_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position_VS_in</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">TexCoord_CS_in</span> <span class="o">=</span> <span class="n">TexCoord_VS_in</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">Normal_CS_in</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">((</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Normal_VS_in</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The VS contains only one change from the previous tutorial - the normal must be normalized after the world transformation. The reason is that the TCS relies on the normal having a unit length. Otherwise, the new CPs above the surface won&rsquo;t be generated correctly. If the world transformation contains a scaling operation the normals won&rsquo;t have unit length and have to be normalized.</p>
+<p>(lighting.cs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 410 core
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="c1">// define the number of CPs in the output patch
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span><span class="n">layout</span> <span class="p">(</span><span class="n">vertices</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">out</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gTessellationLevel</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1">// attributes of the input CPs
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span><span class="n">in</span> <span class="n">vec3</span> <span class="n">WorldPos_CS_in</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord_CS_in</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal_CS_in</span><span class="p">[];</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="k">struct</span> <span class="nc">OutputPatch</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B030</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B021</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B012</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B003</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B102</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B201</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B300</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B210</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B120</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B111</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">
+</span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="c1">// attributes of the output CPs
+</span></span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="c1"></span><span class="n">out</span> <span class="n">patch</span> <span class="n">OutputPatch</span> <span class="n">oPatch</span><span class="p">;</span></span></span></code></pre></div><p>This is the start of the TCS with the changes marked in bold face. The first thing to note is that we are outputing a single CP. You may find this odd since the whole idea behind PN Triangles is to create a Bezier triangle with 10 CPs on top of the original triangle. So why are we declaring a single output CP instead of 10? the reason is that the main TCS function will be executed as many times as the defined output CPs value. In this algorithm we need to treat some of the points a bit differently than the others which makes it a bit difficult to use the same function for all points. Instead, I&rsquo;ve encapsulated all the data of the output patch in the OutputPatch struct above and declared an output variable called oPatch of that type. The TCS main function will run once for each patch and this struct will be populated with data for all the 10 CPs. The implementation that McDonald presented in GDC 2011 (see references) provides a version which may be more efficient. In his version the TCS is executed three times which enables the GPU to distribute the work of a single patch across three threads. In general, if the output CPs are generated using the same algorithm it is better (from a performance point of view) to implement that algorithm as-is in the TCS and have it execute for as many output CPs as you need.</p>
+<p>Another thing to note is that oPatch is prefixed by the builtin keyword <em>patch</em>. This keyword says that the variable contains data which pertains to the entire patch and not the current output CP. The compiler can use that as a hint to make sure that the code that updates such a variable will run once per patch instead of once per CP (since GPUs will strive to update each output CP in a different HW thread).</p>
+<p>The final change in this section is that the eye position uniform variable has been replaced with a tessellation level variable. Instead of setting the TL according to the distance from this camera (as in the previous tutorial) we allow the user to configure it using the &lsquo;+&rsquo; and &lsquo;-&rsquo; keys. This makes it simpler to stand close to the model and see the effect of changing the TL.</p>
+<p>(lighting.cs:76)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="c1">// Set the control points of the output patch  
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Normal_CS_in</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">oPatch</span><span class="p">.</span><span class="n">TexCoord</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">TexCoord_CS_in</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">CalcPositions</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="c1">// Calculate the tessellation levels  
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>  <span class="n">gl_TessLevelOuter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gTessellationLevel</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">gl_TessLevelOuter</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">gTessellationLevel</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">gl_TessLevelOuter</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">gTessellationLevel</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">gl_TessLevelInner</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gTessellationLevel</span><span class="p">;}</span></span></span></code></pre></div><p>This is the main function of the TCS. The three normals and texture coordinates are copied as-is from the input into the output patch. The 10 CPs that we are going to generate contain only a position value. This is done in a dedicated function called CalcPositions() which is executed next. Finally, the TLs are set according to the uniform variable.</p>
+<p>(lighting.cs:41)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">CalcPositions</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="c1">// The original vertices stay the same  
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span> <span class="o">=</span> <span class="n">WorldPos_CS_in</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span> <span class="o">=</span> <span class="n">WorldPos_CS_in</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span> <span class="o">=</span> <span class="n">WorldPos_CS_in</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="c1">// Edges are names according to the opposing vertex  
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span>  <span class="n">vec3</span> <span class="n">EdgeB300</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span> <span class="o">-</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">vec3</span> <span class="n">EdgeB030</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span> <span class="o">-</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">vec3</span> <span class="n">EdgeB003</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span> <span class="o">-</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="c1">// Generate two midpoints on each edge  
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span>  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B021</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span> <span class="o">+</span> <span class="n">EdgeB300</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B012</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span> <span class="o">+</span> <span class="n">EdgeB300</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B102</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span> <span class="o">+</span> <span class="n">EdgeB030</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B201</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span> <span class="o">+</span> <span class="n">EdgeB030</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B210</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span> <span class="o">+</span> <span class="n">EdgeB003</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B120</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span> <span class="o">+</span> <span class="n">EdgeB003</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="c1">// Project each midpoint on the plane defined by the nearest vertex and its normal  
+</span></span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="c1"></span>  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B021</span> <span class="o">=</span> <span class="n">ProjectToPlane</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B021</span><span class="p">,</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span><span class="p">,</span>                     <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> 
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B012</span> <span class="o">=</span> <span class="n">ProjectToPlane</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B012</span><span class="p">,</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span><span class="p">,</span>                     <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B102</span> <span class="o">=</span> <span class="n">ProjectToPlane</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B102</span><span class="p">,</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span><span class="p">,</span>                     <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B201</span> <span class="o">=</span> <span class="n">ProjectToPlane</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B201</span><span class="p">,</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span><span class="p">,</span>                     <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B210</span> <span class="o">=</span> <span class="n">ProjectToPlane</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B210</span><span class="p">,</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span><span class="p">,</span>                     <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B120</span> <span class="o">=</span> <span class="n">ProjectToPlane</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B120</span><span class="p">,</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span><span class="p">,</span>                     <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="c1">// Handle the center  
+</span></span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="c1"></span>  <span class="n">vec3</span> <span class="n">Center</span> <span class="o">=</span> <span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span> <span class="o">+</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span> <span class="o">+</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span><span class="p">)</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B111</span> <span class="o">=</span> <span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B021</span> <span class="o">+</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B012</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="ln">32</span><span class="cl">                          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B102</span> <span class="o">+</span>             
+</span></span><span class="line"><span class="ln">33</span><span class="cl">                          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B201</span> <span class="o">+</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B210</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="ln">34</span><span class="cl">                          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B120</span><span class="p">)</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B111</span> <span class="o">+=</span> <span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B111</span> <span class="o">-</span> <span class="n">Center</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function builds the Bezier triangle on top of the original triangle according to the method described in the background section. The names of the relevant members of the OutputPatch structure match the picture above to make it easier to review. The logic is very simple and follows the algorithm pretty much step by step.</p>
+<p>(lighting.cs:32)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">vec3</span> <span class="nf">ProjectToPlane</span><span class="p">(</span><span class="n">vec3</span> <span class="n">Point</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">PlanePoint</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">PlaneNormal</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">vec3</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Point</span> <span class="o">-</span> <span class="n">PlanePoint</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="kt">float</span> <span class="n">Len</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">PlaneNormal</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">vec3</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Len</span> <span class="o">*</span> <span class="n">PlaneNormal</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">Point</span> <span class="o">-</span> <span class="n">d</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function is used by CalcPositions() to project a midpoint on the plane defined by the nearest vertex and its normal. The idea is that by doing a dot product between the normal and the vector &lsquo;v&rsquo; from the vertex to the point we want to project we get the length of the projection of &lsquo;v&rsquo; on the normal (the normal must be of unit length). This is exactly the distance between the point and the closest point on the plane (i.e. its projection). We multiply the length by the normal and substract it from point in order to reach the projection. The following picture illustrates this calculation:</p>
+<p><a href="#R-image-86f4302d978c2c4eae223f27066a7da8" class="lightbox-link"><img src="../assets/cp_projection2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-86f4302d978c2c4eae223f27066a7da8"><img src="../assets/cp_projection2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>P1 and P2 are located on different half spaces created by the plane. When we project v1 on the green normal we get the length of d1. Multiply that length by the normal to receive d1 itself. Now substract it from P1 to get its projection on the plane. When we project v2 on the green normal we get the length of d2 but it is a negative value. Multiply that by the normal to receive d2 itself (negative length means it reverses the normal). Now substract it from P2 to get its projection on the plane. The conclusion: this method works correctly no matter on which side of the plane our point is.</p>
+<p>(lighting.es)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 410 core
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">triangles</span><span class="p">,</span> <span class="n">equal_spacing</span><span class="p">,</span> <span class="n">ccw</span><span class="p">)</span> <span class="n">in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="k">struct</span> <span class="nc">OutputPatch</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B030</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B021</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B012</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B003</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B102</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B201</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B300</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B210</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B120</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">vec3</span> <span class="n">WorldPos_B111</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="n">in</span> <span class="n">patch</span> <span class="n">OutputPatch</span> <span class="n">oPatch</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">
+</span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">WorldPos_FS_in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord_FS_in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Normal_FS_in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">
+</span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="n">vec2</span> <span class="nf">interpolate2D</span><span class="p">(</span><span class="n">vec2</span> <span class="n">v0</span><span class="p">,</span> <span class="n">vec2</span> <span class="n">v1</span><span class="p">,</span> <span class="n">vec2</span> <span class="n">v2</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="k">return</span> <span class="n">vec2</span><span class="p">(</span><span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="n">v2</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl">
+</span></span><span class="line"><span class="ln">34</span><span class="cl"><span class="n">vec3</span> <span class="nf">interpolate3D</span><span class="p">(</span><span class="n">vec3</span> <span class="n">v0</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">v1</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">v2</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">35</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="k">return</span> <span class="n">vec3</span><span class="p">(</span><span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">+</span> <span class="n">vec3</span><span class="p">(</span><span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">vec3</span><span class="p">(</span><span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="n">v2</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">37</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl">
+</span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">40</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">41</span><span class="cl">  <span class="c1">// Interpolate the attributes of the output vertex using the barycentric coordinates  
+</span></span></span><span class="line"><span class="ln">42</span><span class="cl"><span class="c1"></span>  <span class="n">TexCoord_FS_in</span> <span class="o">=</span> <span class="n">interpolate2D</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">TexCoord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">TexCoord</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">TexCoord</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">43</span><span class="cl">  <span class="n">Normal_FS_in</span> <span class="o">=</span> <span class="n">interpolate3D</span><span class="p">(</span><span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">Normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">44</span><span class="cl">  
+</span></span><span class="line"><span class="ln">45</span><span class="cl">  <span class="kt">float</span> <span class="n">u</span> <span class="o">=</span> <span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">46</span><span class="cl">  <span class="kt">float</span> <span class="n">v</span> <span class="o">=</span> <span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">47</span><span class="cl">  <span class="kt">float</span> <span class="n">w</span> <span class="o">=</span> <span class="n">gl_TessCoord</span><span class="p">.</span><span class="n">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">48</span><span class="cl">
+</span></span><span class="line"><span class="ln">49</span><span class="cl">  <span class="kt">float</span> <span class="n">uPow3</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">50</span><span class="cl">  <span class="kt">float</span> <span class="n">vPow3</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">51</span><span class="cl">  <span class="kt">float</span> <span class="n">wPow3</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">52</span><span class="cl">  <span class="kt">float</span> <span class="n">uPow2</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">53</span><span class="cl">  <span class="kt">float</span> <span class="n">vPow2</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">54</span><span class="cl">  <span class="kt">float</span> <span class="n">wPow2</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">55</span><span class="cl">
+</span></span><span class="line"><span class="ln">56</span><span class="cl">  <span class="n">WorldPos_FS_in</span> <span class="o">=</span> <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B300</span> <span class="o">*</span> <span class="n">wPow3</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">57</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B030</span> <span class="o">*</span> <span class="n">uPow3</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">58</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B003</span> <span class="o">*</span> <span class="n">vPow3</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">59</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B210</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">wPow2</span> <span class="o">*</span> <span class="n">u</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">60</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B120</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">uPow2</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">61</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B201</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">wPow2</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">62</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B021</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">uPow2</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">63</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B102</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">vPow2</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">64</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B012</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">u</span> <span class="o">*</span> <span class="n">vPow2</span> <span class="o">+</span>
+</span></span><span class="line"><span class="ln">65</span><span class="cl">          <span class="n">oPatch</span><span class="p">.</span><span class="n">WorldPos_B111</span> <span class="o">*</span> <span class="mf">6.0</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">u</span> <span class="o">*</span> <span class="n">v</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">66</span><span class="cl">  
+</span></span><span class="line"><span class="ln">67</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">WorldPos_FS_in</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">68</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the entire TES with changes from the previous tutorial marked in bold face. The normal and texture coordinates are interpolated the same as before. In order to calculate the world space position we plug the barycentric coordinates into the Bezier triangle equation we saw in the background section. The builtin function <em>pow()</em> is used in order to calculate the power of a number. We transform the world space position to clip space and continue as usual.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

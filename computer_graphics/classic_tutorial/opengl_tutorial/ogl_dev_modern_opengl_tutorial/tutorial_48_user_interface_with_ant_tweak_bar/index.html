@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 48:User Interface with Ant Tweak Bar :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In this tutorial we are going to leave 3D for a while and focus on adding something practical and useful to our programs. We will learn how to integrate a user interface library which will help in configuring the various values that interest us in the tutorials. The library that we will use is called Ant Tweak Bar (a.k.a ATB) which is hosted at anttweakbar.sourceforge.net. There are many options available and if you do some research on the subject you will find a lot of discussions and opinions on the matter.">
+    <meta property="og:title" content="Tutorial 48:User Interface with Ant Tweak Bar :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In this tutorial we are going to leave 3D for a while and focus on adding something practical and useful to our programs. We will learn how to integrate a user interface library which will help in configuring the various values that interest us in the tutorials. The library that we will use is called Ant Tweak Bar (a.k.a ATB) which is hosted at anttweakbar.sourceforge.net. There are many options available and if you do some research on the subject you will find a lot of discussions and opinions on the matter.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 48:User Interface with Ant Tweak Bar :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 48:User Interface with Ant Tweak Bar :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.print.html" rel="alternate" type="text/html" title="Tutorial 48:User Interface with Ant Tweak Bar :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#integration">Integration</a></li>
+        <li><a href="#initialization">Initialization</a></li>
+        <li><a href="#processing-events">Processing Events</a></li>
+        <li><a href="#create-a-tweak-bar">Create a tweak bar</a></li>
+        <li><a href="#draw-the-tweak-bar">Draw the tweak bar</a></li>
+        <li><a href="#adding-widgets">Adding widgets</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 48:User Interface with Ant Tweak Bar</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" title="Tutorial 47:Shadow Mapping with Directional Lights (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" title="Tutorial 49:Cascaded Shadow Mapping (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-48user-interface-with-ant-tweak-bar">Tutorial 48:User Interface with Ant Tweak Bar</h1>
+
+<h3 id="background">Background</h3>
+<p>In this tutorial we are going to leave 3D for a while and focus on adding something practical and useful to our programs. We will learn how to integrate a user interface library which will help in configuring the various values that interest us in the tutorials. The library that we will use is called <em>Ant Tweak Bar</em> (a.k.a ATB) which is hosted at <a href="http://anttweakbar.sourceforge.net/" target="_blank">anttweakbar.sourceforge.net</a>. There are many options available and if you do some research on the subject you will find a lot of discussions and opinions on the matter. In addition to OpenGL, ATB also supports DirectX 9/10/11 so if you want your UI to be portable this is a good advantage. I found it to be very useful and easy to learn. I hope you will too. So let&rsquo;s jump right in.</p>
+<p style="color: red;font-weight:bold"> Disclaimer: as I was putting the finishing touches on this tutorial I noticed that ATB is no longer supported. The official website is alive but the author states that he is no longer actively maintaining it. After some thought I decided to publish this tutorial regardless. The library has proved to be very useful to me and I plan to keep using it. If you are looking for something like that and having the library being actively maintained is a requirement for you then you may need to find an alternative but I think many people can use it as it is. Since this is open source there is always a chance someone will pick up maintenance. </p>
+<h3 id="installation">Installation</h3>
+<p><strong>Note:</strong> ATB doesn&rsquo;t work with version 3 of GLFW. In case you need this support you can use <a href="https://github.com/sasmaster/AntTweakBarGLFW3" target="_blank">AntTweakBarGLFW3</a>.</p>
+<p>The first thing we need to do is to install ATB. You can grab the <a href="https://sourceforge.net/projects/anttweakbar/files/latest/download?source=dlp" target="_blank">zip file</a> from the ATB website (version 1.16 when this tutorial was published) which contains almost everything you need or use a copy of the files that I provide along with the tutorials source package. If you decide to go with the official package simply grab it from the link above, unzip it somewhere and grab AntTweakBar.h from the include directory and copy it where your project sees it. On Linux I recommend putting it in /usr/local/include (requires root access). In the tutorials source package this file is available under Include/ATB.</p>
+<p>Now for the libraries. If you are using Windows this is very easy. The official zip file contains a lib directory with AntTweakBar.dll and AntTweakBar.lib (there is also a matching couple for 64 bits). You will need to link your project to the lib file and when you run the executable have the dll in the local directory or in Windows\System32. On Linux you will need to go into the src directory and type &lsquo;make&rsquo; to build the libraries. The result will be libAntTweakBar.a, libAntTweakBar.so and libAntTweakBar.so.1. I recommend you copy these into /usr/local/lib to make them available from everywhere. The tutorials source package contains the Windows libraries in Windows/ogldev/Debug and the Linux binaries in Lib (so you don&rsquo;t need to build them).</p>
+<h3 id="integration">Integration</h3>
+<p>In order to use ATB you will need to include the header AntTweakBar.h in your source code:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;AntTweakBar.h&gt;</span></span></span></code></pre></div><p>If you are using the Netbeans project that I provide then the Include/ATB directory which contains this header is already in the include path. If not then make sure your build system sees it.</p>
+<p>To link against the libraries:</p>
+<ul>
+<li>Windows: add the AntTweakBar.lib to your Visual Studio project</li>
+<li>Linux: add &lsquo;-lAntTweakBar&rsquo; to the build command and make sure the Linux binaries are in /usr/local/lib</li>
+</ul>
+<p>Again, if you are using my Visual Studio or Netbeans projects then all of this is already set up for you so you don&rsquo;t need to worry about anything.</p>
+<h3 id="initialization">Initialization</h3>
+<p>In order to initialize ATB you need to call:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwInit</span><span class="p">(</span><span class="n">TW_OPENGL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span></span></span></code></pre></div><p>or in case you want to initialize the GL context for core profile:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwInit</span><span class="p">(</span><span class="n">TW_OPENGL_CORE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span></span></span></code></pre></div><p>For the tutorials series I created a class called ATB which encapsulates some of the functionality of the library and adds some stuff to make it easier for integration (that class is part of the Common project). You can initialize ATB via that class using a code similar to this:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">ATB</span> <span class="n">m_atb</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">m_atb</span><span class="p">.</span><span class="n">Init</span><span class="p">())</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="c1">// error  
+</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><h3 id="processing-events">Processing Events</h3>
+<p>ATB provides widgets that allow you to modify their values in different ways. In some widgets you can simply type in a new value. Others are more graphical in nature and allows the use of the mouse in order to modify the value. This means that ATB must be notified on mouse and keyboard events in the system. This is done using a set of callback functions that ATB provides for each of the underlying windowing libraries it supports (glut, glfw, SDL, etc). If your framework is based on just one of these libraries you can simply hook ATB&rsquo;s callbacks inside your callbacks. See ATB website for an example. Since OGLDEV supports both glut and glfw I&rsquo;m going to show you how I integrated the callbacks into my framework so that these two libraries are supported in a unified manner. Take a look at the following three functions from the ATB class:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">ATB</span><span class="o">::</span><span class="n">KeyboardCB</span><span class="p">(</span><span class="n">OGLDEV_KEY</span> <span class="n">OgldevKey</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="kt">int</span> <span class="n">ATBKey</span> <span class="o">=</span> <span class="n">OgldevKeyToATBKey</span><span class="p">(</span><span class="n">OgldevKey</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">ATBKey</span> <span class="o">==</span> <span class="n">TW_KEY_LAST</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">TwKeyPressed</span><span class="p">(</span><span class="n">ATBKey</span><span class="p">,</span> <span class="n">TW_KMOD_NONE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kt">bool</span> <span class="n">ATB</span><span class="o">::</span><span class="n">PassiveMouseCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">TwMouseMotion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="kt">bool</span> <span class="n">ATB</span><span class="o">::</span><span class="n">MouseCB</span><span class="p">(</span><span class="n">OGLDEV_MOUSE</span> <span class="n">Button</span><span class="p">,</span> <span class="n">OGLDEV_KEY_STATE</span> <span class="n">State</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">TwMouseButtonID</span> <span class="n">btn</span> <span class="o">=</span> <span class="p">(</span><span class="n">Button</span> <span class="o">==</span> <span class="n">OGLDEV_MOUSE_BUTTON_LEFT</span><span class="p">)</span> <span class="o">?</span> <span class="nl">TW_MOUSE_LEFT</span> <span class="p">:</span> <span class="n">TW_MOUSE_RIGHT</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">TwMouseAction</span> <span class="n">ma</span> <span class="o">=</span> <span class="p">(</span><span class="n">State</span> <span class="o">==</span> <span class="n">OGLDEV_KEY_STATE_PRESS</span><span class="p">)</span> <span class="o">?</span> <span class="nl">TW_MOUSE_PRESSED</span> <span class="p">:</span> <span class="n">TW_MOUSE_RELEASED</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">TwMouseButton</span><span class="p">(</span><span class="n">ma</span><span class="p">,</span> <span class="n">btn</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>These functions are basically wrappers around the native ATB callback functions. They translate OGLDEV types to ATB types and then pass the call down to ATB. They return true if ATB processed the event (in which case you can simply discard it) and false if not (so you should take a look at the event and see if it interests you). Here&rsquo;s how I hooked these functions into the callbacks of the tutorial:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">KeyboardCB</span><span class="p">(</span><span class="n">OGLDEV_KEY</span> <span class="n">OgldevKey</span><span class="p">,</span> <span class="n">OGLDEV_KEY_STATE</span> <span class="n">OgldevKeyState</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">OgldevKeyState</span> <span class="o">==</span> <span class="n">OGLDEV_KEY_STATE_PRESS</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">m_atb</span><span class="p">.</span><span class="n">KeyboardCB</span><span class="p">(</span><span class="n">OgldevKey</span><span class="p">))</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">      <span class="k">return</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">switch</span> <span class="p">(</span><span class="n">OgldevKey</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">      <span class="p">.</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">      <span class="p">.</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">      <span class="p">.</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="k">default</span><span class="o">:</span>    
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnKeyboard</span><span class="p">(</span><span class="n">OgldevKey</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">PassiveMouseCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">m_atb</span><span class="p">.</span><span class="n">PassiveMouseCB</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnMouse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">
+</span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">MouseCB</span><span class="p">(</span><span class="n">OGLDEV_MOUSE</span> <span class="n">Button</span><span class="p">,</span> <span class="n">OGLDEV_KEY_STATE</span> <span class="n">State</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">m_atb</span><span class="p">.</span><span class="n">MouseCB</span><span class="p">(</span><span class="n">Button</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>If you are not familiar with OGLDEV framework then the above may not make much sense to you so make sure you spend some time with the tutorials first and get to know how things are done. Every tutorial is just a class that inherits from ICallbacks and OgldevApp. ICallbacks provides the (not surprisingly) callback functions that are called from the backend (by glut or glfw). We first let ATB know about the events and if it didn&rsquo;t process them we let the app handle them (e.g passing them on to the camera object).</p>
+<h3 id="create-a-tweak-bar">Create a tweak bar</h3>
+<p>You need to create at least one tweak bar which is basically a window with widgets that ATB provides to tweak your application:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwBar</span> <span class="o">*</span><span class="n">bar</span> <span class="o">=</span> <span class="n">TwNewBar</span><span class="p">(</span><span class="s">&#34;OGLDEV&#34;</span><span class="p">);</span></span></span></code></pre></div><p>The string in the parenthesis is just a way to name the tweak bar.</p>
+<h3 id="draw-the-tweak-bar">Draw the tweak bar</h3>
+<p>In order for the tweak bar to appear in your OpenGL window there must be a call present to the TwDraw() function in the render loop. The ATB website provides the following generic render loop as an example:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// main loop
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">while</span><span class="p">(</span> <span class="p">...</span> <span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="c1">// clear the frame buffer  
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span>  <span class="c1">// update view and camera  
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span>  <span class="c1">// update your scene  
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span>  <span class="c1">// draw your scene  
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">TwDraw</span><span class="p">();</span> <span class="c1">// draw the tweak bar(s)  
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="c1">// present/swap the frame buffer
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="c1">// end of main loop
+</span></span></span></code></pre></div><p>I placed a call to TwDraw() in the beginning of OgldevBackendSwapBuffers() (ogldev_backend.cpp:97). This function is called at the end of every main render function and is a good place to integrate TwDraw() into the framework.</p>
+<h3 id="adding-widgets">Adding widgets</h3>
+<p>The above is everything you need to basically have ATB up and running in your application. Your ATB bar should now look like this:</p>
+<p><a href="#R-image-fae7011b0384cf3f0c7201f8a4abddd6" class="lightbox-link"><img src="../assets/atb1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-fae7011b0384cf3f0c7201f8a4abddd6"><img src="../assets/atb1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>From now on what we need to do is to add widgets and link them to our application so that they can be used to tweak parameters of our code. Let&rsquo;s add a drop down box. In this tutorial I will use it to select the mesh to be displayed. We need to use the TwEnumVal structure provided by ATB in order to create a list of available items in the drop down box. That structure is made of pairs of integer and a char array. The integer is an identifier for the drop down item and the char array is the name to be displayed. Once the item list is created as an array of TwEnumVal structs we create a TwType object using the TwDefineEnum function. TwType is an enum of a few parameter types that ATB understands (color, vectors, etc) but we can add user defined types to support our specific needs. Once our TwType is ready we can use TwAddVarRW to link it to the tweak bar. TwAddVarRW() also takes an address of an integer where ATB will place the current selection in the drop down box. We can then use that integer to change stuff in our application (the mesh to be displayed in our case).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// Create an internal enum to name the meshes
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span> <span class="n">BUDDHA</span><span class="p">,</span> <span class="n">BUNNY</span><span class="p">,</span> <span class="n">DRAGON</span> <span class="p">}</span> <span class="n">MESH_TYPE</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// A variable for the current selection - will be updated by ATB
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="n">MESH_TYPE</span> <span class="n">m_currentMesh</span> <span class="o">=</span> <span class="n">BUDDHA</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// Array of drop down items
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span><span class="n">TwEnumVal</span> <span class="n">Meshes</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="p">{</span><span class="n">BUDDHA</span><span class="p">,</span> <span class="s">&#34;Buddha&#34;</span><span class="p">},</span> <span class="p">{</span><span class="n">BUNNY</span><span class="p">,</span> <span class="s">&#34;Bunny&#34;</span><span class="p">},</span> <span class="p">{</span><span class="n">DRAGON</span><span class="p">,</span> <span class="s">&#34;Dragon&#34;</span><span class="p">}};</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// ATB identifier for the array
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span><span class="n">TwType</span> <span class="n">MeshTwType</span> <span class="o">=</span> <span class="n">TwDefineEnum</span><span class="p">(</span><span class="s">&#34;MeshType&#34;</span><span class="p">,</span> <span class="n">Meshes</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1">// Link it to the tweak bar
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;Mesh&#34;</span><span class="p">,</span> <span class="n">MeshTwType</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_currentMesh</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span></span></span></code></pre></div><p>The result should look like this:</p>
+<p><a href="#R-image-84e22f745c6ddf8d0a398983db98178e" class="lightbox-link"><img src="../assets/atb2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-84e22f745c6ddf8d0a398983db98178e"><img src="../assets/atb2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>We can add a seperator using the following line:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1">// The second parameter is an optional name
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="n">TwAddSeparator</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span></span></span></code></pre></div><p>Now we have:</p>
+<p><a href="#R-image-22308be3c42e6191ed8a88aeb902ce44" class="lightbox-link"><img src="../assets/atb3.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-22308be3c42e6191ed8a88aeb902ce44"><img src="../assets/atb3.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Let&rsquo;s see how we can link our camera so that its position and direction will always be displayed. Until now you are probably already used to printing the current camera parameters so that they can be reused later but displaying them in the UI is much nicer. To make the code reusable I&rsquo;ve added the function AddToATB() to the camera class. It contains three calls to ATB functions. The first call just uses TwAddButton() in order to add a string to the tweak bar. TwAddButton() can do much more and we will see an example later on. Then we have TwAddVarRW() that adds a read/write variable and TwAddVarRO() that adds a read-only variable. The read/write variable we use here is simply the position of the camera and the UI can be used to modify this and have it reflected in the actual application. Surprisingly, ATB does no provide an internal TwType for an array of three floats so I created one to be used by the framework:</p>
+<p>(ogldev_atb.cpp:38)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwStructMember</span> <span class="n">Vector3fMembers</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">  <span class="p">{</span> <span class="s">&#34;x&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="n">offsetof</span><span class="p">(</span><span class="n">Vector3f</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="s">&#34;&#34;</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="p">{</span> <span class="s">&#34;y&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="n">offsetof</span><span class="p">(</span><span class="n">Vector3f</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="s">&#34;&#34;</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="p">{</span> <span class="s">&#34;z&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="n">offsetof</span><span class="p">(</span><span class="n">Vector3f</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="s">&#34;&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="n">TW_TYPE_OGLDEV_VECTOR3F</span> <span class="o">=</span> <span class="n">TwDefineStruct</span><span class="p">(</span><span class="s">&#34;Vector3f&#34;</span><span class="p">,</span> <span class="n">Vector3fMembers</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Vector3f</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span></span></span></code></pre></div><p>We can now use TW_TYPE_OGLDEV_VECTOR3F whenever we want to add a widget to tweak a vector of 3 floats. Here&rsquo;s the complete AddToATB() function:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">Camera</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">TwBar</span><span class="o">*</span> <span class="n">bar</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">TwAddButton</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;Camera&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;Position&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_OGLDEV_VECTOR3F</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">m_pos</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">TwAddVarRO</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;Direction&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_DIR3F</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_target</span><span class="p">,</span> <span class="s">&#34; axisz=-z &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We have used the provided TW_TYPE_DIR3F as the parameter type that displays an array of 3 floats using an arrow. Note the addition of &lsquo;axisz=-z&rsquo; as the last parameter of TwAddVarRO(). Many ATB functions take a string of options in the last parameter. This allows modifying the internal behavior of the function. axisz is used to change from right handed system (ATB default) to left handed system (OGLDEV default). There&rsquo;s a lot of additional options available that I simply cannot cover. You can find them <a href="http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:varparamsyntax" target="_blank">here</a>.</p>
+<p>Here&rsquo;s how the tweak bar looks with the camera added:</p>
+<p><a href="#R-image-34a972b556f7b729b2d76826f9b92b8b" class="lightbox-link"><img src="../assets/atb4.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-34a972b556f7b729b2d76826f9b92b8b"><img src="../assets/atb4.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a>
+You are probably spending a lot of time playing with the orientation of your meshes. Let&rsquo;s add something to the tweak bar to simplify that. The solution is a visual quaternion that can be used to set the rotation of a mesh. We start by adding a local Quaternion variable (see ogldev_math_3d.h for the definition of that struct):</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">Quaternion</span> <span class="n">g_Rotation</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span></span></span></code></pre></div><p>We then link the quaternion variable to the tweak bar using the parameter type TW_TYPE_QUAT4F:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;ObjRotation&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_QUAT4F</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">g_Rotation</span><span class="p">,</span> <span class="s">&#34; axisz=-z &#34;</span><span class="p">);</span></span></span></code></pre></div><p>Again, we need to change from right handed to left handed system. Finally the quaternion is converted to degrees:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">m_mesh</span><span class="p">[</span><span class="n">m_currentMesh</span><span class="p">].</span><span class="n">GetOrientation</span><span class="p">().</span><span class="n">m_rotation</span> <span class="o">=</span> <span class="n">g_Rotation</span><span class="p">.</span><span class="n">ToDegrees</span><span class="p">();</span></span></span></code></pre></div><p>The rotation vector can now be used to orient the mesh and generate the WVP matrix for it:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">m_pipeline</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh</span><span class="p">[</span><span class="n">m_currentMesh</span><span class="p">].</span><span class="n">GetOrientation</span><span class="p">());</span></span></span></code></pre></div><p>Our tweak bar now looks like this:</p>
+<p><a href="#R-image-9176a53cb2e8777a2f674eef38da5659" class="lightbox-link"><img src="../assets/atb5.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-9176a53cb2e8777a2f674eef38da5659"><img src="../assets/atb5.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Now let&rsquo;s add a check box. We will use the check box to toggle between automatic rotation of the mesh around the Y-axis and manual rotation (using the quaternion we saw earlier). First we make an ATB call to add a button:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwAddButton</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;AutoRotate&#34;</span><span class="p">,</span> <span class="n">AutoRotateCB</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&#34; label=&#39;Auto rotate&#39; &#34;</span><span class="p">);</span></span></span></code></pre></div><p>The third parameter is a callback function which is triggered when the check box is clicked and the fourth parameter is a value to be transfered as a parameter to the callback. I don&rsquo;t need it here so I&rsquo;ve used NULL.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">bool</span> <span class="n">gAutoRotate</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">void</span> <span class="n">TW_CALL</span> <span class="nf">AutoRotateCB</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">gAutoRotate</span> <span class="o">=</span> <span class="o">!</span><span class="n">gAutoRotate</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>You can now use gAutoRotate to toggle between automatic and manual rotations.
+Here&rsquo;s how the tweak bar looks like:</p>
+<p><a href="#R-image-ea990f9133b8d4f7c911f99ea4723d08" class="lightbox-link"><img src="../assets/atb6.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ea990f9133b8d4f7c911f99ea4723d08"><img src="../assets/atb6.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Another useful widget that we can add is a read/write widget for controlling the speed of rotation (when auto rotation is enabled). This widget provides multiple ways to control its value:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="s">&#34;Rot Speed&#34;</span><span class="p">,</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_rotationSpeed</span><span class="p">,</span>      
+</span></span><span class="line"><span class="ln">2</span><span class="cl">           <span class="s">&#34; min=0 max=5 step=0.1 keyIncr=s keyDecr=S help=&#39;Rotation speed (turns/second)&#39; &#34;</span><span class="p">);</span></span></span></code></pre></div><p>The first four parameters are obvious. We have the pointer to the tweak bar, the string to display, the type of the parameter and the address where ATB will place the updated value. The interesting stuff comes in the option string at the end. First we limit the value to be between 0 and 5 and we set the increment/decrement step to 0.1. We set the keys &rsquo;s&rsquo; and &rsquo;d&rsquo; to be shortcuts to increment or decrement the value, respectively. When you hover over the widget you can see the shortcuts in the bottom of the tweak bar. You can either type in the value directly, use the shortcut keys, click on the &lsquo;+&rsquo; or &lsquo;-&rsquo; icons on the right or use the lever to modify the value (click on the circle to bring up the rotation lever). Here&rsquo;s the bar with this widget:</p>
+<p><a href="#R-image-c4e281329714706f5382e4c52de01530" class="lightbox-link"><img src="../assets/atb7.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c4e281329714706f5382e4c52de01530"><img src="../assets/atb7.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>In all of the tutorials there is usually at least one light source so it makes sense to add some code that will allow us to easily hook it up to the tweak bar so we can play with it parameters. So I went ahead and added the following methods to the various light source classes:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">BaseLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">TwBar</span> <span class="o">*</span><span class="n">bar</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Color&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_COLOR3F</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Color</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Ambient Intensity&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">AmbientIntensity</span><span class="p">,</span> <span class="s">&#34;min=0.0 max=1.0 step=0.005&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Diffuse Intensity&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">DiffuseIntensity</span><span class="p">,</span> <span class="s">&#34;min=0.0 max=1.0 step=0.005&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">void</span> <span class="n">DirectionalLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">TwBar</span> <span class="o">*</span><span class="n">bar</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">BaseLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">bar</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Direction&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_DIR3F</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Direction</span><span class="p">,</span> <span class="s">&#34;axisz=-z&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="kt">void</span> <span class="n">PointLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">TwBar</span> <span class="o">*</span><span class="n">bar</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">BaseLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">bar</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Position&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_OGLDEV_VECTOR3F</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Position</span><span class="p">,</span> <span class="s">&#34;axisz=-z&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Attenuation&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_OGLDEV_ATTENUATION</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Attenuation</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">
+</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="kt">void</span> <span class="n">SpotLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">TwBar</span> <span class="o">*</span><span class="n">bar</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">PointLight</span><span class="o">::</span><span class="n">AddToATB</span><span class="p">(</span><span class="n">bar</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Direction&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_DIR3F</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Direction</span><span class="p">,</span> <span class="s">&#34;axisz=-z&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="n">s</span> <span class="o">=</span> <span class="n">Name</span> <span class="o">+</span> <span class="s">&#34;.Cutoff&#34;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="n">TwAddVarRW</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">TW_TYPE_FLOAT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Cutoff</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">34</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Note that &lsquo;Name&rsquo; is a new string memeber of the BaseLight class that must be set before AddToATB() function is called on the light object. It represents the string that will be displayed in the tweak bar for that light. If you plan on adding multiple lights you must make sure to pick up unique names for them. AddToATB() is a virtual function so the correct instance according to the concrete class is always called. Here&rsquo;s the bar with a directional light source:</p>
+<p><a href="#R-image-65d5ee43e1923095711f20bd3cf5b89e" class="lightbox-link"><img src="../assets/atb8.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-65d5ee43e1923095711f20bd3cf5b89e"><img src="../assets/atb8.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>The last thing that I want to demonstrate is the ability to get and set various parameters that control the behaviour of the tweak bar. Here&rsquo;s an example of setting the refresh rate of the bar to one tenth of a second:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">float</span> <span class="n">refresh</span> <span class="o">=</span> <span class="mf">0.1f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">TwSetParam</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&#34;refresh&#34;</span><span class="p">,</span> <span class="n">TW_PARAM_FLOAT</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">refresh</span><span class="p">);</span></span></span></code></pre></div><p>Since moving the mouse to the tweak bar means that the camera also moves I made the key &lsquo;a&rsquo; automatically move the mouse to the center of the tweak bar without touching the camera. I had to read the location and size of the tweak bar in order to accomplish that so I used TwGetParam() in order to do that:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">KeyboardCB</span><span class="p">(</span><span class="n">OGLDEV_KEY</span> <span class="n">OgldevKey</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">m_atb</span><span class="p">.</span><span class="n">KeyboardCB</span><span class="p">(</span><span class="n">OgldevKey</span><span class="p">))</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">OgldevKey</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">      <span class="k">case</span> <span class="nl">OGLDEV_KEY_A</span><span class="p">:</span>      
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">      <span class="p">{</span>        
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="kt">int</span> <span class="n">Pos</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Size</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>        
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">TwGetParam</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&#34;position&#34;</span><span class="p">,</span> <span class="n">TW_PARAM_INT32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Pos</span><span class="p">);</span>        
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="n">TwGetParam</span><span class="o">**</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="s">&#34;size&#34;</span><span class="p">,</span> <span class="n">TW_PARAM_INT32</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Size</span><span class="p">);</span>        
+</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="n">OgldevBackendSetMousePos</span><span class="p">(</span><span class="n">Pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">Pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>        
+</span></span><span class="line"><span class="ln">11</span><span class="cl">        <span class="k">break</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">12</span><span class="cl">      <span class="p">}</span></span></span></code></pre></div>
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235001" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235001" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235001" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235001" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235001" defer></script>
+        <script src="../../../../../js/search.js?1708235001" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235001"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235001" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235001" defer></script>
+    <script src="../../../../../js/theme.js?1708235001" defer></script>
+  </body>
+</html>

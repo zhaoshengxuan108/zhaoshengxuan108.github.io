@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 15:Camera Control - Part 2 :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In this tutorial we complete the implementation of the camera by enabling direction control using the mouse. There are various levels of freedom which are associated with the design of the camera. We are going to enable the level of control you come to expect in a first person game (shooter or otherwise). This means we will be able to turn the camera 360 degrees (around the positive Y axis), which corresponds to turning your head left or right and completing a full circle with your body.">
+    <meta property="og:title" content="Tutorial 15:Camera Control - Part 2 :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In this tutorial we complete the implementation of the camera by enabling direction control using the mouse. There are various levels of freedom which are associated with the design of the camera. We are going to enable the level of control you come to expect in a first person game (shooter or otherwise). This means we will be able to turn the camera 360 degrees (around the positive Y axis), which corresponds to turning your head left or right and completing a full circle with your body.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 15:Camera Control - Part 2 :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" rel="canonical" type="text/html" title="Tutorial 15:Camera Control - Part 2 :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 15:Camera Control - Part 2 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 15:Camera Control - Part 2</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-15camera-control---part-2">Tutorial 15:Camera Control - Part 2</h1>
+
+<h2 id="background">Background</h2>
+<p>In this tutorial we complete the implementation of the camera by enabling direction control using the mouse. There are various levels of freedom which are associated with the design of the camera. We are going to enable the level of control you come to expect in a first person game (shooter or otherwise). This means we will be able to turn the camera 360 degrees (around the positive Y axis), which corresponds to turning your head left or right and completing a full circle with your body. In addition, we will be able to tilt the camera up and down to get a better view above or below. We won&rsquo;t be able to turn the camera up until we complete a full circle or tilt it in a way a plane fuselage tilts during a turn. These levels of freedom are in the domain of flight simulators which is out of scope for this tutorial. At any rate, we will have a camera that will allow us to conveniently explore the 3D world will are going to develop in the coming tutorials.</p>
+<p>The following world war 2 anti aircraft gun demonstrates the kind of camera we are going to build:</p>
+<p><a href="#R-image-31041dd2e6113d76a5d07fba31a777ff" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/aa_gun.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-31041dd2e6113d76a5d07fba31a777ff"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/aa_gun.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>The gun has two control axis:</p>
+<ol>
+<li>It can turn 360 degrees around the vector (0,1,0). This angle is called the &lsquo;horizontal angle&rsquo; and the vector is the &lsquo;vertical axis&rsquo;.</li>
+<li>It can tilt up and down around a vector which is parallel to the ground. This movement is somewhat limited and the gun cannot complete a full circle. This angle is called the &lsquo;vertical angle&rsquo; and the vector is the &lsquo;horizontal axis&rsquo;. Note that while the vertical axis is constant (0,1,0) the horizontal axis turns around with the gun and is always perpendicular to the target of the gun. This is a key point to understand in order to get the math correctly.</li>
+</ol>
+<p>The plan is to follow the movement of the mouse and change the horizontal angle when the mouse moves left and right and the vertical angle when the mouse moves up and down. Given these two angles we want to calculate the target and up vectors.</p>
+<p>Turning the target vector by the horizontal angle is pretty straightforward. Using basic trigonometry we can see that the Z component of the target vector is the sine of the horizontal angle and the X component is the cosine of the horizontal angle (at this stage the camera looks straight ahead so the Y is zero). Revisit tutorial 7 to see a diagram of that.</p>
+<p>Turning the target vector by the vertical angle is more complex since the horizontal axis turns along with the camera. The horizontal axis can be calculated using a cross product between the vertical axis and the target vector after is was turned by the horizontal angle, but turning around an arbitrary vector (lifting the gun up and down) can be tricky.</p>
+<p>Luckily, we have an extremely useful mathematical tool for that problem - the quaternion. Quaternions were discovered in 1843 by Sir Willilam Rowan Hamilton, an irish mathematician, and are based on the complex number system. The quaternion &lsquo;Q&rsquo; is defined as:</p>
+<p><a href="#R-image-e547b779a5278790a16f1a1e293a7370" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/quaternion.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e547b779a5278790a16f1a1e293a7370"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/quaternion.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Where i, j and k are complex numbers and the following equation holds true:</p>
+<p><a href="#R-image-c7d6f496784b510c46c3c68e6145c3fb" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/quaternion1.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c7d6f496784b510c46c3c68e6145c3fb"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/quaternion1.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>In practice, we specify a quaternion as the 4-vector (x, y, z, w). The conjugate of quaternion &lsquo;Q&rsquo; is defined as:</p>
+<p><a href="#R-image-7b25a11d091ac4c1cb32af142d7eec2b" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/conjugate.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7b25a11d091ac4c1cb32af142d7eec2b"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/conjugate.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Normalizing a quaternion is the same as normalizing a vector. I&rsquo;m going to describe the steps required to rotate a vector around an arbitrary vector using a quaternion. More details about the mathematical proof behind the steps can be found on the web.</p>
+<p>The general function to calculate a quaternion &lsquo;W&rsquo; that represents the rotated vector &lsquo;V&rsquo; by the angle &lsquo;a&rsquo; is:</p>
+<p><a href="#R-image-c62834f4164983158ae5221f350ac7ff" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/rotation.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c62834f4164983158ae5221f350ac7ff"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/rotation.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Where Q is the rotation quaternion which is defined as:</p>
+<p><a href="#R-image-a68c98afd7e0ba479c70e6261905162d" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/rotationq.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a68c98afd7e0ba479c70e6261905162d"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/rotationq.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>After calculating &lsquo;W&rsquo; the rotated vector is simply (W.x,W.y,W.z). An important point to note in the calculation of &lsquo;W&rsquo; is that first we need to multiple &lsquo;Q&rsquo; by &lsquo;V&rsquo; which is a quaternion-by-vector multiplication that results in a quaternion, and then we need to do a quaternion-by-quaternion multiplication (the result of Q*V multiplied by the conjugate of &lsquo;Q&rsquo;). The two types of multiplications are not the same. The file math_3d.cpp includes the implementations of these multiplication types.</p>
+<p>We will need to keep the horizontal and vertical angles updated all the time as the user moves the mouse around the screen and we need to decide how to initialize them. The logical choice is to initialize them according to the target vector that is supplied to the constructor of the camera. Let&rsquo;s start with the horizontal angle. Take a look at the following diagram which looks down the XZ plane from above:</p>
+<p><a href="#R-image-e8a4412c032ef977a9fb683792555b42" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/h_angle.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e8a4412c032ef977a9fb683792555b42"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/../assets/h_angle.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>The target vector is (x,z) and we want to find the horizontal angle which is represented by the letter alpha (the Y component is relevant only for the vertical angle). Since the length of the radius of the circle is 1 it is very easy to see that the sine function of alpha is exactly z. Therefore, calculating the asine of z will provide alpha. Are we done? - not yet. Since z can be in the range [-1,1], the result of asine is -90 degrees to +90 degrees. But the range of the horizontal angle is 360 degrees. In addition, our quaternion does rotation clockwise. This means that when we rotate 90 degrees with the quaternion we end up with -1 on the Z axis which is opposite to the actual sine of 90 degrees (which is 1). IMHO, the easiest way to get this right is to always calculate the asine function using the positive value of Z and combine the result with the specific quarter of the circle where the vector is located. For example, when our target vector is (0,1) we calculate the asine of 1 which is 90 and substract it from 360. The result is 270. The asine range of 0 to 1 is 0 to 90 degrees. Combine that with the specific quarter of the circle and you get the final horizontal angle.</p>
+<p>Calculating the vertical angle is a bit simpler. We are going to limit the range of movement to -90 degrees (equal to 270 degrees - looking straight up) to +90 degrees (looking straight down). This means we only need the negative value of the asine function of the Y component in the target vector. When Y equals 1 (looking straight up) the asine is 90 so we just need to reverse the sign. When Y equals -1 (looking straight down) the asine is -90 and reversing the sign gets us to 90. If you are confused check the diagram again and simply replace Z with Y and X with Z.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<p>(camera.cpp:38)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">Camera</span><span class="o">::</span><span class="n">Camera</span><span class="p">(</span><span class="kt">int</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="kt">int</span> <span class="n">WindowHeight</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Pos</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Target</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Up</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_windowWidth</span> <span class="o">=</span> <span class="n">WindowWidth</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">m_windowHeight</span> <span class="o">=</span> <span class="n">WindowHeight</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_pos</span> <span class="o">=</span> <span class="n">Pos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">m_target</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">m_up</span> <span class="o">=</span> <span class="n">Up</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">m_up</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">Init</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The constructor of the camera now gets the dimensions of the window. We need it in order to move the mouse to the center of the screen. In addition, note the call to Init() which sets up the internal camera attributes.</p>
+<p>(camera.cpp:54)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Camera</span><span class="o">::</span><span class="n">Init</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Vector3f</span> <span class="nf">HTarget</span><span class="p">(</span><span class="n">m_target</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">m_target</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">HTarget</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">HTarget</span><span class="p">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">HTarget</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">10</span><span class="cl">      <span class="n">m_AngleH</span> <span class="o">=</span> <span class="mf">360.0f</span> <span class="o">-</span> <span class="n">ToDegree</span><span class="p">(</span><span class="n">asin</span><span class="p">(</span><span class="n">HTarget</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="k">else</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="n">m_AngleH</span> <span class="o">=</span> <span class="mf">180.0f</span> <span class="o">+</span> <span class="n">ToDegree</span><span class="p">(</span><span class="n">asin</span><span class="p">(</span><span class="n">HTarget</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="k">else</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">HTarget</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span>    
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">21</span><span class="cl">      <span class="n">m_AngleH</span> <span class="o">=</span> <span class="n">ToDegree</span><span class="p">(</span><span class="n">asin</span><span class="p">(</span><span class="o">-</span><span class="n">HTarget</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="k">else</span>    
+</span></span><span class="line"><span class="ln">24</span><span class="cl">    <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">25</span><span class="cl">      <span class="n">m_AngleH</span> <span class="o">=</span> <span class="mf">180.0f</span> <span class="o">-</span> <span class="n">ToDegree</span><span class="p">(</span><span class="n">asin</span><span class="p">(</span><span class="o">-</span><span class="n">HTarget</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">m_AngleV</span> <span class="o">=</span> <span class="o">-</span><span class="n">ToDegree</span><span class="p">(</span><span class="n">asin</span><span class="p">(</span><span class="n">m_target</span><span class="p">.</span><span class="n">y</span><span class="p">));</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">m_OnUpperEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="n">m_OnLowerEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="n">m_OnLeftEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="n">m_OnRightEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  <span class="n">m_mousePos</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">m_windowWidth</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="n">m_mousePos</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">m_windowHeight</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  <span class="n">glutWarpPointer</span><span class="p">(</span><span class="n">m_mousePos</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">m_mousePos</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>In the Init() function we start by calculating the horizontal angle. We create a new target vector called HTarget (horizontal target) which is a projection of the original target vector on the XZ plane. Next we normalize it (since the math that was described earlier assumes a unit vector on the XZ plane). Then we check which quarter the target vector belongs to and calculate the final angle based on the positive value of the Z component. Next we calculate the vertical angle which is much simpler.</p>
+<p>The camera has 4 new flags to indicate whether the mouse is positioned on one of the edges of the screen. We are going to implement an automatic turn in the corresponding direction when that happens. This will allow us to turn 360 degrees. We initialize the flags to FALSE since the mouse starts at the center of the screen. The next two lines of code calculate where the center of the screen is (based on the window dimension) and the new function glutWarpPointer actually moves the mouse. Starting with the mouse at the center of the screen makes life much simpler.</p>
+<p>(camera.cpp:140)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Camera</span><span class="o">::</span><span class="n">OnMouse</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">const</span> <span class="kt">int</span> <span class="n">DeltaX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">m_mousePos</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">const</span> <span class="kt">int</span> <span class="n">DeltaY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">m_mousePos</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">m_mousePos</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_mousePos</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">m_AngleH</span> <span class="o">+=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">DeltaX</span> <span class="o">/</span> <span class="mf">20.0f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">m_AngleV</span> <span class="o">+=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">DeltaY</span> <span class="o">/</span> <span class="mf">20.0f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">DeltaX</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">MARGIN</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="n">m_OnLeftEdge</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">m_windowWidth</span> <span class="o">-</span> <span class="n">MARGIN</span><span class="p">))</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">17</span><span class="cl">      <span class="n">m_OnRightEdge</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">m_OnLeftEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="n">m_OnRightEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">DeltaY</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">MARGIN</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">27</span><span class="cl">      <span class="n">m_OnUpperEdge</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">28</span><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">29</span><span class="cl">    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">m_windowHeight</span> <span class="o">-</span> <span class="n">MARGIN</span><span class="p">))</span> <span class="p">{</span>     
+</span></span><span class="line"><span class="ln">30</span><span class="cl">      <span class="n">m_OnLowerEdge</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">34</span><span class="cl">    <span class="n">m_OnUpperEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">35</span><span class="cl">    <span class="n">m_OnLowerEdge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="n">Update</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function is used to notify the camera that the mouse moved. The parameters are the new screen position of the mouse. We start by calculating the delta from the previous location on both the X and Y axis. Next we store the new values for the next call to the function. We update the current horizontal and vertical angles by scaling down the deltas. I&rsquo;m using a scaling value which works fine for me but on different computers you may want different scaling values. We are going to improve this in a future tutorial when we add the frame rate of the application as a factor.</p>
+<p>The next set of tests update the &rsquo;m_On*Edge&rsquo; flags according to the location of the mouse. There is a margin which is by default 10 pixels that triggers the &ldquo;edge&rdquo; behavior when the mouse gets close to one of the edges of the screen. Finally, we call Update() to recalculate the target and up vectors based on the new horizontal and vertical angles.</p>
+<p>(camera.cpp:183)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Camera</span><span class="o">::</span><span class="n">OnRender</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="kt">bool</span> <span class="n">ShouldUpdate</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">m_OnLeftEdge</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="n">m_AngleH</span> <span class="o">-=</span> <span class="mf">0.1f</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">ShouldUpdate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">m_OnRightEdge</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">m_AngleH</span> <span class="o">+=</span> <span class="mf">0.1f</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">ShouldUpdate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">m_OnUpperEdge</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">m_AngleV</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">90.0f</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">15</span><span class="cl">      <span class="n">m_AngleV</span> <span class="o">-=</span> <span class="mf">0.1f</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">16</span><span class="cl">      <span class="n">ShouldUpdate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">m_OnLowerEdge</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">m_AngleV</span> <span class="o">&lt;</span> <span class="mf">90.0f</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">21</span><span class="cl">      <span class="n">m_AngleV</span> <span class="o">+=</span> <span class="mf">0.1f</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">22</span><span class="cl">      <span class="n">ShouldUpdate</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">ShouldUpdate</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">27</span><span class="cl">    <span class="n">Update</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function is called from the main render loop. We need it for cases where the mouse is located on one of the edges of the screen and is not moving. In this case there are no mouse events but we still want the camera to continuously move (until the mouse moves away from the edge). We check if one of the flags is set and update the corresponding angle accordingly. If there was a change in one of the angles we call Update() to update the target and up vectors. When the mouse moves aways from the screen we detect it in the mouse event handler and clear the flag. Note the way the vertical angle is limited between the ranges -90 degrees and +90 degrees. This is to prevent a full circle when looking up or down.</p>
+<p>(camera.cpp:214)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Camera</span><span class="o">::</span><span class="n">Update</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">const</span> <span class="n">Vector3f</span> <span class="nf">Vaxis</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="c1">// Rotate the view vector by the horizontal angle around the vertical axis  
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span>  <span class="n">Vector3f</span> <span class="nf">View</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">View</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="n">m_AngleH</span><span class="p">,</span> <span class="n">Vaxis</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">View</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="c1">// Rotate the view vector by the vertical angle around the horizontal axis  	
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>  <span class="n">Vector3f</span> <span class="n">Haxis</span> <span class="o">=</span> <span class="n">Vaxis</span><span class="p">.</span><span class="n">Cross</span><span class="p">(</span><span class="n">View</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">Haxis</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">View</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="n">m_AngleV</span><span class="p">,</span> <span class="n">Haxis</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">View</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">m_target</span> <span class="o">=</span> <span class="n">View</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">m_target</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">m_up</span> <span class="o">=</span> <span class="n">m_target</span><span class="p">.</span><span class="n">Cross</span><span class="p">(</span><span class="n">Haxis</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">m_up</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function updates the target and up vector according to the horizontal and vertical angles. We start with the view vector in a &ldquo;reset&rdquo; state. This means it is parallel to the gound (vertical angle is zero) and looking directly to the right (horizontal angle is zero - see the diagram above). We set the vertical axis to point straight up and then rotate the view vector around it by the horizontal angle. The result is a vector which points in the general direction of the intended target but not necessarily in the correct height (i.e. it is on the XZ plane). By doing a cross product of this vector with the vertical axis we get another vector on the XZ plane which is perpendicular to the plane created by the view vector and the vertical axis. This is our new horizontal axis and now it is time to rotate the vector up or down around it according to the vertical angle. The result is the final target vector and we set it into the corresponding member attribute. Now we must fix the up vector. For example, if the camera is looking up, the up vector must tilt back to compensate (it must be 90 degrees in respect to the target vector). This is similar to the way the back of your head tilts back when you look up to the sky. The new up vector is calculated by simply doing another cross product between the final target vector and the horizontal axis. If the vertical angle is still zero then the target vector remains on the XZ plane and the up vector remains (0,1,0). If the target vector is tilted up or down the up vector will tilt backward or forward, respectively.</p>
+<p>(tutorial15.cpp:209)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glutGameModeString</span><span class="p">(</span><span class="s">&#34;1920x1200@32&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glutEnterGameMode</span><span class="p">();</span></span></span></code></pre></div><p>These glut functions enable our application to run full screen in the so called high performance &lsquo;game mode&rsquo;. It makes turning the camera 360 degrees simpler because all you need to do is pull the mouse towards one of the edges of the screen. Note the resolution and the bits per pixel that are configured via the game mode string. 32 bits per pixel provides the maximum number of colors for rendering.</p>
+<p>(tutorial15.cpp:214)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">pGameCamera</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Camera</span><span class="p">(</span><span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">);</span></span></span></code></pre></div><p>The camera is now allocated dynamically at this location because it performs a glut call (glutWarpPointer). This call will fail if glut has not yet been initialized.</p>
+<p>(tutorial15.cpp:99)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glutPassiveMotionFunc</span><span class="p">(</span><span class="n">PassiveMouseCB</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glutKeyboardFunc</span><span class="p">(</span><span class="n">KeyboardCB</span><span class="p">);</span></span></span></code></pre></div><p>We register two new glut callback functions here. One is for the mouse and the other for regular keyboard clicks (the special keyboard callback traps directional and function keys). Passive motion means that the mouse moves without any of its buttons pressed.</p>
+<p>(tutorial15.cpp:81)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">KeyboardCB</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">Key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">switch</span> <span class="p">(</span><span class="n">Key</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="k">case</span> <span class="sc">&#39;q&#39;</span><span class="o">:</span>      
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">      <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">PassiveMouseCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">pGameCamera</span><span class="o">-&gt;</span><span class="n">OnMouse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Now that we are using a full screen mode it is more difficult to exit the application. The keyboard callback traps the &lsquo;q&rsquo; key and exits. The mouse callback simply transfers the location of the mouse to the camera.</p>
+<p>(tutorial15.cpp:44)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">(){</span>  <span class="n">pGameCamera</span><span class="o">-&gt;</span><span class="n">OnRender</span><span class="p">();</span></span></span></code></pre></div><p>Whenever we are in the main render loop we must notify the camera. This gives the camera a chance to turn when the mouse is not moving and is on one of the screen edges.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=ns9eVfHCYdg&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=12" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

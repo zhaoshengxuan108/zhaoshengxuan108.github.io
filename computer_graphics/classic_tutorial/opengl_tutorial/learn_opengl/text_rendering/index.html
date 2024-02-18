@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="Text Rendering At some stage of your graphics adventures you will want to draw text in OpenGL. Contrary to what you may expect, getting a simple string to render on screen is all but easy with a low-level API like OpenGL. If you don&rsquo;t care about rendering more than 128 different same-sized characters, then it&rsquo;s probably not too difficult. Things are getting difficult as soon as each character has a different width, height, and margin.">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="Text Rendering At some stage of your graphics adventures you will want to draw text in OpenGL. Contrary to what you may expect, getting a simple string to render on screen is all but easy with a low-level API like OpenGL. If you don&rsquo;t care about rendering more than 128 different same-sized characters, then it&rsquo;s probably not too difficult. Things are getting difficult as soon as each character has a different width, height, and margin.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/text_rendering/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="Learn OpenGL :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title></title><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/text_rendering/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper"> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html"><span itemprop="name">Learn OpenGL</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/text_rendering/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" title="Learn OpenGL (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" title="OGL dev 教程 (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id=""></h1>
+
+<h1 id="text-rendering">Text Rendering</h1>
+<p>At some stage of your graphics adventures you will want to draw text in OpenGL. Contrary to what you may expect, getting a simple string to render on screen is all but easy with a low-level API like OpenGL. If you don&rsquo;t care about rendering more than 128 different same-sized characters, then it&rsquo;s probably not too difficult. Things are getting difficult as soon as each character has a different width, height, and margin. Based on where you live, you may also need more than 128 characters, and what if you want to express special symbols for like mathematical expressions or sheet music symbols, and what about rendering text from top to bottom? Once you think about all these complicated matters of text, it wouldn&rsquo;t surprise you that this probably doesn&rsquo;t belong in a low-level API like OpenGL.</p>
+<p>Since there is no support for text capabilities within OpenGL, it is up to us to define a system for rendering text to the screen. There are no graphical primitives for text characters, we have to get creative. Some example techniques are: drawing letter shapes via GL_LINES, create 3D meshes of letters, or render character textures to 2D quads in a 3D environment.</p>
+<p>Most developers choose to render character textures onto quads. Rendering textured quads by itself shouldn&rsquo;t be too difficult, but getting the relevant character(s) onto a texture could prove challenging. In this chapter we&rsquo;ll explore several methods and implement a more advanced, but flexible technique for rendering text using the FreeType library.</p>
+<h4 id="classical-text-rendering-bitmap-fonts">Classical text rendering: bitmap fonts</h4>
+<p>In the early days, rendering text involved selecting a font (or create one yourself) you&rsquo;d like for your application and extracting all relevant characters out of this font to place them within a single large texture. Such a texture, that we call a bitmap font, contains all character symbols we want to use in predefined regions of the texture. These character symbols of the font are known as glyphs. Each glyph has a specific region of texture coordinates associated with them. Whenever you want to render a character, you select the corresponding glyph by rendering this section of the bitmap font to a 2D quad.</p>
+<p><a href="#R-image-1f5a5213efedd01943db0b67f991240b" class="lightbox-link"><img src="./assets/bitmapfont.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1f5a5213efedd01943db0b67f991240b"><img src="./assets/bitmapfont.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Here you can see how we would render the text &lsquo;OpenGL&rsquo; by taking a bitmap font and sampling the corresponding glyphs from the texture (carefully choosing the texture coordinates) that we render on top of several quads. By enabling <a href="https://learnopengl.com/Advanced-OpenGL/Blending" target="_blank">blending</a> and keeping the background transparent, we will end up with just a string of characters rendered to the screen. This particular bitmap font was generated using Codehead&rsquo;s Bitmap <a href="http://www.codehead.co.uk/cbfg/" target="_blank">Font Generator</a>.</p>
+<p>This approach has several advantages and disadvantages. It is relatively easy to implement and because bitmap fonts are pre-rasterized, they&rsquo;re quite efficient. However, it is not particularly flexible. When you want to use a different font, you need to recompile a complete new bitmap font and the system is limited to a single resolution; zooming will quickly show pixelated edges. Furthermore, it is limited to a small character set, so Extended or Unicode characters are often out of the question.</p>
+<p>This approach was quite popular back in the day (and still is) since it is fast and works on any platform, but as of today more flexible approaches exist. One of these approaches is loading TrueType fonts using the FreeType library.</p>
+<h4 id="modern-text-rendering-freetype">Modern text rendering: FreeType</h4>
+<p>FreeType is a software development library that is able to load fonts, render them to bitmaps, and provide support for several font-related operations. It is a popular library used by Mac OS X, Java, PlayStation, Linux, and Android to name a few. What makes FreeType particularly attractive is that it is able to load TrueType fonts.</p>
+<p>A TrueType font is a collection of character glyphs not defined by pixels or any other non-scalable solution, but by mathematical equations (combinations of splines). Similar to vector images, the rasterized font images can be procedurally generated based on the preferred font height you&rsquo;d like to obtain them in. By using TrueType fonts you can easily render character glyphs of various sizes without any loss of quality.</p>
+<p>FreeType can be downloaded from their <a href="http://www.freetype.org/" target="_blank">website</a>. You can choose to compile the library yourself or use one of their precompiled libraries if your target platform is listed. Be sure to link to <code>freetype.lib</code> and make sure your compiler knows where to find the header files.</p>
+<p>Then include the appropriate headers:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;ft2build.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="cp">#include FT_FREETYPE_H  </span></span></span></code></pre></div><p><warning>Due to how FreeType is developed (at least at the time of this writing), you cannot put their header files in a new directory; they should be located at the root of your include directories. Including FreeType like <code>#include &lt;FreeType/ft2build.h&gt;</code> will likely cause several header conflicts.</warning></p>
+<p>FreeType loads these TrueType fonts and, for each glyph, generates a bitmap image and calculates several metrics. We can extract these bitmap images for generating textures and position each character glyph appropriately using the loaded metrics.</p>
+<p>To load a font, all we have to do is initialize the FreeType library and load the font as a face as FreeType likes to call it. Here we load the <code>arial.ttf</code> TrueType font file that was copied from the <code>Windows/Fonts</code> directory:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">FT_Library</span> <span class="n">ft</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">FT_Init_FreeType</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ft</span><span class="p">))</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ERROR::FREETYPE: Could not init FreeType Library&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">FT_Face</span> <span class="n">face</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">FT_New_Face</span><span class="p">(</span><span class="n">ft</span><span class="p">,</span> <span class="s">&#34;fonts/arial.ttf&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">face</span><span class="p">))</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ERROR::FREETYPE: Failed to load font&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Each of these FreeType functions returns a non-zero integer whenever an error occurred.</p>
+<p>Once we&rsquo;ve loaded the face, we should define the pixel font size we&rsquo;d like to extract from this face:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">FT_Set_Pixel_Sizes</span><span class="p">(</span><span class="n">face</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">48</span><span class="p">);</span>  
+</span></span></code></pre></div><p>The function sets the font&rsquo;s width and height parameters. Setting the width to <code>0</code> lets the face dynamically calculate the width based on the given height.</p>
+<p>A FreeType face hosts a collection of glyphs. We can set one of those glyphs as the active glyph by calling FT_Load_Char. Here we choose to load the character glyph &lsquo;X&rsquo;:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">FT_Load_Char</span><span class="p">(</span><span class="n">face</span><span class="p">,</span> <span class="sc">&#39;X&#39;</span><span class="p">,</span> <span class="n">FT_LOAD_RENDER</span><span class="p">))</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ERROR::FREETYTPE: Failed to load Glyph&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>By setting FT_LOAD_RENDER as one of the loading flags, we tell FreeType to create an 8-bit grayscale bitmap image for us that we can access via <code>face-&gt;glyph-&gt;bitmap</code>.</p>
+<p>Each of the glyphs we load with FreeType however, do not have the same size (as we had with bitmap fonts). The bitmap image generated by FreeType is just large enough to contain the visible part of a character. For example, the bitmap image of the dot character &lsquo;.&rsquo; is much smaller in dimensions than the bitmap image of the character &lsquo;X&rsquo;. For this reason, FreeType also loads several metrics that specify how large each character should be and how to properly position them. Next is an image from FreeType that shows all of the metrics it calculates for each character glyph:</p>
+<p><a href="#R-image-f9f0e40298306a7e62a2949367216a8e" class="lightbox-link"><img src="./assets/glyph.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f9f0e40298306a7e62a2949367216a8e"><img src="./assets/glyph.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Each of the glyphs reside on a horizontal baseline (as depicted by the horizontal arrow) where some glyphs sit exactly on top of this baseline (like &lsquo;X&rsquo;) or some slightly below the baseline (like &lsquo;g&rsquo; or &lsquo;p&rsquo;). These metrics define the exact offsets to properly position each glyph on the baseline, how large each glyph should be, and how many pixels we need to advance to render the next glyph. Next is a small list of the properties we&rsquo;ll be needing:</p>
+<ul>
+<li><strong>width</strong>: the width (in pixels) of the bitmap accessed via <code>face-&gt;glyph-&gt;bitmap.width</code>.</li>
+<li><strong>height</strong>: the height (in pixels) of the bitmap accessed via <code>face-&gt;glyph-&gt;bitmap.rows</code>.</li>
+<li><strong>bearingX</strong>: the horizontal bearing e.g. the horizontal position (in pixels) of the bitmap relative to the origin accessed via <code>face-&gt;glyph-&gt;bitmap_left</code>.</li>
+<li><strong>bearingY</strong>: the vertical bearing e.g. the vertical position (in pixels) of the bitmap relative to the baseline accessed via <code>face-&gt;glyph-&gt;bitmap_top</code>.</li>
+<li><strong>advance</strong>: the horizontal advance e.g. the horizontal distance (in 1/64th pixels) from the origin to the origin of the next glyph. Accessed via <code>face-&gt;glyph-&gt;advance.x</code>.</li>
+</ul>
+<p>We could load a character glyph, retrieve its metrics, and generate a texture each time we want to render a character to the screen, but it would be inefficient to do this each frame. We&rsquo;d rather store the generated data somewhere in the application and query it whenever we want to render a character. We&rsquo;ll define a convenient <code>struct</code> that we&rsquo;ll store in a map:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">Character</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">TextureID</span><span class="p">;</span>  <span class="c1">// ID handle of the glyph texture
+</span></span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="c1"></span>    <span class="n">glm</span><span class="o">::</span><span class="n">ivec2</span>   <span class="n">Size</span><span class="p">;</span>       <span class="c1">// Size of glyph
+</span></span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="c1"></span>    <span class="n">glm</span><span class="o">::</span><span class="n">ivec2</span>   <span class="n">Bearing</span><span class="p">;</span>    <span class="c1">// Offset from baseline to left/top of glyph
+</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Advance</span><span class="p">;</span>    <span class="c1">// Offset to advance to next glyph
+</span></span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl">
+</span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">Character</span><span class="o">&gt;</span> <span class="n">Characters</span><span class="p">;</span></span></span></code></pre></div><p>For this chapter we&rsquo;ll keep things simple by restricting ourselves to the first 128 characters of the ASCII character set. For each character, we generate a texture and store its relevant data into a Character struct that we add to the Characters map. This way, all data required to render each character is stored for later use.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">glPixelStorei</span><span class="p">(</span><span class="n">GL_UNPACK_ALIGNMENT</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// disable byte-alignment restriction
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="mi">128</span><span class="p">;</span> <span class="n">c</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="c1">// load character glyph 
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">FT_Load_Char</span><span class="p">(</span><span class="n">face</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">FT_LOAD_RENDER</span><span class="p">))</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ERROR::FREETYTPE: Failed to load Glyph&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="c1">// generate texture
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">texture</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="n">glGenTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">texture</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">texture</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="n">glTexImage2D</span><span class="p">(</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="n">GL_TEXTURE_2D</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">        <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">        <span class="n">GL_RED</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">        <span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">.</span><span class="n">rows</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">        <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="n">GL_RED</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">        <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">        <span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">.</span><span class="n">buffer</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="c1">// set texture options
+</span></span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="c1"></span>    <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_S</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">    <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_T</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl">    <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_MIN_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">    <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_MAG_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="c1">// now store character for later use
+</span></span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="c1"></span>    <span class="n">Character</span> <span class="n">character</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl">        <span class="n">texture</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln">34</span><span class="cl">        <span class="n">glm</span><span class="o">::</span><span class="n">ivec2</span><span class="p">(</span><span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">.</span><span class="n">rows</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">35</span><span class="cl">        <span class="n">glm</span><span class="o">::</span><span class="n">ivec2</span><span class="p">(</span><span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap_left</span><span class="p">,</span> <span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">bitmap_top</span><span class="p">),</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl">        <span class="n">face</span><span class="o">-&gt;</span><span class="n">glyph</span><span class="o">-&gt;</span><span class="n">advance</span><span class="p">.</span><span class="n">x</span>
+</span></span><span class="line"><span class="ln">37</span><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl">    <span class="n">Characters</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="n">Character</span><span class="o">&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">character</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Within the for loop we list over all the 128 characters of the ASCII set and retrieve their corresponding character glyphs. For each character: we generate a texture, set its options, and store its metrics. What is interesting to note here is that we use GL_RED as the texture&rsquo;s <code>internalFormat</code> and <code>format</code> arguments. The bitmap generated from the glyph is a grayscale 8-bit image where each color is represented by a single byte. For this reason we&rsquo;d like to store each byte of the bitmap buffer as the texture&rsquo;s single color value. We accomplish this by creating a texture where each byte corresponds to the texture color&rsquo;s red component (first byte of its color vector). If we use a single byte to represent the colors of a texture we do need to take care of a restriction of OpenGL:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glPixelStorei</span><span class="p">(</span><span class="n">GL_UNPACK_ALIGNMENT</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>   
+</span></span></code></pre></div><p>OpenGL requires that textures all have a 4-byte alignment e.g. their size is always a multiple of 4 bytes. Normally this won&rsquo;t be a problem since most textures have a width that is a multiple of 4 and/or use 4 bytes per pixel, but since we now only use a single byte per pixel, the texture can have any possible width. By setting its unpack alignment to <code>1</code> we ensure there are no alignment issues (which could cause segmentation faults).</p>
+<p>Be sure to clear FreeType&rsquo;s resources once you&rsquo;re finished processing the glyphs:</p>
+<div class="wrap-code highlight"><pre tabindex="0"><code>FT_Done_Face(face);
+FT_Done_FreeType(ft);</code></pre></div><h5 id="shaders">Shaders</h5>
+<p>To render the glyphs we&rsquo;ll be using the following vertex shader:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330 core
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec4</span> <span class="n">vertex</span><span class="p">;</span> <span class="c1">// &lt;vec2 pos, vec2 tex&gt;
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="c1"></span><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoords</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">projection</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projection</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">vertex</span><span class="p">.</span><span class="n">xy</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">TexCoords</span> <span class="o">=</span> <span class="n">vertex</span><span class="p">.</span><span class="n">zw</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span>  
+</span></span></code></pre></div><p>We combine both the position and texture coordinate data into one vec4. The vertex shader multiplies the coordinates with a projection matrix and forwards the texture coordinates to the fragment shader:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330 core
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoords</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">color</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler2D</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">uniform</span> <span class="n">vec3</span> <span class="n">textColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">{</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">vec4</span> <span class="n">sampled</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">texture</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">TexCoords</span><span class="p">).</span><span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">color</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">textColor</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">sampled</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span>  
+</span></span></code></pre></div><p>The fragment shader takes two uniforms: one is the mono-colored bitmap image of the glyph, and the other is a color uniform for adjusting the text&rsquo;s final color. We first sample the color value of the bitmap texture. Because the texture&rsquo;s data is stored in just its red component, we sample the <code>r</code> component of the texture as the sampled alpha value. By varying the output color&rsquo;s alpha value, the resulting pixel will be transparent for all the glyph&rsquo;s background colors and non-transparent for the actual character pixels. We also multiply the RGB colors by the textColor uniform to vary the text color.</p>
+<p>We do need to enable <a href="https://learnopengl.com/Advanced-OpenGL/Blending" target="_blank">blending</a> for this to work though:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glEnable</span><span class="p">(</span><span class="n">GL_BLEND</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glBlendFunc</span><span class="p">(</span><span class="n">GL_SRC_ALPHA</span><span class="p">,</span> <span class="n">GL_ONE_MINUS_SRC_ALPHA</span><span class="p">);</span>  
+</span></span></code></pre></div><p>For the projection matrix we&rsquo;ll be using an orthographic projection matrix. For rendering text we (usually) do not need perspective, and using an orthographic projection matrix also allows us to specify all vertex coordinates in screen coordinates if we set it up as follows:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glm</span><span class="o">::</span><span class="n">mat4</span> <span class="n">projection</span> <span class="o">=</span> <span class="n">glm</span><span class="o">::</span><span class="n">ortho</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">800.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">600.0f</span><span class="p">);</span></span></span></code></pre></div><p>We set the projection matrix&rsquo;s bottom parameter to <code>0.0f</code> and its top parameter equal to the window&rsquo;s height. The result is that we specify coordinates with <code>y</code> values ranging from the bottom part of the screen (<code>0.0f</code>) to the top part of the screen (<code>600.0f</code>). This means that the point (<code>0.0</code>, <code>0.0</code>) now corresponds to the bottom-left corner.</p>
+<p>Last up is creating a VBO and VAO for rendering the quads. For now we reserve enough memory when initiating the VBO so that we can later update the VBO&rsquo;s memory when rendering characters:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">VAO</span><span class="p">,</span> <span class="n">VBO</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="n">glGenVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">VAO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">VBO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">VAO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">VBO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">GL_DYNAMIC_DRAW</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>      
+</span></span></code></pre></div><p>The 2D quad requires <code>6</code> vertices of <code>4</code> floats each, so we reserve <code>6 * 4</code> floats of memory. Because we&rsquo;ll be updating the content of the VBO&rsquo;s memory quite often we&rsquo;ll allocate the memory with GL_DYNAMIC_DRAW.</p>
+<h5 id="render-line-of-text">Render line of text</h5>
+<p>To render a character, we extract the corresponding Character struct of the Characters map and calculate the quad&rsquo;s dimensions using the character&rsquo;s metrics. With the quad&rsquo;s calculated dimensions we dynamically generate a set of 6 vertices that we use to update the content of the memory managed by the VBO using glBufferSubData.</p>
+<p>We create a function called RenderText that renders a string of characters:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">RenderText</span><span class="p">(</span><span class="n">Shader</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">,</span> <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span><span class="p">,</span> <span class="kt">float</span> <span class="n">scale</span><span class="p">,</span> <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span> <span class="n">color</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="c1">// activate corresponding render state	
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>    <span class="n">s</span><span class="p">.</span><span class="n">Use</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="n">glUniform3f</span><span class="p">(</span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">Program</span><span class="p">,</span> <span class="s">&#34;textColor&#34;</span><span class="p">),</span> <span class="n">color</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">glActiveTexture</span><span class="p">(</span><span class="n">GL_TEXTURE0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">VAO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="c1">// iterate through all characters
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">c</span> <span class="o">=</span> <span class="n">text</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">text</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">c</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">        <span class="n">Character</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">Characters</span><span class="p">[</span><span class="o">*</span><span class="n">c</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">
+</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="kt">float</span> <span class="n">xpos</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">ch</span><span class="p">.</span><span class="n">Bearing</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="kt">float</span> <span class="n">ypos</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">ch</span><span class="p">.</span><span class="n">Size</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">ch</span><span class="p">.</span><span class="n">Bearing</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl">        <span class="kt">float</span> <span class="n">w</span> <span class="o">=</span> <span class="n">ch</span><span class="p">.</span><span class="n">Size</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">        <span class="kt">float</span> <span class="n">h</span> <span class="o">=</span> <span class="n">ch</span><span class="p">.</span><span class="n">Size</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">        <span class="c1">// update VBO for each character
+</span></span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="c1"></span>        <span class="kt">float</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">            <span class="p">{</span> <span class="n">xpos</span><span class="p">,</span>     <span class="n">ypos</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span>   <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span> <span class="p">},</span>            
+</span></span><span class="line"><span class="ln">23</span><span class="cl">            <span class="p">{</span> <span class="n">xpos</span><span class="p">,</span>     <span class="n">ypos</span><span class="p">,</span>       <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span> <span class="p">},</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">            <span class="p">{</span> <span class="n">xpos</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span>       <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span> <span class="p">},</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">
+</span></span><span class="line"><span class="ln">26</span><span class="cl">            <span class="p">{</span> <span class="n">xpos</span><span class="p">,</span>     <span class="n">ypos</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span>   <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span> <span class="p">},</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">            <span class="p">{</span> <span class="n">xpos</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">ypos</span><span class="p">,</span>       <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">1.0f</span> <span class="p">},</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">            <span class="p">{</span> <span class="n">xpos</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">ypos</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span>   <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span> <span class="p">}</span>           
+</span></span><span class="line"><span class="ln">29</span><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">        <span class="c1">// render glyph texture over quad
+</span></span></span><span class="line"><span class="ln">31</span><span class="cl"><span class="c1"></span>        <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">ch</span><span class="p">.</span><span class="n">textureID</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl">        <span class="c1">// update content of VBO memory
+</span></span></span><span class="line"><span class="ln">33</span><span class="cl"><span class="c1"></span>        <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">VBO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">34</span><span class="cl">        <span class="n">glBufferSubData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span> <span class="n">vertices</span><span class="p">);</span> 
+</span></span><span class="line"><span class="ln">35</span><span class="cl">        <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl">        <span class="c1">// render quad
+</span></span></span><span class="line"><span class="ln">37</span><span class="cl"><span class="c1"></span>        <span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl">        <span class="c1">// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+</span></span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="c1"></span>        <span class="n">x</span> <span class="o">+=</span> <span class="p">(</span><span class="n">ch</span><span class="p">.</span><span class="n">Advance</span> <span class="o">&gt;&gt;</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">;</span> <span class="c1">// bitshift by 6 to get value in pixels (2^6 = 64)
+</span></span></span><span class="line"><span class="ln">40</span><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">41</span><span class="cl">    <span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">42</span><span class="cl">    <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">43</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Most of the content of the function should be relatively self-explanatory: we first calculate the origin position of the quad (as xpos and ypos) and the quad&rsquo;s size (as w and h) and generate a set of 6 vertices to form the 2D quad; note that we scale each metric by scale. We then update the content of the VBO and render the quad.</p>
+<p>The following line of code requires some extra attention though:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">float</span> <span class="n">ypos</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">ch</span><span class="p">.</span><span class="n">Size</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">ch</span><span class="p">.</span><span class="n">Bearing</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>   
+</span></span></code></pre></div><p>Some characters (like &lsquo;p&rsquo; or &lsquo;g&rsquo;) are rendered slightly below the baseline, so the quad should also be positioned slightly below RenderText&rsquo;s y value. The exact amount we need to offset ypos below the baseline can be figured out from the glyph metrics:</p>
+<p><a href="#R-image-f8de5cb614d7fc0046ab6961e13d36da" class="lightbox-link"><img src="./assets/glyph_offset.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f8de5cb614d7fc0046ab6961e13d36da"><img src="./assets/glyph_offset.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>To calculate this distance e.g. offset we need to figure out the distance a glyph extends below the baseline; this distance is indicated by the red arrow. As you can see from the glyph metrics, we can calculate the length of this vector by subtracting <code>bearingY</code> from the glyph&rsquo;s (bitmap) height. This value is then <code>0.0</code> for characters that rest on the baseline (like &lsquo;X&rsquo;) and positive for characters that reside slightly below the baseline (like &lsquo;g&rsquo; or &lsquo;j&rsquo;).</p>
+<p>If you did everything correct you should now be able to successfully render strings of text with the following statements:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">RenderText</span><span class="p">(</span><span class="n">shader</span><span class="p">,</span> <span class="s">&#34;This is sample text&#34;</span><span class="p">,</span> <span class="mf">25.0f</span><span class="p">,</span> <span class="mf">25.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8f</span><span class="p">,</span> <span class="mf">0.2f</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">RenderText</span><span class="p">(</span><span class="n">shader</span><span class="p">,</span> <span class="s">&#34;(C) LearnOpenGL.com&#34;</span><span class="p">,</span> <span class="mf">540.0f</span><span class="p">,</span> <span class="mf">570.0f</span><span class="p">,</span> <span class="mf">0.5f</span><span class="p">,</span> <span class="n">glm</span><span class="o">::</span><span class="n">vec3</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7f</span><span class="p">,</span> <span class="mf">0.9f</span><span class="p">));</span></span></span></code></pre></div><p>This should then look similar to the following image:</p>
+<p><a href="#R-image-e554f22ac3a7b9f81a59ab0ed2d011ac" class="lightbox-link"><img src="./assets/text_rendering.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e554f22ac3a7b9f81a59ab0ed2d011ac"><img src="./assets/text_rendering.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>You can find the code of this example <a href="https://learnopengl.com/code_viewer_gh.php?code=src/7.in_practice/2.text_rendering/text_rendering.cpp" target="_blank">here</a>.</p>
+<p>To give you a feel for how we calculated the quad&rsquo;s vertices, we can disable blending to see what the actual rendered quads look like:</p>
+<p><a href="#R-image-0bcaa6589aa6630ddfbef63a8a9fa796" class="lightbox-link"><img src="./assets/text_rendering_quads.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-0bcaa6589aa6630ddfbef63a8a9fa796"><img src="./assets/text_rendering_quads.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Here you can clearly see most quads resting on the (imaginary) baseline while the quads that corresponds to glyphs like &lsquo;p&rsquo; or &lsquo;(&rsquo; are shifted downwards.</p>
+<h4 id="going-further">Going further</h4>
+<p>This chapter demonstrated a text rendering technique with TrueType fonts using the FreeType library. The approach is flexible, scalable, and works with many character encodings. However, this approach is likely going to be overkill for your application as we generate and render textures for each glyph. Performance-wise, bitmap fonts are preferable as we only need one texture for all our glyphs. The best approach would be to combine the two approaches by dynamically generating a bitmap font texture featuring all character glyphs as loaded with FreeType. This saves the renderer from a significant amount of texture switches and, based on how tight each glyph is packed, could save quite some performance.</p>
+<p>Another issue with FreeType font bitmaps is that the glyph textures are stored with a fixed font size, so a significant amount of scaling may introduce jagged edges. Furthermore, rotations applied to the glyphs will cause them to appear blurry. This can be mitigated by, instead of storing the actual rasterized pixel colors, storing the distance to the closest glyph outline per pixel. This technique is called signed distance field fonts and Valve published a <a href="https://steamcdn-a.akamaihd.net/apps/valve/2007/SIGGRAPH2007_AlphaTestedMagnification.pdf" target="_blank">paper</a> a few years ago about their implementation of this technique which works surprisingly well for 3D rendering applications.</p>
+<h4 id="further-reading">Further reading</h4>
+<ul>
+<li><a href="https://www.websiteplanet.com/blog/best-free-fonts/" target="_blank">70+ Best Free Fonts for Designers</a>: summarized list of a large group of fonts to use in your project for personal or commercial use.</li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class="parent "><input type="checkbox" id="R-section-57f86dac108257fe13450c17c0c3086c" aria-controls="R-subsections-57f86dac108257fe13450c17c0c3086c" checked><label for="R-section-57f86dac108257fe13450c17c0c3086c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Learn OpenGL</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a><ul id="R-subsections-57f86dac108257fe13450c17c0c3086c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/text_rendering/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/text_rendering/index.html"></a></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class=""><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e"><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

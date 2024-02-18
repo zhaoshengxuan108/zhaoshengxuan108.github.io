@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Credits: SSAO tutorial by John Chapman Background Do you remember how our lighting model began evolving? Back in tutorial 17 we took a first look at the lighting model, starting with the ambient lighting type. The ambient lighting which is supposed to mimic the general feeling of &ldquo;everything is bright&rdquo; that you get in a highly lit, mid-day environment, was implemented using a single floating point value that was attached to each lighting source and we multiplied that value by the color of the surface which we sampled from the texture bound to that surface.">
+    <meta property="og:title" content="Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme">
+    <meta property="og:description" content="Credits: SSAO tutorial by John Chapman Background Do you remember how our lighting model began evolving? Back in tutorial 17 we took a first look at the lighting model, starting with the ambient lighting type. The ambient lighting which is supposed to mimic the general feeling of &ldquo;everything is bright&rdquo; that you get in a highly lit, mid-day environment, was implemented using a single floating point value that was attached to each lighting source and we multiplied that value by the color of the surface which we sampled from the texture bound to that surface.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" rel="canonical" type="text/html" title="Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 45:Screen Space Ambient Occlusion :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 45:Screen Space Ambient Occlusion</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-45screen-space-ambient-occlusion">Tutorial 45:Screen Space Ambient Occlusion</h1>
+
+<h4 id="credits-ssao-tutorial-by-john-chapmanhttpjohn-chapman-graphicsblogspotcoil201301ssao-tutorialhtml">Credits: <a href="http://john-chapman-graphics.blogspot.co.il/2013/01/ssao-tutorial.html" target="_blank">SSAO tutorial by John Chapman</a></h4>
+<h3 id="background">Background</h3>
+<p>Do you remember how our lighting model began evolving? Back in <a href="https://ogldev.org/www/tutorial17/tutorial17.html" target="_blank">tutorial 17</a> we took a first look at the lighting model, starting with the ambient lighting type. The ambient lighting which is supposed to mimic the general feeling of &ldquo;everything is bright&rdquo; that you get in a highly lit, mid-day environment, was implemented using a single floating point value that was attached to each lighting source and we multiplied that value by the color of the surface which we sampled from the texture bound to that surface. So you could have a single light source in your scene called &ldquo;sun&rdquo; and you could play with the ambient light to control how well the scene was generally lit - values closer to zero produced a darker scene while values closer to 1 produced a lighter scene.</p>
+<p>In the following tutorials we implemented diffuse and specular lighting which contributed to the overall quality of the scene but the basic ambient light remained the same. In the recent years we see a rise of what is known as <a href="http://en.wikipedia.org/wiki/Ambient_occlusion" target="_blank">Ambient Occlusion</a> which basically means that instead of going with a fixed ambient light value for each pixel we can calculate how much the pixel is exposed to the ambient light source. A pixel on the floor in the middle of room is much more exposed to the light than, say, a pixel in the corner. This means that the corner will be a bit darker than the rest of the floor. This is the core of ambient occlusion. So in order to implement it we need to find a way to differentiate between those &ldquo;tightly packed in corners pixels&rdquo; vs. &ldquo;out in the open pixels&rdquo;. The product of this calculation is an ambient occlusion term which will control the ambient light in the final lighting stage. Here&rsquo;s a visualization of this ambient occlusion term:</p>
+<p><a href="#R-image-c33704e107ef636ae4932e01ebde47d8" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/../assets/ao.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c33704e107ef636ae4932e01ebde47d8"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/../assets/ao.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>You can see how the edges are the brightest and the corners where we expect to get the smaller amount of lighting are much darker.</p>
+<p>There is a lot of research on the subject of ambient occlusion and many algorithms have been developed to approximate it. We are going to study a branch of these algorithms known as <em>Screen Space Ambient Occlusion</em> or SSAO, which was developed by <a href="http://en.wikipedia.org/wiki/Crytek" target="_blank">Crytek</a> and became highly popular with their 2007 release of <a href="http://en.wikipedia.org/wiki/Crysis%22" target="_blank">Crysis</a>. Many games have since implemented SSAO and a lot of variations were created on top of it. We are going to study a simplified version of the algorithm based on a <a href="http://john-chapman-graphics.blogspot.co.il/2013/01/ssao-tutorial.html" target="_blank">SSAO tutorial by John Chapman</a>.</p>
+<p>Ambient occlusion can be very compute intensive. Crytek came up with a good compromise where the occlusion term is calculated once per pixel. Hence the prefix &lsquo;Screen Space&rsquo; to the algorithm name. The idea was to go over the window pixel by pixel, extract the view space position in that location, sample a few random points very near that position and check whether they fall inside or outside the real geometry in that area. If many points fall inside the geometry it means the original pixel is cornered by many polygons and receives less light. If many points are outside of any geometry it means the original pixel is &ldquo;highly exposed&rdquo; and therefore receives more light. For example, take a look at the following image:</p>
+<p><a href="#R-image-d6323465c5ee6709b34cc937688afd42" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/../assets/algorithm.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d6323465c5ee6709b34cc937688afd42"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/../assets/algorithm.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>We have a surface with two points on it - P0 and P1. Assume that we are looking at it from somewhere on the upper left corner of the image. We sample a few points around each point and check whether they fall inside or outside the geometry. In the case of P0 there is a greater chance that random points around it will fall inside the geometry. For P1 it is the opposite. Therefore we expect to get a greater ambient occlusion term for P1 which means it will look lighter in the final frame.</p>
+<p>Let&rsquo;s take it to the next level of details. We are going to plug in an ambient occlusion pass somewhere before our standard lighting pass (we will need the ambient term for the lighting). This ambient occlusion pass will be a standard full screen quad pass where the calculation is done once per pixel. For every pixel we will need its view space position and we want to generate a few random points in close vicinity to that position. The easiest way will be to have a texture ready at the point fully populated with the view space positions of the entire scene geometry (obviously - only of the closest pixels). For this we will need a geometry pass before the ambient pass where something very similar to the gbuffer that we saw in deferred rendering will be filled with view space position information (and that&rsquo;s it - we don&rsquo;t need normals, color, etc). So now getting the view space position for the current pixel in the ambient pass is just one sample operation away.</p>
+<p>So now we are in a fragment shader holding the view space position for the current pixel. Generating random points around it is very easy. We will pass into the shader an array of random vectors (as uniform variables) and add each one to the view space position. For every generated point we want to check whether it lies inside or outside the geometry. Remember that these points are virtual, so no match to the actual surface is expected. We are going to do something very similar to what we did in shadow mapping. Compare the Z value of the random point to the Z value of the closest point in the actual geometry. Naturally, that actual geometry point must lie on the ray that goes from the camera to the virtual point. Take a look at the following diagram:</p>
+<p><a href="#R-image-1b72032ed9dfefdf04373dd9c4ee804b" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/../assets/diagram1.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1b72032ed9dfefdf04373dd9c4ee804b"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/../assets/diagram1.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Point P lies on the red surface and the red and green points were generated randomly around it. The green point lies outside (before) the geometry and the red is inside (thus contributes to the ambient occlusion). The circle represents the radius in which random points are generated (we don&rsquo;t want them to be too far off point P). R1 and R2 are the rays from the camera (at 0,0,0) to the red and green points. They intersect the geometry somewhere. In order to calculate the ambient occlusion we must compare the Z values of the red and green points vs the Z value of the corresponding geometry points that are formed by the intersection of R1/R2 and the surface. We already have the Z value of the red and green points (in view space; after all - this is how we created them). But where&rsquo;s the Z value of the points formed by the above intersection?</p>
+<p>Well, there&rsquo;s more than one solution to that question but since we already have a texture ready with the view space position of the entire scene the simplest way will be to find it somehow in it. To do that we will need the two texture coordinates that will sample the view space position for the R1 and R2 rays. Remember that the original texture coordinates that were used to find the view space position of P are not what we need. These coordinates were formed based on the interpolation of the full screen quad that we are scanning in that pass. But R1 and R2 don&rsquo;t intersect P. They intersect the surface somewhere else.</p>
+<p>Now we need to do a quick refresher on the way the texture with the view space positions was originally created. After transforming the object space coordinates to view space the resulting vectors were multiplied by the projection matrix (in fact - all these transformation were performed by a single matrix). All this happened in the vertex shader and on the way to the fragment shader the GPU automatically performed perspective divide to complete the projection. This projection placed the view space position on the near clipping plane and the points inside the frustum have a (-1,1) range for their XYZ components. As the view space position was written out to the texture in the fragment shader (the above calculation is performed only on gl_Position; the data written to the texture is forwarded in a different variable) the XY were transformed to the (0,1) range and the results are the texture coordinates where the view space position is going to be written.</p>
+<p>So can we use the same procedure in order to calculate the texture coordinates for the red and green points? Well, why not? The math is the same. All we need to do is provide the shader with the projection matrix and use it to project the red and green points on the near clipping plane. We will need to perform the perspective divide manually but that&rsquo;s a no-brainer. Next we will need to transform the result to the (0,1) and here&rsquo;s our texture coordinate! We are now just a sample away from getting the missing Z value and checking whether the virtual point that we generated is located inside or outside the geometry. Now let&rsquo;s see the code.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(tutorial45.cpp:156)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnRender</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="o">*</span><span class="n">m_pGameCamera</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">GeometryPass</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">SSAOPass</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">BlurPass</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">LightingPass</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">RenderFPS</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">CalcFPS</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">OgldevBackendSwapBuffers</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We will start the source walkthru from the top level and work our way down. This is the main render loop and in addition to the three passes that we discussed in the background section there&rsquo;s also a blur pass whose job is to apply a blur kernel on the ambient occlusion map formed by the SSAO pass. This helps smooth things up a bit and is not part of the core algorithm. It&rsquo;s up to you to decide whether to include it or not in your engine.</p>
+<p>(tutorial45.cpp:177)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">GeometryPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_geomPassTech</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_gBuffer</span><span class="p">.</span><span class="n">BindForWriting</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh</span><span class="p">.</span><span class="n">GetOrientation</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">m_geomPassTech</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">m_pipeline</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">m_geomPassTech</span><span class="p">.</span><span class="n">SetWVMatrix</span><span class="p">(</span><span class="n">m_pipeline</span><span class="p">.</span><span class="n">GetWVTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>In the geometry pass we render the entire scene into a texture. In this example there&rsquo;s only one mesh. In the real world there will probably be many meshes.</p>
+<p>(geometry_pass.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWV</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">ViewPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">ViewPos</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWV</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>(geometry_pass.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">ViewPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">out</span> <span class="n">vec3</span> <span class="n">PosOut</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">PosOut</span> <span class="o">=</span> <span class="n">ViewPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>These are the vertex and fragment shaders of the geometry pass. In the vertex shader we calculate the gl_position as usual and we pass the view space position to the fragment shader in a separate variable. Remember that there is no perspective divide for this variable but it is a subject to the regular interpolations performed during rasterization.</p>
+<p>In the fragment shader we write the interpolated view space position to the texture. That&rsquo;s it.</p>
+<p>(tutorial45.cpp:192)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">SSAOPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_SSAOTech</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_SSAOTech</span><span class="p">.</span><span class="n">BindPositionBuffer</span><span class="p">(</span><span class="n">m_gBuffer</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_aoBuffer</span><span class="p">.</span><span class="n">BindForWriting</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">m_quad</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the application code of the SSAO pass and it is very simple. On the input side we have the view space position from the previous pass and we write the output to an AO buffer. For the rendering we use a full screen quad. This will generate the AO term for every pixel. The real meat is in the shaders.</p>
+<p>(ssao.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">TexCoord</span> <span class="o">=</span> <span class="p">(</span><span class="n">Position</span><span class="p">.</span><span class="n">xy</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>As in many screen space based techniques in the vertex shader we just need to pass-thru the position of the full screen quad. gl_Position will be consumed by the GPU for the purposes of rasterization but we use it&rsquo;s XY components for the texture coordinates. Remember that the full screen quad coordinates range from (-1,-1) to (1,1) so everything in the fragment shader will be interpolated in that range. We want our texture coordinates to be in the (0,1) so we transform it here before sending it out to the fragment shader.</p>
+<p>(ssao.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler2D</span> <span class="n">gPositionMap</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gSampleRad</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gProj</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_KERNEL_SIZE</span> <span class="o">=</span> <span class="mi">128</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">uniform</span> <span class="n">vec3</span> <span class="n">gKernel</span><span class="p">[</span><span class="n">MAX_KERNEL_SIZE</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">vec3</span> <span class="n">Pos</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gPositionMap</span><span class="p">,</span> <span class="n">TexCoord</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="kt">float</span> <span class="n">AO</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_KERNEL_SIZE</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">vec3</span> <span class="n">samplePos</span> <span class="o">=</span> <span class="n">Pos</span> <span class="o">+</span> <span class="n">gKernel</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="c1">// generate a random point    
+</span></span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="c1"></span>    <span class="n">vec4</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">samplePos</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span> <span class="c1">// make it a 4-vector    
+</span></span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="c1"></span>    <span class="n">offset</span> <span class="o">=</span> <span class="n">gProj</span> <span class="o">*</span> <span class="n">offset</span><span class="p">;</span> <span class="c1">// project on the near clipping plane    
+</span></span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="c1"></span>    <span class="n">offset</span><span class="p">.</span><span class="n">xy</span> <span class="o">/=</span> <span class="n">offset</span><span class="p">.</span><span class="n">w</span><span class="p">;</span> <span class="c1">// perform perspective divide    
+</span></span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="c1"></span>    <span class="n">offset</span><span class="p">.</span><span class="n">xy</span> <span class="o">=</span> <span class="n">offset</span><span class="p">.</span><span class="n">xy</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="mf">0.5</span><span class="p">);</span> <span class="c1">// transform to (0,1) range    
+</span></span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="ln">27</span><span class="cl">    <span class="kt">float</span> <span class="n">sampleDepth</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gPositionMap</span><span class="p">,</span> <span class="n">offset</span><span class="p">.</span><span class="n">xy</span><span class="p">).</span><span class="n">b</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">28</span><span class="cl">    
+</span></span><span class="line"><span class="ln">29</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">Pos</span><span class="p">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">sampleDepth</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">gSampleRad</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">30</span><span class="cl">      <span class="n">AO</span> <span class="o">+=</span> <span class="n">step</span><span class="p">(</span><span class="n">sampleDepth</span><span class="p">,</span><span class="n">samplePos</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="n">AO</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">AO</span><span class="o">/</span><span class="mf">128.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">pow</span><span class="p">(</span><span class="n">AO</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">37</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Here&rsquo;s the core of the SSAO algorithm. We take the texture coordinates we got from the vertex shader and sample the position map to fetch our view space position. Next we enter a loop and start generating random points. This is done using an array of uniform vectors (gKernel). This array is populated by random vectors in the (-1,1) range in the ssao_technique.cpp file (which I haven&rsquo;t included here because it&rsquo;s pretty standard; check the code for more details). We now need to find the texture coordinates that will fetch the Z value for the geometry point that matches the current random point. We project the random point from view space on the near clipping plane using the projection matrix, perform perspective divide on it and transform it to the (0,1) range. We can now use it to sample the view space position of the actual geometry and compare its Z value to the random point. But before we do that we make sure that the distance between the origin point and the one whose Z value we just fetched is not too far off. This helps us avoid all kinds of nasty artifacts. You can play with the gSampleRad variable for that.</p>
+<p>Next we compare the depth of the virtual point with the one from the actual geometry. The GLSL step(x,y) function returns 0 if y &lt; x and 1 otherwise. This means that the local variable AO increases as more points end up behind the geometry. We plan to multiply the result by the color of the lighted pixel so we do a &lsquo;AO = 1.0 - AO/128.0&rsquo; to kind-of reverse it. The result is written to the output buffer. Note that we take the AO to the power of 2 before writing it out. This simply makes it look a bit better in my opinion. This is another artist variable you may want to play with in your engine.</p>
+<p>(tutorial45.cpp:205)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">BlurPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_blurTech</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_blurTech</span><span class="p">.</span><span class="n">BindInputBuffer</span><span class="p">(</span><span class="n">m_aoBuffer</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_blurBuffer</span><span class="p">.</span><span class="n">BindForWriting</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">m_quad</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The application code of the blur pass is identical to the SSAO pass. Here the input is the ambient occlusionn term we just calculated and the output is a buffer containing the blurred results.</p>
+<p>(blur.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">TexCoord</span> <span class="o">=</span> <span class="p">(</span><span class="n">Position</span><span class="p">.</span><span class="n">xy</span> <span class="o">+</span> <span class="n">vec2</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>(blur.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler2D</span> <span class="n">gColorMap</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="kt">float</span> <span class="n">Offsets</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="kt">float</span><span class="p">[](</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span> <span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">vec3</span> <span class="n">Color</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">17</span><span class="cl">      <span class="n">vec2</span> <span class="n">tc</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">18</span><span class="cl">      <span class="n">tc</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">Offsets</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">textureSize</span><span class="p">(</span><span class="n">gColorMap</span><span class="p">,</span> <span class="mi">0</span><span class="p">).</span><span class="n">x</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">19</span><span class="cl">      <span class="n">tc</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">Offsets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">textureSize</span><span class="p">(</span><span class="n">gColorMap</span><span class="p">,</span> <span class="mi">0</span><span class="p">).</span><span class="n">y</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">20</span><span class="cl">      <span class="n">Color</span> <span class="o">+=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gColorMap</span><span class="p">,</span> <span class="n">tc</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">Color</span> <span class="o">/=</span> <span class="mf">16.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Color</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is an example of a very simple blur technique. The VS is actually identical to the one from the SSAO. In the fragment shader we sample 16 points around the origin and average them out.</p>
+<p>(tutorial45.cpp:219)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">LightingPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_lightingTech</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">m_lightingTech</span><span class="p">.</span><span class="n">SetShaderType</span><span class="p">(</span><span class="n">m_shaderType</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_lightingTech</span><span class="p">.</span><span class="n">BindAOBuffer</span><span class="p">(</span><span class="n">m_blurBuffer</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh</span><span class="p">.</span><span class="n">GetOrientation</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">m_lightingTech</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">m_pipeline</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">m_lightingTech</span><span class="p">.</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">m_pipeline</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We have a pretty standard application code for the lighting pass. The only addition here is the blurred AO term buffer which is bound as input.</p>
+<p>(lighting.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">vec2</span> <span class="nf">CalcScreenTexCoord</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="k">return</span> <span class="n">gl_FragCoord</span><span class="p">.</span><span class="n">xy</span> <span class="o">/</span> <span class="n">gScreenSize</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcLightInternal</span><span class="p">(</span><span class="n">BaseLight</span> <span class="n">Light</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">LightDirection</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">vec4</span> <span class="n">AmbientColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Light</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">Light</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">gShaderType</span> <span class="o">==</span> <span class="n">SHADER_TYPE_SSAO</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">AmbientColor</span> <span class="o">*=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gAOMap</span><span class="p">,</span> <span class="n">CalcScreenTexCoord</span><span class="p">()).</span><span class="n">r</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="p">...</span></span></span></code></pre></div><p>I haven&rsquo;t included the entire lighting shader since the change is very minor. The ambient color is modulated by the ambient occlusion term sampled from the AO map for the current pixel. Since we are rendering the actual geometry here and not a full screen quad we have to calculate the texture coordinates using the system maintained gl_FragCoord. gShaderType is a user controlled variable that helps us switch from SSAO to no-SSAO and only-ambient-occlusion-term display. Play with the &lsquo;a&rsquo; key to see how it goes.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 9:Interpolation :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background This tutorial demonstrates a very important part of the 3D pipeline - the interpolation that the rasterizer performs on variables that come out of the vertex shader. As you have already seen, in order to get something meaningful on the screen you need to designate one of the VS output variables as &lsquo;gl_Position&rsquo;. This is a 4-vector that contains the homogenuous coordinates of the vertex. The XYZ components of that vector are divided by the W component (a process known as perspective divide and is dealt with in the tutorial dedicated to that subject) and any component which goes outside the normalized box ([-1,1]) gets clipped.">
+    <meta property="og:title" content="Tutorial 9:Interpolation :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background This tutorial demonstrates a very important part of the 3D pipeline - the interpolation that the rasterizer performs on variables that come out of the vertex shader. As you have already seen, in order to get something meaningful on the screen you need to designate one of the VS output variables as &lsquo;gl_Position&rsquo;. This is a 4-vector that contains the homogenuous coordinates of the vertex. The XYZ components of that vector are divided by the W component (a process known as perspective divide and is dealt with in the tutorial dedicated to that subject) and any component which goes outside the normalized box ([-1,1]) gets clipped.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 9:Interpolation :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" rel="canonical" type="text/html" title="Tutorial 9:Interpolation :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 9:Interpolation :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 9:Interpolation</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-9interpolation">Tutorial 9:Interpolation</h1>
+
+<h2 id="background">Background</h2>
+<p>This tutorial demonstrates a very important part of the 3D pipeline - the interpolation that the rasterizer performs on variables that come out of the vertex shader. As you have already seen, in order to get something meaningful on the screen you need to designate one of the VS output variables as &lsquo;gl_Position&rsquo;. This is a 4-vector that contains the homogenuous coordinates of the vertex. The XYZ components of that vector are divided by the W component (a process known as perspective divide and is dealt with in the tutorial dedicated to that subject) and any component which goes outside the normalized box ([-1,1]) gets clipped. The result is transformed to screen space coordinates and then the triangle (or any other supported primitive type) is rendered to screen by the rasterizer.</p>
+<p>The rasterizer performs interpolation between the three triangle vertices (either going line by line or any other technique) and &ldquo;visits&rdquo; each pixel inside the triangle by executing the fragment shader. The fragment shader is expected to return a pixel color which the rasterizer places in the color buffer for display (after passing a few additional tests like depth test, etc). Any other variable which comes out of the vertex shader does not go through the steps above. If the fragment shader does not explicitly requests that variable (and you can mix and match multiple fragment shaders with the same vertex shader) then a common driver optimization will be to drop any instructions in the VS that only affect this variable (for that particular shader program that combines this VS and FS pair). However, if the FS does use that variable the rasterizer interpolates it during rasterization and each FS invocation is provided a the interpolated value that matches that specific location. This usually means that the values for pixels that are right next to each other will be a bit different (though as the triangle becomes further and further away from the camera that becomes less likely).</p>
+<p>Two very common variables that often rely on this interpolation are the triangle normal and texture coordinates. The vertex normal is usually calculated as the average between the triangle normals of all triangles that include that vertex. If that object is not completely flat this usually means that the three vertex normals of each triangle will be different from each other. In that case we rely on interpolation to calculate the specific normal at each pixel. That normal is used in lighting calculations in order to generate a more believable representation of lighting effects. The case for texture coordinates is similar. These coordinates are part of the model and are specified per vertex. In order to &ldquo;cover&rdquo; the triangle with a texture you need to perform the sample operation for each pixel and specify the correct texture coordinates for that pixel. These coordinates are the result of the interpolation.</p>
+<p>In this tutorial we will see the effects of interpolation by interpolating different colors across the triangle face. Since I&rsquo;m lazy we will generate the color in the VS. A more tedious approach is to supply it from the vertex buffer. Usually you don&rsquo;t supply colors from the vertex buffer. You supply texture coordinates and sample a color from a texture. That color is later processed by the lighting calculations.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">Color</span><span class="p">;</span></span></span></code></pre></div><p>Parameters passed between pipeline stages must be declared using the &lsquo;out&rsquo; reserved word and in the global scope of the shader. The color is a 4-vector since the XYZ components carry the RGB values (respectively) and W is the alpha value (pixel transparency).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">Color</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">clamp</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">);</span></span></span></code></pre></div><p>Color in the graphics pipeline is usually represented using a floating point value in the range [0.0, 1.0]. That value is later mapped to the integer 0 to 255 for each color channel (totaling in 16M colors). We set the vertex color value as a function of the vertex position. First we use the built-in function clamp() to make sure the values do not go outside of the 0.0-1.0 range. The reason is that the lower left vertex of the triangle is located at -1,-1. If we take that value as-is it will be interpolated by the rasterizer and until both X and Y pass zero we will not see anything because every value which is less than or equal to zero will be rendered as black. This means that half of the edge on each direction will be black before the color pass zero and become something meaningful. By clamping we make only the far bottom left black but as we get further away the color quickly becomes more bright. Try playing with the clamp function - remove it all together or change its parameters to see the effect.</p>
+<p>The result of the clamp function does not go directly to the output variable since it is a 4-vector while the position is a 3-vector (clamp does not change the number of components, only their values). From the point of view of GLSL there is no default conversion here and we have to make this explicit. We do this using the notation &lsquo;vec4(vec3, W)&rsquo; which creates a 4-vector by concatenating a 3-vector with the supplied W value. In our case we use 1.0 because this goes into the alpha part of the color and we want the pixel to be completely opaque.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">in</span> <span class="n">vec4</span> <span class="n">Color</span><span class="p">;</span></span></span></code></pre></div><p>The opposite side of the output color in the VS is the input color in the FS. This variable undergoes interpolation by the rasterizer so every FS is (probably) executed with a different color.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">FragColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">;</span></span></span></code></pre></div><p>We use the interpolated color as the fragment color with no further changes and this completes this tutorial.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

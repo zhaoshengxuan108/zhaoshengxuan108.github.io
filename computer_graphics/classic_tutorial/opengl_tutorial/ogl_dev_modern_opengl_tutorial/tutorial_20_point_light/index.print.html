@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 20:Point Light :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background We have studied the three basic light models (ambient, diffuse and specular) under the umbrella of directional light. Directional light is a light type which is characterized by a single direction vector and the lack of any origin. Therefore, it doesn&rsquo;t grow weaker with distance (in fact, you can&rsquo;t even define its distance from its target). We are now going to review the point light type which has both an origin as well as a fading effect which grows stronger as objects move away from it.">
+    <meta property="og:title" content="Tutorial 20:Point Light :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background We have studied the three basic light models (ambient, diffuse and specular) under the umbrella of directional light. Directional light is a light type which is characterized by a single direction vector and the lack of any origin. Therefore, it doesn&rsquo;t grow weaker with distance (in fact, you can&rsquo;t even define its distance from its target). We are now going to review the point light type which has both an origin as well as a fading effect which grows stronger as objects move away from it.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 20:Point Light :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" rel="canonical" type="text/html" title="Tutorial 20:Point Light :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 20:Point Light :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 20:Point Light</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-20point-light">Tutorial 20:Point Light</h1>
+
+<h3 id="background">Background</h3>
+<p>We have studied the three basic light models (ambient, diffuse and specular) under the umbrella of directional light. Directional light is a light type which is characterized by a single direction vector and the lack of any origin. Therefore, it doesn&rsquo;t grow weaker with distance (in fact, you can&rsquo;t even define its distance from its target). We are now going to review the point light type which has both an origin as well as a fading effect which grows stronger as objects move away from it. The classic example for a point light is the light blub. You can&rsquo;t feel the fading effect when the light bulb is inside a standard room but take it outside and you will quickly see how limited its strength is. Notice that the direction of light which is constant across the scene for directional light becomes dynamic with point light. That&rsquo;s because a point light shines in all directions equally so the direction must be calculated per object by taking the vector from the object towards the point light origin. That is why we specify the origin rather than the direction for point lights.</p>
+<p>The fading effect of point lights is usually called &lsquo;attenuation&rsquo;. The attenuation of a real light is governed by the inverse-square law that says that the strength of light is inversely proportional to the square of the distance from the source of light. This is described in mathematical terms by the following formula:</p>
+<p><a href="#R-image-8c3693f746ef5752ea04eea9403fb08b" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/../assets/inverse_square_law.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8c3693f746ef5752ea04eea9403fb08b"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/../assets/inverse_square_law.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>This formula doesn&rsquo;t provide good looking results in 3D graphics. For example, as the distance becomes smaller the strength of light approaches infinity. In addition, the developer has no control over the results except for setting the initial strength of light. This is too limiting. Therefore, we add a few factors to the formula to make it more flexible:</p>
+<p><a href="#R-image-1f8eba49eb0f306e141f1118d755ae54" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/../assets/attenuation.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1f8eba49eb0f306e141f1118d755ae54"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/../assets/attenuation.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>We&rsquo;ve added three light attenuation factors to the denominator. A constant factor, a linear factor and an exponential factor. The physically accurate formula is achieved when setting the constant and linear factors to zero and the exponential factor to 1. You may find it useful to set the constant factor to 1 and the other two factors to a much smaller fraction. When setting the constant factor to one you basically guarantee that the strength of light will reach maximum (actually, what you configure it to be in the program) at distance zero and will decrease as distance grows because the denominator will become greater than one. As you fine tune the linear and exponential factors you will reach the desired effect of light which rapidly or slowly fades with distance.</p>
+<p>Let&rsquo;s summarize the steps required for the calculation of point light:</p>
+<ol>
+<li>Calculate the ambient term the same as in directional light.</li>
+<li>Calculate the light direction as the vector going from the pixel (in world space) to the point light origin. You can now calculate the diffuse and specular terms the same as in directional light but using this light direction.</li>
+<li>Calculate the distance from the pixel to the light origin and use it to reach the total attenuation value.</li>
+<li>Add the three light terms together and divide them by the attenuation to reach the final point light color.</li>
+</ol>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(lighting_technique.h:24)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="nc">BaseLight</span><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="kt">float</span> <span class="n">AmbientIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="kt">float</span> <span class="n">DiffuseIntensity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">.</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="p">.</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">.</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">struct</span> <span class="nc">PointLight</span> <span class="o">:</span> <span class="k">public</span> <span class="n">BaseLight</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Position</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="k">struct</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="kt">float</span> <span class="n">Constant</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="kt">float</span> <span class="n">Linear</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="kt">float</span> <span class="n">Exp</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">}</span> <span class="n">Attenuation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Despite their differences, directional and point lights still have much in common. This common stuff has been moved to the BaseLight structure that both light types are now derived from. The directional light adds the direction in its concrete class while point light adds position (in world space) and the three attenuation factors.</p>
+<p>(lighting_technique.h:81)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">SetPointLights</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NumLights</span><span class="p">,</span> <span class="k">const</span> <span class="n">PointLight</span><span class="o">*</span> <span class="n">pLights</span><span class="p">);</span></span></span></code></pre></div><p>In addition to demonstrating how to implement a point light, this tutorial also shows how to use multiple lights. The assumption is that there will usually be a single directional light (serving as the &ldquo;sun&rdquo;) and/or possibly several point light sources (light bulbs in a rooms, torches in a dungeon, etc). This function takes an array of PointLight structures and the array size and updates the shader with their values.</p>
+<p>(lighting_technique.h:103)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">  <span class="n">GLuint</span> <span class="n">Color</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">GLuint</span> <span class="n">AmbientIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">GLuint</span> <span class="n">DiffuseIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">GLuint</span> <span class="n">Position</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">struct</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">GLuint</span> <span class="n">Constant</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">GLuint</span> <span class="n">Linear</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">GLuint</span> <span class="n">Exp</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="p">}</span> <span class="n">Atten</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span> <span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">MAX_POINT_LIGHTS</span><span class="p">];</span></span></span></code></pre></div><p>In order to support multiple point lights the shader contains an array of structures identical to struct PointLight (only in GLSL). There are basically two methods to update an array of structures in shaders:</p>
+<ol>
+<li>You can get the location of each structure field in each of the array elements (e.g. array of 5 structures with 4 fields each leads to 20 uniform locations) and set the value of each field in each element seperately.</li>
+<li>You can get the location of the fields only in the first array element and use a GL function that sets an array of variables for each specific field attribute type. For example, if the first field is a float and the second is an integer you can set all the values of the first field by passing an array of floats in one call and set the second field by with an array of integers in the second call.</li>
+</ol>
+<p>The first method is more wasteful in terms of the number of uniform locations you must maintain but is more flexible to use. It allows you to update any variable in the entire array by simply accessing its location and does not require you to transform your input data as the second method does.</p>
+<p>The second method requires less uniform location management but if you want to update several array elements at once and your user passes an array of structures (as in SetPointLights()) you will need to transform it into a structure of arrays since each uniform location will need to be updated by an array of variables of the same type. When using an array of structures there is a gap in memory between the same field in two consecutive array elements which requires you to gather them into their own array. In this tutorial we will use the first method. You should play with both and decide what works best for you.</p>
+<p>MAX_POINT_LIGHTS is a constant value that limits the maximum number of point lights that can be used and must be synchronized with the corresponding value in the shader. The default value is 2. As you increase the number of lights in your application you may end up with a performance problem that becomes worse as the number of lights grows. This problem can be mitigated using a technique called &lsquo;deferred shading&rsquo; which will be explored in the future.</p>
+<p>(lighting.fs:46)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcLightInternal</span><span class="p">(</span><span class="n">BaseLight</span> <span class="n">Light</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">LightDirection</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec4</span> <span class="n">AmbientColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Light</span><span class="p">.</span><span class="n">Color</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">)</span> <span class="o">*</span> <span class="n">Light</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="kt">float</span> <span class="n">DiffuseFactor</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="o">-</span><span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">vec4</span> <span class="n">DiffuseColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">vec4</span> <span class="n">SpecularColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">DiffuseFactor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">DiffuseColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Light</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">Light</span><span class="p">.</span><span class="n">DiffuseIntensity</span> <span class="o">*</span> <span class="n">DiffuseFactor</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">vec3</span> <span class="n">VertexToEye</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">gEyeWorldPos</span> <span class="o">-</span> <span class="n">WorldPos0</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">vec3</span> <span class="n">LightReflect</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">reflect</span><span class="p">(</span><span class="n">LightDirection</span><span class="p">,</span> <span class="n">Normal</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="kt">float</span> <span class="n">SpecularFactor</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">VertexToEye</span><span class="p">,</span> <span class="n">LightReflect</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">SpecularFactor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">15</span><span class="cl">      <span class="n">SpecularFactor</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">SpecularFactor</span><span class="p">,</span> <span class="n">gSpecularPower</span><span class="p">);</span>      
+</span></span><span class="line"><span class="ln">16</span><span class="cl">      <span class="n">SpecularColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Light</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">gMatSpecularIntensity</span> <span class="o">*</span> <span class="n">SpecularFactor</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">AmbientColor</span> <span class="o">+</span> <span class="n">DiffuseColor</span> <span class="o">+</span> <span class="n">SpecularColor</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>It should not come as a big surprise that we can share quite a lot of shader code between directional light and point light. Most of the algorithm is the same. The difference is that we need to factor in the attenuation only for the point light. In addition, the light direction is provided by the application in the case of directional light and must be calculated per pixel for point light.</p>
+<p>The function above encapsulates the common stuff between the two light types. The BaseLight structure contains the intensities and the color. The LightDirection is provided seperately because of the reason above. The vertex normal is also provided because we normalize it once when entering the fragment shader and then use it in multiple calls to this function.</p>
+<p>(lighting.fs:70)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcDirectionalLight</span><span class="p">(</span><span class="n">vec3</span> <span class="n">Normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="k">return</span> <span class="n">CalcLightInternal</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Base</span><span class="p">,</span> <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Normal</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>With the common function in place, the function to calculate the directional light simply becomes its wrapper, taking most of its arguments from the global variables.</p>
+<p>(lighting.fs:75)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcPointLight</span><span class="p">(</span><span class="kt">int</span> <span class="n">Index</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec3</span> <span class="n">LightDirection</span> <span class="o">=</span> <span class="n">WorldPos0</span> <span class="o">-</span> <span class="n">gPointLights</span><span class="p">[</span><span class="n">Index</span><span class="p">].</span><span class="n">Position</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="kt">float</span> <span class="n">Distance</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">LightDirection</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">vec4</span> <span class="n">Color</span> <span class="o">=</span> <span class="n">CalcLightInternal</span><span class="p">(</span><span class="n">gPointLights</span><span class="p">[</span><span class="n">Index</span><span class="p">].</span><span class="n">Base</span><span class="p">,</span> <span class="n">LightDirection</span><span class="p">,</span> <span class="n">Normal</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">float</span> <span class="n">Attenuation</span> <span class="o">=</span> <span class="n">gPointLights</span><span class="p">[</span><span class="n">Index</span><span class="p">].</span><span class="n">Atten</span><span class="p">.</span><span class="n">Constant</span> <span class="o">+</span>            
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">gPointLights</span><span class="p">[</span><span class="n">Index</span><span class="p">].</span><span class="n">Atten</span><span class="p">.</span><span class="n">Linear</span> <span class="o">*</span> <span class="n">Distance</span> <span class="o">+</span>            
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">gPointLights</span><span class="p">[</span><span class="n">Index</span><span class="p">].</span><span class="n">Atten</span><span class="p">.</span><span class="n">Exp</span> <span class="o">*</span> <span class="n">Distance</span> <span class="o">*</span> <span class="n">Distance</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="k">return</span> <span class="n">Color</span> <span class="o">/</span> <span class="n">Attenuation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Calculating point light is just a bit more complex than directional light. This function will be called for every configured point light so it takes the light index as a parameter and uses it to index into the global array of point lights. It calculated the vector from the light source (provided in world space by the application) to the world space position passed by the vertex shader. The distance from the point light to the pixel is calculated using the built-in function length(). Once we have the distance we normalize the light direction vector. Remember that CalcLightInternal() expects it to be normalized and in the case of directional light the LightingTechnique class takes care of it. We get the color back from CalcInternalLight() and using the distance that we got earlier we calculate the attenuation. The final point light color is calculated by dividing the color that we have by the attenuation.</p>
+<p>(lighting.fs:89)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">Normal0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">vec4</span> <span class="n">TotalLight</span> <span class="o">=</span> <span class="n">CalcDirectionalLight</span><span class="p">(</span><span class="n">Normal</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">gNumPointLights</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">TotalLight</span> <span class="o">+=</span> <span class="n">CalcPointLight</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Normal</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">texture2D</span><span class="p">(</span><span class="n">gSampler</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">.</span><span class="n">xy</span><span class="p">)</span> <span class="o">*</span> <span class="n">TotalLight</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Once we get all the infrastructure in place the fragment shader becomes very simple. It simply normalizes the vertex normal and then accumulates the results of all light types together. The result is multiplied by the sampled color and is used as the final pixel color.</p>
+<p>(lighting_technique.cpp:279)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">LightingTechnique</span><span class="o">::</span><span class="n">SetPointLights</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NumLights</span><span class="p">,</span> <span class="k">const</span> <span class="n">PointLight</span><span class="o">*</span> <span class="n">pLights</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glUniform1i</span><span class="p">(</span><span class="n">m_numPointLightsLocation</span><span class="p">,</span> <span class="n">NumLights</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NumLights</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">glUniform3f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Color</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Color</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Color</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Color</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">AmbientIntensity</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">AmbientIntensity</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">DiffuseIntensity</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">DiffuseIntensity</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">glUniform3f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Position</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Position</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Atten</span><span class="p">.</span><span class="n">Constant</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Attenuation</span><span class="p">.</span><span class="n">Constant</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Atten</span><span class="p">.</span><span class="n">Linear</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Attenuation</span><span class="p">.</span><span class="n">Linear</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">glUniform1f</span><span class="p">(</span><span class="n">m_pointLightsLocation</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Atten</span><span class="p">.</span><span class="n">Exp</span><span class="p">,</span> <span class="n">pLights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Attenuation</span><span class="p">.</span><span class="n">Exp</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function updates the shader with the point lights values by iterating over the array elements and passing each element&rsquo;s attribute values one by one. This is the so called &ldquo;method 1&rdquo; that was described earlier.</p>
+<p>This tutorials demo shows two point lights chasing one another across a field. One light is based on the cosine function while the other on the sine function. The field is a very simple quad made of two triangles. The normal is a straight up vector.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=E64VK-qolUU&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=18" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

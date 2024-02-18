@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 41:Object Motion Blur :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background Motion Blur is a very popular technique in fast pace 3D games whose purpose is to add a blurring effect to moving objects. This enhances the sense of realism experienced by the player. Motion Blur can be accomplished in various ways. There is a camera based Motion Blur which focuses on camera movement and there is an object based Motion Blur. In this tutorial we will study one of the options to accomplish the later.">
+    <meta property="og:title" content="Tutorial 41:Object Motion Blur :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background Motion Blur is a very popular technique in fast pace 3D games whose purpose is to add a blurring effect to moving objects. This enhances the sense of realism experienced by the player. Motion Blur can be accomplished in various ways. There is a camera based Motion Blur which focuses on camera movement and there is an object based Motion Blur. In this tutorial we will study one of the options to accomplish the later.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 41:Object Motion Blur :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 41:Object Motion Blur :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.print.html" rel="alternate" type="text/html" title="Tutorial 41:Object Motion Blur :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#source-walkthru">Source walkthru</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 41:Object Motion Blur</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" title="Tutorial 40:Stencil Shadow Volume (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" title="Tutorial 42:Percentage Closer Filtering (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-41object-motion-blur">Tutorial 41:Object Motion Blur</h1>
+
+<h3 id="background">Background</h3>
+<p>Motion Blur is a very popular technique in fast pace 3D games whose purpose is to add a blurring effect to moving objects. This enhances the sense of realism experienced by the player. Motion Blur can be accomplished in various ways. There is a camera based Motion Blur which focuses on camera movement and there is an object based Motion Blur. In this tutorial we will study one of the options to accomplish the later.</p>
+<p>The principle behind Motion Blur is that we can calculate the vector of movement (a.k.a Motion Vector) for each rendered pixel between two frames. By sampling along that vector from the current color buffer and averaging the result we get pixels that represent the movement of the underlying objects. This is really all there is to it. Let&rsquo;s take it to the next level of details. The following is a summary of the required steps and after that we will review the actual code.</p>
+<ol>
+<li>The technique is split into two passes - a render pass and then a motion blur pass.</li>
+<li>In the render pass we render into two buffers - the regular color buffer and a motion vector buffer. The color buffer contains the original image as if it was rendered without motion blur. The motion vector blur contains a vector for each pixel which represents its movement along the screen between the previous frame and the current.</li>
+<li>The motion vector is calculated by supplying the WVP matrix of the previous frame to the VS. We transform the local space position of each vertex using the current WVP and the previous one to clip space and pass both results to the FS. We get the interpolated clip space positions in the FS and transform them to NDC by dividing them by their respective W coordinate. This completes their projection to the screen so now we can substract the previous position from the current and get a motion vector. The motion vector is written out to a texture.</li>
+<li>The motion blur pass is implemented by rendering a full screen quad. We sample the motion vector for each pixel in the FS and then we sample from the color buffer along that vector (starting from the current pixel).</li>
+<li>We sum up the results of each sample operation while giving the highest weight to the current pixel and the lowest weight to the one which is the most distant on the motion vector (this is what we do in this tutorial, but there are many other options here).</li>
+<li>This averaging of sample results along the motion vector creates the sense of bluriness. Obviously, pixels that didn&rsquo;t move between two frames will look the same, which is fine.</li>
+</ol>
+<p>This tutorial is based on the Skeletal Animation tutorial (#38). We will review here the changes that add the motion blur to that tutorial.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(tutorial41.cpp:157)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">CalcFPS</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnRender</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">RenderPass</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">MotionBlurPass</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">RenderFPS</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">glutSwapBuffers</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the main render function and it is very simple. We have a render pass for all the objects in the scene and then a post processing pass for the motion blur.</p>
+<p>(tutorial41.cpp:172)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">RenderPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_intermediateBuffer</span><span class="p">.</span><span class="n">BindForWriting</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_pSkinningTech</span><span class="o">-&gt;</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">vector</span> <span class="n">Transforms</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="kt">float</span> <span class="n">RunningTime</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)((</span><span class="kt">double</span><span class="p">)</span><span class="n">GetCurrentTimeMillis</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">m_startTime</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">m_mesh</span><span class="p">.</span><span class="n">BoneTransform</span><span class="p">(</span><span class="n">RunningTime</span><span class="p">,</span> <span class="n">Transforms</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">uint</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Transforms</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">m_pSkinningTech</span><span class="o">-&gt;</span><span class="n">SetBoneTransform</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Transforms</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">m_pSkinningTech</span><span class="o">-&gt;</span><span class="n">SetPrevBoneTransform</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">m_prevTransforms</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">m_pSkinningTech</span><span class="o">-&gt;</span><span class="n">SetEyeWorldPos</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetTarget</span><span class="p">(),</span> 
+</span></span><span class="line"><span class="ln">23</span><span class="cl">                       <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetUp</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="n">m_persProjInfo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Pos</span><span class="p">(</span><span class="n">m_position</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="n">Pos</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">m_pipeline</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="mf">270.0f</span><span class="p">,</span> <span class="mf">180.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">m_pSkinningTech</span><span class="o">-&gt;</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">m_pipeline</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">m_pSkinningTech</span><span class="o">-&gt;</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">m_pipeline</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  <span class="n">m_prevTransforms</span> <span class="o">=</span> <span class="n">Transforms</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is our render pass. It is almost identical to the one from the Skeletal Animation tutorial with changes marked in bold face. The intermediate buffer is a simple class that combines the color, depth, and motion vector buffers under a single frame buffer object. We&rsquo;ve seen this already when we studied deferred rendering (tutorials 35-37) so I&rsquo;m not going to review it here. Check the attached sources. The basic idea is to render into a FBO and not directly to the screen. In the motion blur pass we will read from the intermediate buffer.</p>
+<p>Other than that you can see that we&rsquo;ve added a class member to the &lsquo;Tutorial41&rsquo; class that keeps the vector of bone transformations from the previous frame. We feed it into the skinning technique along with the current bone transformations. We will see how this is used when we review the GLSL code of the technique.</p>
+<p>(tutorial41.cpp:209)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">MotionBlurPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_intermediateBuffer</span><span class="p">.</span><span class="n">BindForReading</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="o">|</span><span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_pMotionBlurTech</span><span class="o">-&gt;</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">m_quad</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>In the motion blur pass we bind the intermediate buffer for reading (which means that the rendering output goes to the screen) and render a full screen quad. Each screen pixel will be processed once and the effect of motion blur will be calculated.</p>
+<p>(skinning.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="n">in</span> <span class="n">ivec4</span> <span class="n">BoneIDs</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec4</span> <span class="n">Weights</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span><span class="n">out</span> <span class="n">vec3</span> <span class="n">Normal0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">WorldPos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">ClipSpacePos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">PrevClipSpacePos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_BONES</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWorld</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gBones</span><span class="p">[</span><span class="n">MAX_BONES</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gPrevBones</span><span class="p">[</span><span class="n">MAX_BONES</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">mat4</span> <span class="n">BoneTransform</span> <span class="o">=</span> <span class="n">gBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">BoneTransform</span> <span class="o">+=</span> <span class="n">gBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">BoneTransform</span> <span class="o">+=</span> <span class="n">gBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">BoneTransform</span> <span class="o">+=</span> <span class="n">gBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="n">vec4</span> <span class="n">PosL</span> <span class="o">=</span> <span class="n">BoneTransform</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">vec4</span> <span class="n">ClipSpacePos</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">PosL</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">ClipSpacePos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">TexCoord0</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="n">vec4</span> <span class="n">NormalL</span> <span class="o">=</span> <span class="n">BoneTransform</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="n">Normal0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">NormalL</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="n">WorldPos0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">PosL</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="n">mat4</span> <span class="n">PrevBoneTransform</span> <span class="o">=</span> <span class="n">gPrevBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  <span class="n">PrevBoneTransform</span> <span class="o">+=</span> <span class="n">gPrevBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="n">PrevBoneTransform</span> <span class="o">+=</span> <span class="n">gPrevBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">39</span><span class="cl">  <span class="n">PrevBoneTransform</span> <span class="o">+=</span> <span class="n">gPrevBones</span><span class="p">[</span><span class="n">BoneIDs</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">*</span> <span class="n">Weights</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">40</span><span class="cl">
+</span></span><span class="line"><span class="ln">41</span><span class="cl">  <span class="n">ClipSpacePos0</span> <span class="o">=</span> <span class="n">ClipSpacePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">42</span><span class="cl">  <span class="n">vec4</span> <span class="n">PrevPosL</span> <span class="o">=</span> <span class="n">PrevBoneTransform</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">43</span><span class="cl">  <span class="n">PrevClipSpacePos0</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">PrevPosL</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">44</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Above we see the changes to the VS of the skinning technique. We&rsquo;ve added a uniform array which contains the bone transformations from the previous frame and we use it to calculate the clip space position of the current vertex in the previous frame. This position, along with the clip space position of the current vertex in the current frame are forwarded to the FS.</p>
+<p>(skinning.fs:123)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">out</span> <span class="n">vec3</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">out</span> <span class="n">vec2</span> <span class="n">MotionVector</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">VSOutput</span> <span class="n">In</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">In</span><span class="p">.</span><span class="n">TexCoord</span> <span class="o">=</span> <span class="n">TexCoord0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">In</span><span class="p">.</span><span class="n">Normal</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">Normal0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">In</span><span class="p">.</span><span class="n">WorldPos</span> <span class="o">=</span> <span class="n">WorldPos0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">vec4</span> <span class="n">TotalLight</span> <span class="o">=</span> <span class="n">CalcDirectionalLight</span><span class="p">(</span><span class="n">In</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">gNumPointLights</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="n">TotalLight</span> <span class="o">+=</span> <span class="n">CalcPointLight</span><span class="p">(</span><span class="n">gPointLights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">In</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">gNumSpotLights</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">TotalLight</span> <span class="o">+=</span> <span class="n">CalcSpotLight</span><span class="p">(</span><span class="n">gSpotLights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">In</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">vec4</span> <span class="n">Color</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gColorMap</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">)</span> <span class="o">*</span> <span class="n">TotalLight</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">.</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">vec3</span> <span class="n">NDCPos</span> <span class="o">=</span> <span class="p">(</span><span class="n">ClipSpacePos0</span> <span class="o">/</span> <span class="n">ClipSpacePos0</span><span class="p">.</span><span class="n">w</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">vec3</span> <span class="n">PrevNDCPos</span> <span class="o">=</span> <span class="p">(</span><span class="n">PrevClipSpacePos0</span> <span class="o">/</span> <span class="n">PrevClipSpacePos0</span><span class="p">.</span><span class="n">w</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">MotionVector</span> <span class="o">=</span> <span class="p">(</span><span class="n">NDCPos</span> <span class="o">-</span> <span class="n">PrevNDCPos</span><span class="p">).</span><span class="n">xy</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The FS of the skinning technique has been updated to output two vectors into two separate buffers (the color and the motion vector buffers). The color is calculated as usual. To calculate the motion vector we project the clip space positions of the current and previous frame by doing perspective divide on both and substract one from the other.</p>
+<p>Note that the motion vector is just a 2D vector. This is because it &ldquo;lives&rdquo; only on the screen. The corresponding motion buffer is created with the type GL_RG to match.</p>
+<p>(motion_blur.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span> 
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">TexCoord0</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the VS of the motion blur technique. We simply pass along the position and texture coordinate of each vertex of the full screen quad.</p>
+<p>(motion_blur.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler2D</span> <span class="n">gColorTexture</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">uniform</span> <span class="n">sampler2D</span> <span class="n">gMotionTexture</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">vec2</span> <span class="n">MotionVector</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gMotionTexture</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">).</span><span class="n">xy</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">vec4</span> <span class="n">Color</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">vec2</span> <span class="n">TexCoord</span> <span class="o">=</span> <span class="n">TexCoord0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">Color</span> <span class="o">+=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gColorTexture</span><span class="p">,</span> <span class="n">TexCoord</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">TexCoord</span> <span class="o">-=</span> <span class="n">MotionVector</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">Color</span> <span class="o">+=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gColorTexture</span><span class="p">,</span> <span class="n">TexCoord</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">TexCoord</span> <span class="o">-=</span> <span class="n">MotionVector</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">Color</span> <span class="o">+=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gColorTexture</span><span class="p">,</span> <span class="n">TexCoord</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">TexCoord</span> <span class="o">-=</span> <span class="n">MotionVector</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">Color</span> <span class="o">+=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gColorTexture</span><span class="p">,</span> <span class="n">TexCoord</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">Color</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is where all the motion blur fun takes place. We sample the motion vector of the current pixel and use it to sample four texels from the color buffer. The color of the current pixel is sampled using the original texture coordinates and we give it the highest weight (0.4). We then move the texture coordinate backward along the motion vector and sample three more color texels. We combine them together while giving smaller and smaller weights as we move along.</p>
+<p>You can see that I divided the original motion vector by two. You will probably need some fine tuning here as well as with the weights to get the best result for your scene. Have fun.</p>
+<p>Here&rsquo;s an example of a possible output:</p>
+<p><a href="#R-image-f4159cd346d1604873fa33951485f056" class="lightbox-link"><img src="../assets/tutorial41.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f4159cd346d1604873fa33951485f056"><img src="../assets/tutorial41.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

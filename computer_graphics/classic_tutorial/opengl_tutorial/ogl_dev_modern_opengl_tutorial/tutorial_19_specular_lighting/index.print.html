@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 19:Specular Lighting :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background When we calculated ambient lighting the only factor was the strength of light. Then we progressed to diffuse lighting which added the direction of light into the equation. Specular lighting includes these factors and adds a new element into the mix - the position of the viewer. The idea is that when light strikes a surface at some angle it is also reflected away at the same angle (on the other side of the normal).">
+    <meta property="og:title" content="Tutorial 19:Specular Lighting :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background When we calculated ambient lighting the only factor was the strength of light. Then we progressed to diffuse lighting which added the direction of light into the equation. Specular lighting includes these factors and adds a new element into the mix - the position of the viewer. The idea is that when light strikes a surface at some angle it is also reflected away at the same angle (on the other side of the normal).">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 19:Specular Lighting :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" rel="canonical" type="text/html" title="Tutorial 19:Specular Lighting :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 19:Specular Lighting :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 19:Specular Lighting</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-19specular-lighting">Tutorial 19:Specular Lighting</h1>
+
+<h3 id="background">Background</h3>
+<p>When we calculated ambient lighting the only factor was the strength of light. Then we progressed to diffuse lighting which added the direction of light into the equation. Specular lighting includes these factors and adds a new element into the mix - the position of the viewer. The idea is that when light strikes a surface at some angle it is also reflected away at the same angle (on the other side of the normal). If the viewer is located exactly somewhere along the way of the reflected light ray it receives a larger amount of light than a viewer who is located further away.</p>
+<p>The end result of specular lighting is that objects will look brighter from certain angles and this brightness will diminish as you move away. The perfect real world example of specular lighting is metallic objects. These kinds of objects can sometimes be so bright that instead of seeing the object in its natural color you see a patch of shining white light which is reflected directly back at you. However, this type of quality which is very natural for metals is absent in many other materials (e.g. wood). Many objects simply don&rsquo;t shine, regardless of the where the light is coming from and where the viewer is standing. The conclusion is that the specular factor depends more on the object, rather than the light itself.</p>
+<p>Let&rsquo;s see how we can bring in the viewer location into the calculation of specular light. Take a look at the following picture:</p>
+<p><a href="#R-image-45f2373979ea8c5d5114a6f0821f29b0" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/specular_light.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-45f2373979ea8c5d5114a6f0821f29b0"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/specular_light.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>There are five things we need to pay attention to:</p>
+<ul>
+<li>&lsquo;I&rsquo; is the incident light that hits the surface (and generates the diffuse light).</li>
+<li>&lsquo;N&rsquo; is the surface normal.</li>
+<li>&lsquo;R&rsquo; is the ray of light which is reflected back from the surface. It is symmetric across the normal from &lsquo;I&rsquo; but its general direction is reversed (it points &ldquo;up&rdquo; and not &ldquo;down&rdquo;).</li>
+<li>&lsquo;V&rsquo; is the vector from the point on the surface where the light hits to the &rsquo;eye&rsquo; (which represents the viewer).</li>
+<li>&lsquo;α&rsquo; is the angle which is created by the vectors &lsquo;R&rsquo; and &lsquo;V&rsquo;.</li>
+</ul>
+<p>We are going to model the phenomenon of specular light using the angle &lsquo;α&rsquo;. The idea behind specular light is that the strength of the reflected light is going to be at its maximum along the vector &lsquo;R&rsquo;. In that case &lsquo;V&rsquo; is identical to &lsquo;R&rsquo; and the angle is zero. As the viewer starts moving away from &lsquo;R&rsquo; the angle grows larger. We want the effect of light to gradually decrease as the angle grows. By now you can probably guess that we are going to use the dot product operation again in order to calculate the cosine of &lsquo;α&rsquo;. This will serve as our specular factor in the lighting formula. When &lsquo;α&rsquo; is zero the cosine is 1 which is the maximum factor that we can get. As &lsquo;α&rsquo; is decreased the cosine becomes smaller until &lsquo;α&rsquo; reaches 90 degrees where the cosine is zero and there is absolutely no specular effect. When &lsquo;α&rsquo; is more than 90 degrees the cosine is negative and there is also no specular effect. This means that the viewer is absolutely not in the path of the reflected ray of light.</p>
+<p>To calculate &lsquo;α&rsquo; we will need both &lsquo;R&rsquo; and &lsquo;V&rsquo;. &lsquo;V&rsquo; can be calculating by substracting the location of the point where the light hits in world space from the location of the viewer (also in world space). Since our camera is already maintained in world space we only need to pass its position to the shader. Since the image above is simplified, there is a single point there where the light hits. In reality, the entire triangle is lit (assuming it is facing the light). So we will calculate the specular effect for every pixel (same as we did with diffuse light) and for that we need the location of the pixel in world space. This is also simple - we can transform the vertices into world space and let the rasterizer interpolate the world space position of the pixel and provide us the result in the fragment shader. Actually, this is the same as the handling of the normal in the previous tutorial.</p>
+<p>The only thing left is to calculate the reflected ray &lsquo;R&rsquo; using the vector &lsquo;I&rsquo; (which is provided by the application to the shader). Take a look at the following picture:</p>
+<p><a href="#R-image-26ace01a697122c8bbce8b6a978106cc" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/reflected_light.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-26ace01a697122c8bbce8b6a978106cc"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/reflected_light.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Remember that a vector doesn&rsquo;t really have a starting point and all vectors that have the same direction and magnitude are equal. Therefore, the vector &lsquo;I&rsquo; was copied &ldquo;below&rdquo; the surface and the copy is identical to the original. The target is to find the vector &lsquo;R&rsquo;. Based on the rules of vector addition &lsquo;R&rsquo; is equal to &lsquo;I&rsquo;+&lsquo;V&rsquo;. &lsquo;I&rsquo; is already known so all we have to do is find out &lsquo;V&rsquo;. Note that the opposite of the normal &lsquo;N&rsquo; also appears as &lsquo;-N&rsquo; and using a dot product operation between &lsquo;I&rsquo; and &lsquo;-N&rsquo; we can find the magnitude of the vector which is created when &lsquo;I&rsquo; is projected on &lsquo;-N&rsquo;. This magnitude is exactly half the magnitude of &lsquo;V&rsquo;. Since &lsquo;V&rsquo; has the same direction as &lsquo;N&rsquo; we can calculate &lsquo;V&rsquo; by multiplying &lsquo;N&rsquo; (whose length is 1.0) by twice that magnitude. To summarize:</p>
+<p><a href="#R-image-2f94728f54b163f96c6ac9e117738265" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/reflect.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2f94728f54b163f96c6ac9e117738265"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/reflect.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Now that you understand the math it is time to let you in on a little secret - GLSL provides an internal function called &lsquo;reflect&rsquo; that does exactly this calculation. See below how it is used in the shader.</p>
+<p>Let&rsquo;s finalize the formula of specular light:</p>
+<p><a href="#R-image-0dd365e9752fb236a40130f622537102" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/specular1.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-0dd365e9752fb236a40130f622537102"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/specular1.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>We start by multiplying the color of light by the color of the surface. This is the same as with ambient and diffuse light. The result is multiplied by the specular intensity of the material (&lsquo;M&rsquo;). A material which does not have any specular property (e.g. wood) would have a specular intensity of zero which will zero out the result of the equation. Shinier stuff such as metal can have increasingly higher levels of specular intensity. After that we multiply by the cosine of the angle between the reflected ray of light and the vector to the eye. Note that this last part is raised to the power of &lsquo;P&rsquo;. &lsquo;P&rsquo; is called the &lsquo;specular power&rsquo; or the &lsquo;shininess factor&rsquo;. Its job is to intensify and sharpen the edges if the area where the specular light is present. The following picture shows the effect of the specular power when it is set to 1:</p>
+<p><a href="#R-image-cbbd88121a0c3c89e24a6d50a4b20b19" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/shininess_1.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-cbbd88121a0c3c89e24a6d50a4b20b19"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/shininess_1.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>While the following shows a specular exponent of 32:</p>
+<p><a href="#R-image-0fa161d25a0e73332364b9ea04cf8c0a" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/shininess_32.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-0fa161d25a0e73332364b9ea04cf8c0a"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/../assets/shininess_32.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>The specular power is also considered as an attribute of the material so different objects will have different specular power values.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(lighting_technique.h:32)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">LightingTechnique</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Technique</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">...</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="kt">void</span> <span class="n">SetEyeWorldPos</span><span class="p">(</span><span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">EyeWorldPos</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="kt">void</span> <span class="nf">SetMatSpecularIntensity</span><span class="p">(</span><span class="kt">float</span> <span class="n">Intensity</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="kt">void</span> <span class="nf">SetMatSpecularPower</span><span class="p">(</span><span class="kt">float</span> <span class="n">Power</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">...</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_eyeWorldPosLocation</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_matSpecularIntensityLocation</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_matSpecularPowerLocation</span><span class="p">;</span></span></span></code></pre></div><p>There are three new attributes in the LightingTechnique - eye position, specular intensity and power of the material. All three are indepedent from the light itself. The reason is that when the same light falls on two different materials (e.g. metal and wood) each of them shines in a different way. The current usage model of the two material attributes is a bit limiting. All the triangles that are part of the same draw call get the same values for these attributes. This can be a bit annoying when the triangles represent different parts of the model with different material properties. When we get to the mesh loading tutorials we will see that we can generate different specular values in a modeler software and make them part of the vertex buffer (instead of a parameter to the shader). This will allow us to process triangles with different specular lighting in the same draw call. For now the simple approach will do (as an exercise you can try adding specular intensity and power to the vertex buffer and access it in the shader).</p>
+<p>(lighting.vs:12)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">WorldPos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="n">TexCoord0</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="n">Normal0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">8</span><span class="cl">  <span class="n">WorldPos0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The vertex shader above includes just one new line (the last one). The world matrix (which we added in the previous tutorial in order to transform the normal) is now used to pass the world position of the vertex to the fragment shader. We see an interesting technique here of transforming the same vertex position (provided in local space) using two different matrices and passing the results indepedently to the fragment shader. The result of the full transformation (world-view-projection matrix) goes into the formal system variable &lsquo;gl_Position&rsquo; and the GPU takes care of transforming it to a screen space coordinate and using it for the actual rasterization. The result of the &ldquo;partial&rdquo; transformation (only to world space) goes into a user defined attributes which is simply interpolated during rasterization so every pixel for which the fragment shader is invoked is provided its own world space position value. This technique is very common and useful.</p>
+<p>(lighting.fs:5)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">WorldPos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">.</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">.</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">.</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">vec3</span> <span class="n">gEyeWorldPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gMatSpecularIntensity</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gSpecularPower</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">vec4</span> <span class="n">AmbientColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">AmbientIntensity</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">vec3</span> <span class="n">LightDirection</span> <span class="o">=</span> <span class="o">-</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">Normal0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="kt">float</span> <span class="n">DiffuseFactor</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">vec4</span> <span class="n">DiffuseColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">vec4</span> <span class="n">SpecularColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">DiffuseFactor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">DiffuseColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Color</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">)</span> <span class="o">*</span>      
+</span></span><span class="line"><span class="ln">22</span><span class="cl">      <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">DiffuseIntensity</span> <span class="o">*</span>      
+</span></span><span class="line"><span class="ln">23</span><span class="cl">      <span class="n">DiffuseFactor</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">24</span><span class="cl">    
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="n">vec3</span> <span class="n">VertexToEye</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">gEyeWorldPos</span> <span class="o">-</span> <span class="n">WorldPos0</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="n">vec3</span> <span class="n">LightReflect</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">reflect</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Normal</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">27</span><span class="cl">    <span class="kt">float</span> <span class="n">SpecularFactor</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">VertexToEye</span><span class="p">,</span> <span class="n">LightReflect</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">28</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">SpecularFactor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">29</span><span class="cl">      <span class="n">SpecularFactor</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">SpecularFactor</span><span class="p">,</span> <span class="n">gSpecularPower</span><span class="p">);</span>      
+</span></span><span class="line"><span class="ln">30</span><span class="cl">      <span class="n">SpecularColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Color</span> <span class="o">*</span> <span class="n">gMatSpecularIntensity</span> <span class="o">*</span> <span class="n">SpecularFactor</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">texture2D</span><span class="p">(</span><span class="n">gSampler</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">.</span><span class="n">xy</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">AmbientColor</span> <span class="o">+</span> <span class="n">DiffuseColor</span> <span class="o">+</span> <span class="n">SpecularColor</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">34</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>There are several changes in the fragment shader. There are now three new uniform variables that store the attributes required for calculating specular light (eye pos, specular intensity and power). The ambient color is calculated in the same way as the two previous tutorials. Then the diffuse and specular color vectors are created and initialize to zero. They both have a value different then zero only when the angle between the light and the surface is less than 90 degrees. This is checked using the diffuse factor (same as in the diffuse lighting tutorial).</p>
+<p>The next step is to calculate the vector from the vertex in world space to the viewer location (also in world space). We do this by substracting the world position of the vertex from the eye position which is a uniform variable and identical for all pixels. This vector is normalized to make it ready for the dot product operation. After that the reflected light vector is calculated using the built-in function &lsquo;reflect&rsquo; (you may also try to calculate it manually based on the description above). This function take two parameters - the light vector and the surface normal. The important thing here is to use the original light vector which goes towards the surface and not the reversed one which was used for the diffuse factor calculation. This is obvious from the diagram above. Next we calculate the specular factor as the cosine of the angle between the reflected ray of light and the vector from the vertex to the viewer (again using a dot product operation).</p>
+<p>The specular effect is noticeable only if that angle is less than 90 degrees. Therefore, we check if the result of the last dot product operation is greater than zero. The final specular color is calculated by multiplying the color of light by the specular intensity of the material and the specular factor. We add the specular color to the ambient and diffuse color to create the total color of light. This is multiplied by the sampled color from the texture and provides the final color of the pixel.</p>
+<p>(tutorial19.cpp:134)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">m_pEffect</span><span class="o">-&gt;</span><span class="n">SetEyeWorldPos</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">m_pEffect</span><span class="o">-&gt;</span><span class="n">SetMatSpecularIntensity</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">m_pEffect</span><span class="o">-&gt;</span><span class="n">SetMatSpecularPower</span><span class="p">(</span><span class="mi">32</span><span class="p">);</span></span></span></code></pre></div><p>Using the specular color is very simple. In the render loop we grab the camera position (which is already maintained in world space) and pass it to the lighting technique. We also set the specular intensity and power. All the rest is handled by the shader.</p>
+<p>Play with different specular values and light direction to see their effect. You may need to circle around the object to get into a position where the specular light is visible.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=UpJs-kgtoSQ&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=14" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

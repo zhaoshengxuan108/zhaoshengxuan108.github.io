@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Scratchapixe 系列短文 on Hugo Relearn Theme</title>
+    <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html</link>
+    <description>Recent content in Scratchapixe 系列短文 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction to Raytracing: A Simple Method for Creating 3D Images</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html</guid>
+      <description>转自：https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing/how-does-it-work.html
+How Does it Work This lesson serves as a broad introduction to the concept of 3D rendering and computer graphics programming. For those specifically interested in the ray-tracing method, you might want to explore the lesson An Overview of the Ray-Tracing Rendering Technique.
+Embarking on the exploration of 3D graphics, especially within the realm of computer graphics programming, the initial step involves understanding the conversion of a three-dimensional scene into a two-dimensional image that can be viewed.</description>
+    </item>
+    <item>
+      <title>Where Do I Start? A Very Gentle Introduction to Computer Graphics Programming</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html</guid>
+      <description>Understanding How It Works! If you are here, it&amp;rsquo;s probably because you want to learn computer graphics. Each reader may have a different reason for being here, but we are all driven by the same desire: to understand how it works! Scratchapixel was created to answer this particular question. Here you will learn how it works and about techniques used to develop computer graphics-generated images, from the simplest and most essential methods to the more complicated and less common ones.</description>
+    </item>
+    <item>
+      <title>Rendering an Image of a 3D Scene: an Overview</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html</guid>
+      <description>It All Starts with a Computer and a Computer Screen Introduction The lesson Introduction to Raytracing: A Simple Method for Creating 3D Images provided you with a quick introduction to some important concepts in rendering and computer graphics in general, as well as the source code of a small ray tracer (with which we rendered a scene containing a few spheres). Ray tracing is a very popular technique for rendering a 3D scene (mostly because it is easy to implement and also a more natural way of thinking of the way light propagates in space, as quickly explained in lesson 1), however other methods exist.</description>
+    </item>
+    <item>
+      <title>Computing the Pixel Coordinates of a 3D Point</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html</guid>
+      <description>Perspective Projection How Do I Find the 2D Pixel Coordinates of a 3D Point? &amp;ldquo;How do I find the 2D pixel coordinates of a 3D point?&amp;rdquo; is one of the most common questions in 3D rendering on the Web. It is an essential question because it is the fundamental method to create an image of a 3D scene. In this lesson, we will use the term rasterization to describe the process of finding 2D pixel coordinates of 3D points.</description>
+    </item>
+    <item>
+      <title>3D Viewing: the Pinhole Camera Model</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html</guid>
+      <description>How a pinhole camera works (part 1) What Will You Learn in this Lesson? In the previous lesson, we learned about some key concepts involved in the process of generating images, however, we didn&amp;rsquo;t speak specifically about cameras. 3D rendering is not only about producing realistic images by the mean of perspective projection. It is also about being able to deliver images similar to that of real-world cameras. Why? Because when CG images are combined with live-action footage, images delivered by the renderer need to match images delivered by the camera with which that footage was produced.</description>
+    </item>
+    <item>
+      <title>Rasterization: a Practical Implementation</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html</guid>
+      <description>An Overview of the Rasterization Algorithm Everything You Wanted to Know About the Rasterization Algorithm (But Were Afraid to Ask!) The rasterization rendering technique is surely the most commonly used technique to render images of 3D scenes, and yet, that is probably the least understood and the least properly documented technique of all (especially compared to ray-tracing).
+Why this is so, depends on different factors. First, it&amp;rsquo;s a technique from the past.</description>
+    </item>
+  </channel>
+</rss>

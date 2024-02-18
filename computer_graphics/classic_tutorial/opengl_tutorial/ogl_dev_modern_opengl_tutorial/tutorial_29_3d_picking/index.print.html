@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 29:3D Picking :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background The ability to match a mouse click on a window showing a 3D scene to the primitive (let&rsquo;s assume a triangle) who was fortunate enough to be projected to the exact same pixel where the mouse hit is called 3D Picking. This can be useful for various interactive use cases which require the application to map a mouse click by the user (which is 2D in nature) to something in the local/world space of the objects in the scene.">
+    <meta property="og:title" content="Tutorial 29:3D Picking :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background The ability to match a mouse click on a window showing a 3D scene to the primitive (let&rsquo;s assume a triangle) who was fortunate enough to be projected to the exact same pixel where the mouse hit is called 3D Picking. This can be useful for various interactive use cases which require the application to map a mouse click by the user (which is 2D in nature) to something in the local/world space of the objects in the scene.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 29:3D Picking :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" rel="canonical" type="text/html" title="Tutorial 29:3D Picking :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 29:3D Picking :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 29:3D Picking</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-293d-picking">Tutorial 29:3D Picking</h1>
+
+<h3 id="background">Background</h3>
+<p>The ability to match a mouse click on a window showing a 3D scene to the primitive (let&rsquo;s assume a triangle) who was fortunate enough to be projected to the exact same pixel where the mouse hit is called <em>3D Picking</em>. This can be useful for various interactive use cases which require the application to map a mouse click by the user (which is 2D in nature) to something in the local/world space of the objects in the scene. For example, you can use it to select an object or part of it to be the target for future operations (e.g. deletion, etc). In this tutorial demo we render a couple of objects and show how to mark the &ldquo;touched&rdquo; triangle in red and make it stand out.</p>
+<p>To implement 3D picking we will take advantage of an OpenGL feature that was introduced in the shadow map tutorial (#23) - the Framebuffer Object (FBO). Previously we used the FBO for depth buffering only because we were interested in comparing the depth of a pixel from two different viewpoints. For 3D picking we will use both a depth buffer as well as a color buffer to store the indices of the rendered triangles.</p>
+<p>The trick behind 3D picking is very simple. We will attach a running index to each triangle and have the FS output the index of the triangle that the pixel belongs to. The end result is that we get a &ldquo;color&rdquo; buffer that doesn&rsquo;t really contain colors. Instead, for each pixel which is covered by some primitive we get the index of this primitive. When the mouse is clicked on the window we will read back that index (according to the location of the mouse) and render the select triangle red. By combining a depth buffer in the process we guarantee that when several primitives are overlapping the same pixel we get the index of the top-most primitive (closest to the camera).</p>
+<p>This, in a nutshell, is 3D picking. Before going into the code, we need to make a few design decisions. For example, how do we deal with multiple objects? how do we deal with multiple draw calls per object? Do we want the primitive index to increase from object to object so that each primitive in the scene have a unique index or will it reset per object?</p>
+<p>The code in this tutorial takes a general purpose approach which can be simplified as needed. We will render a three level index for each pixel:</p>
+<ol>
+<li>The index of the object that the pixel belongs to. Each object in the scene will get a unique index.</li>
+<li>The index of the draw call within the object. This index will reset at the start of a new object.</li>
+<li>The primitive index inside the draw call. This index will reset at the start of each draw call.</li>
+</ol>
+<p>When we read back the index for a pixel we will actually get the above trio. We will then need to work our way back to the specific primitive.</p>
+<p>We will need to render the scene twice. Once to a so called &ldquo;picking texture&rdquo; that will contain the primitive indices and a second time to the actual color buffer. Therefore, the main render loop will have a picking phase and a rendering phase.</p>
+<p>Note: the spider model that is used for the demo comes from the <a href="http://assimp.sourceforge.net/main_downloads.html" target="_blank">Assimp source package</a>. It contains multiple VBs which allows us to test this case.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(picking_texture.h:23)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">PickingTexture</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">PickingTexture</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="o">~</span><span class="n">PickingTexture</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">bool</span> <span class="nf">Init</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowHeight</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">void</span> <span class="nf">EnableWriting</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="kt">void</span> <span class="nf">DisableWriting</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="k">struct</span> <span class="nc">PixelInfo</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="kt">float</span> <span class="n">ObjectID</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="kt">float</span> <span class="n">DrawID</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="kt">float</span> <span class="n">PrimID</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">PixelInfo</span><span class="p">()</span>   <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">20</span><span class="cl">      <span class="n">ObjectID</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">21</span><span class="cl">      <span class="n">DrawID</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>      
+</span></span><span class="line"><span class="ln">22</span><span class="cl">      <span class="n">PrimID</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="p">};</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">PixelInfo</span> <span class="nf">ReadPixel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  
+</span></span><span class="line"><span class="ln">28</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_fbo</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_pickingTexture</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_depthTexture</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>The PickingTexture class represents the FBO which we will render the primitive indices into. It encapsulates the framebuffer object handle, a texture object for the index info and a texture object for the depth buffer. It is initialized with the same window width and height as our main window and provides three key functions. EnableWriting() must be called at the start of the picking phase. After that we render all the relevant objects. At the end we call DisableWriting() to go back to the default framebuffer. To read back the index of a pixel we call ReadPixel() with its screen space coordinate. This function returns a structure with the three indices (or IDs) that were described in the background section. If the mouse click didn&rsquo;t touch any object at all the PrimID field of the PixelInfo structure will contain 0xFFFFFFFF.</p>
+<p>(picking_texture.cpp:48)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">PickingTexture</span><span class="o">::</span><span class="n">Init</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowHeight</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="c1">// Create the FBO  
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>  <span class="n">glGenFramebuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_fbo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">m_fbo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="c1">// Create the texture object for the primitive information buffer  
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span>  <span class="n">glGenTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_pickingTexture</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">m_pickingTexture</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">glTexImage2D</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_RGB32F</span><span class="p">,</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="n">WindowHeight</span><span class="p">,</span>        
+</span></span><span class="line"><span class="ln">11</span><span class="cl">               <span class="mi">0</span><span class="p">,</span> <span class="n">GL_RGB</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">glFramebufferTexture2D</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">GL_COLOR_ATTACHMENT0</span><span class="p">,</span> <span class="n">GL_TEXTURE_2D</span><span class="p">,</span>        
+</span></span><span class="line"><span class="ln">13</span><span class="cl">                         <span class="n">m_pickingTexture</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="c1">// Create the texture object for the depth buffer  
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="c1"></span>  <span class="n">glGenTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_depthTexture</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">m_depthTexture</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">glTexImage2D</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_DEPTH_COMPONENT</span><span class="p">,</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="n">WindowHeight</span><span class="p">,</span>        
+</span></span><span class="line"><span class="ln">19</span><span class="cl">               <span class="mi">0</span><span class="p">,</span> <span class="n">GL_DEPTH_COMPONENT</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">glFramebufferTexture2D</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">GL_DEPTH_ATTACHMENT</span><span class="p">,</span> <span class="n">GL_TEXTURE_2D</span><span class="p">,</span>        
+</span></span><span class="line"><span class="ln">21</span><span class="cl">                         <span class="n">m_depthTexture</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="c1">// Disable reading to avoid problems with older GPUs  
+</span></span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="c1"></span>  <span class="n">glReadBuffer</span><span class="p">(</span><span class="n">GL_NONE</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">glDrawBuffer</span><span class="p">(</span><span class="n">GL_COLOR_ATTACHMENT0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="c1">// Verify that the FBO is correct  
+</span></span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="c1"></span>  <span class="n">GLenum</span> <span class="n">Status</span> <span class="o">=</span> <span class="n">glCheckFramebufferStatus</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">Status</span> <span class="o">!=</span> <span class="n">GL_FRAMEBUFFER_COMPLETE</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;FB error, status: 0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">Status</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">33</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="c1">// Restore the default framebuffer  
+</span></span></span><span class="line"><span class="ln">37</span><span class="cl"><span class="c1"></span>  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">39</span><span class="cl">  
+</span></span><span class="line"><span class="ln">40</span><span class="cl">  <span class="k">return</span> <span class="nf">GLCheckError</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">41</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The above code initializes the PickingTexture class. We generate a FBO and bind it to the GL_FRAMEBUFFER target. We then generate two texture objects (for pixel info and depth). Note that the internal format of the texture that will contain the pixel info is GL_RGB32F. This means each texel is a vector of 3 floating points. Even though we are not initializing this texture with data (last parameter of glTexImage2D is NULL) we still need to supply correct format and type (7th and 8th params). The format and type that match GL_RGB32F are GL_RGB and GL_FLOAT, respectively. Finally we attach this texture to the GL_COLOR_ATTACHMENT0 target of the FBO. This will make it the target of the output from the fragment shader.</p>
+<p>The texture object of the depth buffer is created and attached in the exact same way as in the shadow map tutorial so we will not review it again here. After everything is initialized we check the status of the FBO and restore the default object before returning.</p>
+<p>(picking_texture.cpp:82)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">PickingTexture</span><span class="o">::</span><span class="n">EnableWriting</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_DRAW_FRAMEBUFFER</span><span class="p">,</span> <span class="n">m_fbo</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Before we start rendering into the picking texture we need to enable it for writing. This means binding the FBO to the GL_DRAW_FRAMEBUFFER.</p>
+<p>(picking_texture.cpp:88)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">PickingTexture</span><span class="o">::</span><span class="n">DisableWriting</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_DRAW_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>After we finish rendering into the picking texture we tell OpenGL that from now on we want to render into the default framebuffer by binding zero to the GL_DRAW_FRAMEBUFFER target.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">PickingTexture</span><span class="o">::</span><span class="n">PixelInfo</span> <span class="n">PickingTexture</span><span class="o">::</span><span class="n">ReadPixel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_READ_FRAMEBUFFER</span><span class="p">,</span> <span class="n">m_fbo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">glReadBuffer</span><span class="p">(</span><span class="n">GL_COLOR_ATTACHMENT0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">PixelInfo</span> <span class="n">Pixel</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">glReadPixels</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">GL_RGB</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Pixel</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glReadBuffer</span><span class="p">(</span><span class="n">GL_NONE</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_READ_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="k">return</span> <span class="n">Pixel</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function takes a coordinate on the screen and returns the corresponding texel from the picking texture. This texel is 3-vector of floats which is exactly what the structure PixelInfo contains. To read from the FBO we must first bind it to the GL_READ_FRAMEBUFFER target. Then we need to specify which color buffer to read from using the function glReadBuffer(). The reason is that the FBO can contain multiple color buffers (which the FS can render into simultaneously) but we can only read from one buffer at a time. The function glReadPixels does the actual reading. It takes a rectangle which is specified using its bottom left corner (first pair of params) and its width/height (second pair of params) and reads the results into the address given by the last param. The rectangle in our case is one texel in size. We also need to tell this function the format and data type because for some internal formats (such as signed or unsigned normalized fixed point) the function is capable of converting the internal data to a different type on the way out. In our case we want the raw data so we use GL_RGB as the format and GL_FLOAT as the type. After we finish we must reset the reading buffer and the framebuffer.</p>
+<p>(picking.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the VS of the PickingTechnique class. This technique is responsible for rendering the pixel info into the PickingTexture object. As you can see, the VS is very simple since we only need to transform the vertex position.</p>
+<p>(picking.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">uniform</span> <span class="n">uint</span> <span class="n">gDrawIndex</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">uniform</span> <span class="n">uint</span> <span class="n">gObjectIndex</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">(){</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">vec3</span><span class="p">(</span><span class="kt">float</span><span class="p">(</span><span class="n">gObjectIndex</span><span class="p">),</span> <span class="kt">float</span><span class="p">(</span><span class="n">gDrawIndex</span><span class="p">),</span><span class="kt">float</span><span class="p">(</span><span class="n">gl_PrimitiveID</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The FS of PickingTechnique writes the pixel information into the picking texture. The object index and draw index are the same for all pixels (in the same draw call) so they come from uniform variables. In order to get the primitive index we use the built-in variable gl_PrimitiveID. This is a running index of the primitives which is automatically maintained by the system. gl_PrimitiveID can only be used in the GS and PS. If the GS is enabled and the FS wants to use gl_PrimitiveID, the GS must write gl_PrimitiveID into one of its output variables and the FS must declare a variable by the same name for input. In our case we have no GS so we can simply use gl_PrimitiveID.</p>
+<p>The system resets gl_PrimitiveID to zero at the start of the draw. This makes it difficult for us to distinguish between &ldquo;background&rdquo; pixels and pixels that are actually covered by objects (how would you know whether the pixel is in the background or belongs to the first primitive?). To overcome this we increment the index by one before writing it to the output. This means that background pixels can be identified because their primitive ID is zero while pixels covered by objects have 1&hellip;n as a primitive ID. We will see later that we compensate this when we use the primitive ID to render the specific triangle.</p>
+<p>(render_callbacks.h:21)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">class</span> <span class="nc">IRenderCallbacks</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="k">virtual</span> <span class="kt">void</span> <span class="n">DrawStartCB</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">DrawIndex</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>The picking technique requires the application to update the draw index before each draw call. This presents a design problem because the current mesh class (in the case of a mesh with multiple VBs) internally iterates over the vertex buffers and submit a separate draw call per IB/VB combination. This doesn&rsquo;t give us the chance to update the draw index. The solution we adopt here is the interface class above. The PickingTechnique class inherits from this interface and implements the method above. The Mesh::Render() function now takes a pointer to the above interface and calls the only function in it before the start of a new draw. This provides a nice separation between the Mesh class and any technique that wishes to get a callback before a draw is submitted.</p>
+<p>(mesh.cpp:201)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Mesh</span><span class="o">::</span><span class="n">Render</span><span class="p">(</span><span class="n">IRenderCallbacks</span><span class="o">*</span> <span class="n">pRenderCallbacks</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="p">...</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_Entries</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="p">...</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">      
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">pRenderCallbacks</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">      <span class="n">pRenderCallbacks</span><span class="o">-&gt;</span><span class="n">DrawStartCB</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">glDrawElements</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">NumIndices</span><span class="p">,</span> <span class="n">GL_UNSIGNED_INT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="p">...</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The code above shows part of the updated Mesh::Render() function with the new code marked in bold. If the caller is not interested in getting a callback for each draw it can simply pass NULL as the function argument.</p>
+<p>(picking_technique.cpp:93)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">PickingTechnique</span><span class="o">::</span><span class="n">DrawStartCB</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">DrawIndex</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glUniform1ui</span><span class="p">(</span><span class="n">m_drawIndexLocation</span><span class="p">,</span> <span class="n">DrawIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the implementation of IRenderCallbacks::DrawStartCB() by the inheriting class PickingTechnique. The function Mesh::Render() provides the draw index which is passed as a shader uniform variable. Note that PickingTechnique also has a function to set the object index but this one is called directly by the main application code without the need for the mechanism above.</p>
+<p>(tutorial29.cpp:108)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnRender</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">PickingPhase</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="n">RenderPhase</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  
+</span></span><span class="line"><span class="ln">8</span><span class="cl">  <span class="n">glutSwapBuffers</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the main render function. The functionality has been split into two core phases, one to draw the objects into the picking texture, and the other to render the objects and handle the mouse click.</p>
+<p>(tutorial29.cpp:119)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">PickingPhase</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetTarget</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetUp</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="n">m_persProjInfo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">m_pickingTexture</span><span class="p">.</span><span class="n">EnableWriting</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">m_pickingEffect</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ARRAY_SIZE_IN_ELEMENTS</span><span class="p">(</span><span class="n">m_worldPos</span><span class="p">)</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="n">m_worldPos</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">m_pickingEffect</span><span class="p">.</span><span class="n">SetObjectIndex</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">m_pickingEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">m_pMesh</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pickingEffect</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">m_pickingTexture</span><span class="p">.</span><span class="n">DisableWriting</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The picking phase starts by setting up the Pipeline object in the usual way. We then enable the picking texture for writing and clear the color and depth buffer. glClear() works on the currently bound framebuffer - the picking texture in our case. The &rsquo;m_worldPos&rsquo; array contains the world position of the two object instances that are rendered by the demo (both using the same mesh object for simplicity). We loop over the array, set the position in the Pipeline object one by one and render the object. For each iteration we also update the object index into the picking technique. Note how the Mesh::Render() function takes the address of the picking technique object as a parameter. This allows it to call back into the technique before each draw call. Before leaving, we disable writing into the picking texture which restores the default framebuffer.</p>
+<p>(tutorial29.cpp:144)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">RenderPhase</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetTarget</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetUp</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="n">m_persProjInfo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="c1">// If the left mouse button is clicked check if it hit a triangle  
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>  <span class="c1">// and color it red  
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">m_leftMouseButton</span><span class="p">.</span><span class="n">IsPressed</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="n">PickingTexture</span><span class="o">::</span><span class="n">PixelInfo</span> <span class="n">Pixel</span> <span class="o">=</span> <span class="n">m_pickingTexture</span><span class="p">.</span><span class="n">ReadPixel</span><span class="p">(</span><span class="n">m_leftMouseButton</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">                        <span class="n">WINDOW_HEIGHT</span> <span class="o">-</span> <span class="n">m_leftMouseButton</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Pixel</span><span class="p">.</span><span class="n">PrimID</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">17</span><span class="cl">      <span class="n">m_simpleColorEffect</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>      
+</span></span><span class="line"><span class="ln">18</span><span class="cl">      <span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="n">m_worldPos</span><span class="p">[(</span><span class="n">uint</span><span class="p">)</span><span class="n">Pixel</span><span class="p">.</span><span class="n">ObjectID</span><span class="p">]);</span>      
+</span></span><span class="line"><span class="ln">19</span><span class="cl">      <span class="n">m_simpleColorEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>      
+</span></span><span class="line"><span class="ln">20</span><span class="cl">      <span class="c1">// Must compensate for the decrement in the FS!      
+</span></span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="c1"></span>      <span class="n">m_pMesh</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">((</span><span class="n">uint</span><span class="p">)</span><span class="n">Pixel</span><span class="p">.</span><span class="n">DrawID</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="n">uint</span><span class="p">)</span><span class="n">Pixel</span><span class="p">.</span><span class="n">PrimID</span> <span class="o">-</span> <span class="mi">1</span><span class="o">**</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="c1">// render the objects as usual  
+</span></span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="c1"></span>  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetEyeWorldPos</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ARRAY_SIZE_IN_ELEMENTS</span><span class="p">(</span><span class="n">m_worldPos</span><span class="p">)</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">30</span><span class="cl">    <span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="n">m_worldPos</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">33</span><span class="cl">    <span class="n">m_pMesh</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">35</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>After the picking phase comes the rendering phase. We setup the Pipeline same as before. We then check if the left mouse button is pressed. If it is we use PickingTexture::ReadPixel() to fetch the pixel information. Since the FS increments the primitive ID it writes to the picking texture all background pixels have an ID of 0 while covered pixels have ID of 1 or more. If the pixel is covered by an object we enable a very basic technique that simply returns the red color from the FS. We update the Pipeline object with the world position of the selected object using the pixel information. We use a new render function of the Mesh class that takes the draw and primitive IDs as parameters and draws the requested primitive in red (note that we must decrement the primitive ID because the Mesh class starts the primitive count at zero). Finally, we render the primitives as usual.</p>
+<p>(glut_backend.cpp:60)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">MouseCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">Button</span><span class="p">,</span> <span class="kt">int</span> <span class="n">State</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">s_pCallbacks</span><span class="o">-&gt;</span><span class="n">MouseCB</span><span class="p">(</span><span class="n">Button</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">InitCallbacks</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="p">...</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glutMouseFunc</span><span class="p">(</span><span class="n">MouseCB</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This tutorial requires the application to trap mouse clicks. The function glutMouseFunc() does exactly that. There is a new callback function for that in the ICallbacks interface (which the main application class inherits from). You can use enums such as GLUT_LEFT_BUTTON, GLUT_MIDDLE_BUTTON, and GLUT_RIGHT_BUTTON to identify the button which was pressed (first argument to MouseCB()). The &lsquo;State&rsquo; parameter tells us whether the button was pressed (GLUT_DOWN) or released (GLUT_UP).</p>
+<h3 id="reader-comments">Reader comments:</h3>
+<ol>
+<li>This tutorial failed to work on some platforms without explicitly disabling blending (even though blending is disabled by default). If you are encountering weird issues try &lsquo;glDisable(GL_BLEND)&rsquo;.</li>
+<li>The macro WINDOW_HEIGHT which we use in RenderPhase() is obviously not updated when you change the size of the window. To handle this correctly you need to implement a GLUT reshape callback using glutReshapeFunc() which will report on any change to the window width or height.</li>
+</ol>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 5:Uniform Variables :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In this tutorial we meet a new type of shader variables - uniform variables. The difference between attribute and uniform variable is that attribute variables contain data which is vertex specific so they are reloaded with a new value from the vertex buffer for each shader invocation while the value of uniform variables remains constant accross the entire draw call. This means that you load the value before making the draw call and then you can access the same value in each invocation of the vertex shader.">
+    <meta property="og:title" content="Tutorial 5:Uniform Variables :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In this tutorial we meet a new type of shader variables - uniform variables. The difference between attribute and uniform variable is that attribute variables contain data which is vertex specific so they are reloaded with a new value from the vertex buffer for each shader invocation while the value of uniform variables remains constant accross the entire draw call. This means that you load the value before making the draw call and then you can access the same value in each invocation of the vertex shader.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 5:Uniform Variables :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" rel="canonical" type="text/html" title="Tutorial 5:Uniform Variables :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 5:Uniform Variables :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 5:Uniform Variables</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-5uniform-variables">Tutorial 5:Uniform Variables</h1>
+
+<h2 id="background">Background</h2>
+<p>In this tutorial we meet a new type of shader variables - uniform variables. The difference between attribute and uniform variable is that attribute variables contain data which is vertex specific so they are reloaded with a new value from the vertex buffer for each shader invocation while the value of uniform variables remains constant accross the entire draw call. This means that you load the value before making the draw call and then you can access the same value in each invocation of the vertex shader. Uniform variables are useful for storing data such as lighting parameters (light position and direction, etc), transformation matrices, texture objects handles and so on.</p>
+<p>In this tutorial we finally get something moving on the screen. We do it using a combination of a uniform variable whose value we change every frame and the idle callback function supplied by GLUT. The point is that GLUT doesn&rsquo;t call our render callback function repeatedly - unless it has to. GLUT has to call the render callback following events such as minimizing and maximizing the window or uncovering it by another window. If we don&rsquo;t change anything in the windows layout after launching the application the render callback is called just once. You can see for yourself by adding a printf call in the render function. You will see the output only once and you will see it again if you minimize and then maximize the window. Registering only the render callback in GLUT was fine for the previous tutorials but here we want to repeatedly change the value of a variable. We do this by registering an idle function callback. The idle function is called by GLUT when no events are received from the windowing system. You can have a dedicated function for this callback where you will do any bookkeeping such as time update or simply register the render callback function as an idle callback as well. In this tutorial we do the later and update the variable inside the render function.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glutPostRedisplay</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glutSwapBuffers</span><span class="p">();</span></span></span></code></pre></div><p>Before the existing call to glutSwapBuffers in our render callback I&rsquo;ve added a call to glutPostRedisplay. In general, FreeGLUT is not required to call the render function repeatedly. It only does this due to various events in the system. As you shall see below, we are creating a basic &ldquo;animation&rdquo; using a variable which is updated in every call to the render function but if this function is not called the animation will appear to hang! Therefore, we want to trigger the next call to the render function and we do this using glutPostRedisplay. This function sets a flag inside FreeGLUT that forces it to call the render function again (and again, etc).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">gScaleLocation</span> <span class="o">=</span> <span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">ShaderProgram</span><span class="p">,</span> <span class="s">&#34;gScale&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">assert</span><span class="p">(</span><span class="n">gScaleLocation</span> <span class="o">!=</span> <span class="mh">0xFFFFFFFF</span><span class="p">);</span></span></span></code></pre></div><p>After linking the program we query the program object for the location of the uniform variable. This is another example of a case where the application C/C++ execution environment needs to be mapped to the shader execution environment. You don&rsquo;t have any direct access to shader content and you cannot directly update its variables. When you compile the shader the GLSL compiler assigns an index to each uniform variable. In the internal representation of the shader inside the compiler access to the variable is resolved using its index. That index is also available to the application via the glGetUniformLocation. You call this function with the program object handle and the name of the variable. The function returns the index or -1 if there was an error. It is very important to check for errors (as we do above with the assertion) or else future updates to the variables will not be delivered to the shader. There are mainly two reasons why this function can fail. You either misspelled the name of the variable or it was optimized away by the compiler. If the GLSL compiler finds out that the variable is not actually used in the shader it can simply drop it. In that case glGetUniformLocation will fail.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">static</span> <span class="kt">float</span> <span class="n">Scale</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">Scale</span> <span class="o">+=</span> <span class="mf">0.001f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">glUniform1f</span><span class="p">(</span><span class="n">gScaleLocation</span><span class="p">,</span> <span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">));</span></span></span></code></pre></div><p>We maintain a static floating point variable that we increment a bit in every call to the render function (you may want to play with 0.001 if it runs too slowly or too quickly on your machine). The actual value which is passed to the shader is the sinus of the &lsquo;Scale&rsquo; variable. This is to create a nice loop between -1.0 and 1.0. Note that sinf() takes radians and not degrees as a parameter but at this point we simply don&rsquo;t care. We just want the wave that sinus generates. The result of sinf() is passed to the shader using glUniform1f. OpenGL provides multiple instances of this function with the general form of glUniform{1234}{if}. You can use it to load values into a 1D, 2D, 3D or 4D (based on the number that follows the &lsquo;glUniform&rsquo;) vector of floating point or integer (this is the &lsquo;i&rsquo; or &lsquo;f&rsquo; suffix). There are also versions that take a vector address as a parameter as well as special version for matrices. The first parameter to the function is the index location that we have extracted using glGetUniformLocation().</p>
+<p>We will now take a look at changes that were made in the VS (the FS remains unchanged).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">uniform</span> <span class="kt">float</span> <span class="n">gScale</span><span class="p">;</span></span></span></code></pre></div><p>Here we declare the uniform value in the shader.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">gScale</span> <span class="o">*</span> <span class="n">Position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">gScale</span> <span class="o">*</span> <span class="n">Position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">Position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span></span></span></code></pre></div><p>We multiply the X and Y values of the position vector with the value that is changed from the application every frame. Can you explain why the triangle is upside down half of the loop?</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>程序设计与开发 on Hugo Relearn Theme</title>
+    <link>https://example.com/programming/index.html</link>
+    <description>Recent content in 程序设计与开发 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java 语言</title>
+      <link>https://example.com/programming/java/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/java/index.html</guid>
+      <description>前言 SEI CERT Oracle Coding Standard for Java 主要规范化编写代码标准 Java Platform, Standard Edition (Java SE) 8 官方文档 Java 基础知识 Java 集合框架 Java 并发编程 Java 内存模型 Java 注解相关 面试资料 阿里一道Java并发面试题 (详细分析篇) 听说又被 JVM 内存区域方面的面试题给虐了？看看这篇文章吧！ 10 道 Java 泛型面试题 Java Exception Interview Questions and Answers 优秀博客 阿豪聊干货 - 博客园 Java技术驿站 JJian - 博客园 如果天空不死 - 博客园 Javadoop 并发编程网 - ifeve.com javapapers - Android &amp;amp; Java Blog Dave’s Blog IBM developerWorks : Resources for Java developers ProgramCreek Welcome to JavaWorld.</description>
+    </item>
+  </channel>
+</rss>

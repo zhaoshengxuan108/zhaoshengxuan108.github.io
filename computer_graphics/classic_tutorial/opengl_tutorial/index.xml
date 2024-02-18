@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenGL教程 on Hugo Relearn Theme</title>
+    <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/index.html</link>
+    <description>Recent content in OpenGL教程 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learn OpenGL</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html</guid>
+      <description>前言 这是我第一个接触到 OpenGL 入门教程（官方网址），该教程还有中文版的。非常适合入门学习，示例代码都很完整，拷贝下来直接就能运行。并且该教程中还有完整的游戏示例，比较吸引人。此教程也被作者制成电子书了，方便在阅读设备上学习。
+目录 Introduction Getting started OpenGL Creating a window Hello Window Hello Triangle Shaders Textures Transformations Coordinate Systems Camera Review Lighting Colors Basic Lighting Materials Lighting maps Light casters Multiple lights Review Model Loading Assimp Mesh Model Advanced OpenGL Depth testing Stencil testing Bleanding Face culling Framebuffers Cubemaps Advanced Data Advanced GLSL Geometry Shader Instancing Anti Aliasing Advanced Lighting Advanced Lighting Gamma Correction Shadows Normal Mapping Parallax Mapping HDR Bloom Deferred Shading SSAO PBR Theory Lighting IBL In Practice Debugging Text Rendering 2D Game Guest Articles 2020 2021 2022 Introduction Since you came here you probably want to learn the inner workings of computer graphics and do all the stuff the cool kids do by yourself.</description>
+    </item>
+    <item>
+      <title>OGL dev 教程</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html</guid>
+      <description>前言 这也是很好入门的教程，不过没怎么看。还有部分 Vulkan 的内容。该教程也有中文版的，但是得收费。官方网址
+目录：
+Tutorial 1:Open a window Tutorial 2:Hello dot! Tutorial 3:First triangle Tutorial 4:Shaders Tutorial 5:Uniform variables Tutorial 6:Translation transformation Tutorial 7:Rotation transformation Tutorial 8:Scaling transformation Tutorial 9:Interpolation Tutorial 10:Indexed draws Tutorial 11:Concatenating transformations Tutorial 12:Perspective Projection Tutorial 13:Camera Space Tutorial 14:Camera Control - Part 1 Tutorial 15:Camera Control - Part 2 Tutorial 16:Basic Texture Mapping Tutorial 17:Ambient Lighting Tutorial 18:Diffuse Lighting Tutorial 19:Specular Lighting Tutorial 20:Point Light Tutorial 21:Spot Light Tutorial 22:Loading models using the Open Asset Import Library Tutorial 23:Shadow Mapping - Part 1 Tutorial 24:Shadow Mapping - Part 2 Tutorial 25:Skybox Tutorial 26:Normal Mapping Tutorial 27:Billboarding and the Geometry Shader Tutorial 28:Particle System Using Transform Feedback Tutorial 29:3D Picking Tutorial 30:Basic Tessellation Tutorial 31:PN Triangles Tessellation Tutorial 32:Vertex Array Objects Tutorial 33:Instanced Rendering Tutorial 34:GLFX - An OpenGL Effects Library Tutorial 35:Deferred Shading - Part 1 Tutorial 36:Deferred Shading - Part 2 Tutorial 37:Deferred Shading - Part 3 Tutorial 38:Skeletal Animation With Assimp Tutorial 39:Silhouette Detection Tutorial 40:Stencil Shadow Volume Tutorial 41:Object Motion Blur Tutorial 42:Percentage Closer Filtering Tutorial 43:Multipass Shadow Mapping With Point Lights Tutorial 44:GLFW Tutorial 45:Screen Space Ambient Occlusion Tutorial 46:SSAO With Depth Reconstruction Tutorial 47:Shadow Mapping With Directional Lights Tutorial 48:User Interface with Ant Tweak Bar Tutorial 49:Cascaded Shadow Mapping Tutorial 50:Introduction to Vulkan Tutorial 51:Clear Window in Vulkan Tutorial 52:Vulkan Triangle Tutorial 53:Semaphores and other fixes </description>
+    </item>
+  </channel>
+</rss>

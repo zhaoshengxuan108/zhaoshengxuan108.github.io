@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Ray Tracing The Rest of Your Life :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="啊啊啊啊">
+    <meta property="og:title" content="Ray Tracing The Rest of Your Life :: Hugo Relearn Theme">
+    <meta property="og:description" content="啊啊啊啊">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Ray Tracing The Rest of Your Life :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" rel="canonical" type="text/html" title="Ray Tracing The Rest of Your Life :: Hugo Relearn Theme">
+    <link href="../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.xml" rel="alternate" type="application/rss+xml" title="Ray Tracing The Rest of Your Life :: Hugo Relearn Theme"><link rel="icon" href="../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../js/url.js?1708235002"></script>
+    <script src="../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../index.search.js";
+      var root_url="../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html"><span itemprop="name">光线追踪</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Ray Tracing The Rest of Your Life</span><meta itemprop="position" content="5"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="ray-tracing-the-rest-of-your-life">Ray Tracing The Rest of Your Life</h1>
+
+<h2 id="contents">Contents</h2>
+<p><strong>Ray Tracing in One Weekend</strong></p>
+<ul>
+<li>
+<p>1 Overview</p>
+</li>
+<li>
+<p>2 Output an Image</p>
+<ul>
+<li>
+<p>2.1  The PPM Image Format</p>
+</li>
+<li>
+<p>2.2  Creating an Image File</p>
+</li>
+<li>
+<p>2.3  Adding a Progress Indicator</p>
+</li>
+</ul>
+</li>
+<li>
+<p>3  The vec3 Class</p>
+<ul>
+<li>3.1  Color Utility Functions</li>
+</ul>
+</li>
+<li>
+<p>4  Rays, a Simple Camera, and Background</p>
+<ul>
+<li>4.1  The ray Class</li>
+<li>4.2  Sending Rays Into the Scene</li>
+</ul>
+</li>
+<li>
+<p>5  Adding a Sphere</p>
+<ul>
+<li>5.1  Ray-Sphere Intersection</li>
+<li>5.2  Creating Our First Raytraced Image</li>
+</ul>
+</li>
+<li>
+<p>6  Surface Normals and Multiple Objects</p>
+<ul>
+<li>6.1  Shading with Surface Normals</li>
+<li>6.2  Simplifying the Ray-Sphere Intersection Code</li>
+<li>6.3  An Abstraction for Hittable Objects</li>
+<li>6.4  Front Faces Versus Back Faces</li>
+<li>6.5  A List of Hittable Objects</li>
+<li>6.6  Some New C++ Features</li>
+<li>6.7  Common Constants and Utility Functions</li>
+<li>6.8  An Interval Class</li>
+</ul>
+</li>
+<li>
+<p>7  Moving Camera Code Into Its Own Class</p>
+</li>
+<li>
+<p>8  Antialiasing</p>
+<ul>
+<li>8.1  Some Random Number Utilities</li>
+<li>8.2  Generating Pixels with Multiple Samples</li>
+</ul>
+</li>
+<li>
+<p>9  Diffuse Materials</p>
+<ul>
+<li>9.1  A Simple Diffuse Material</li>
+<li>9.2  Limiting the Number of Child Rays</li>
+<li>9.3  Fixing Shadow Acne</li>
+<li>9.4  True Lambertian Reflection</li>
+<li>9.5  Using Gamma Correction for Accurate Color Intensity</li>
+</ul>
+</li>
+<li>
+<p>10  Metal</p>
+<ul>
+<li>10.1  An Abstract Class for Materials</li>
+<li>10.2  A Data Structure to Describe Ray-Object Intersections</li>
+<li>10.3  Modeling Light Scatter and Reflectance</li>
+<li>10.4  Mirrored Light Reflection</li>
+<li>10.5  A Scene with Metal Spheres</li>
+<li>10.6  Fuzzy Reflection</li>
+</ul>
+</li>
+<li>
+<p>11  Dielectrics</p>
+<ul>
+<li>11.1  Refraction</li>
+<li>11.2  Snell&rsquo;s Law</li>
+<li>11.3  Total Internal Reflection</li>
+<li>11.4  Schlick Approximation</li>
+<li>11.5  Modeling a Hollow Glass Sphere</li>
+</ul>
+</li>
+<li>
+<p>12  Positionable Camera</p>
+<ul>
+<li>12.1  Camera Viewing Geometry</li>
+<li>12.2  Positioning and Orienting the Camera</li>
+</ul>
+</li>
+<li>
+<p>13  Defocus Blur</p>
+<ul>
+<li>13.1  A Thin Lens Approximation</li>
+<li>13.2  Generating Sample Rays</li>
+</ul>
+</li>
+<li>
+<p>14  Where Next?</p>
+<ul>
+<li>14.1  A Final Render</li>
+<li>14.2  Next Steps</li>
+</ul>
+</li>
+<li>
+<p>15  Acknowledgments</p>
+</li>
+<li>
+<p>16  Citing This Book</p>
+<ul>
+<li>16.1  Basic Data</li>
+<li>16.2  Snippets
+<ul>
+<li>16.2.1  Markdown</li>
+<li>16.2.2  HTML</li>
+<li>16.2.3  LaTeX and BibTex</li>
+<li>16.2.4  BibLaTeX</li>
+<li>16.2.5  IEEE</li>
+<li>16.2.6  MLA:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ray Tracing: The Next Week</strong></p>
+<ul>
+<li>
+<p>1  Overview</p>
+</li>
+<li>
+<p>2  Motion Blur</p>
+<ul>
+<li>2.1  Introduction of SpaceTime Ray Tracing</li>
+<li>2.2  Managing Time</li>
+<li>2.3  Updating the Camera to Simulate Motion Blur</li>
+<li>2.4  Adding Moving Spheres</li>
+<li>2.5  Tracking the Time of Ray Intersection</li>
+<li>2.6  Putting Everything Together</li>
+</ul>
+</li>
+<li>
+<p>3  Bounding Volume Hierarchies</p>
+<ul>
+<li>3.1  The Key Idea</li>
+<li>3.2  Hierarchies of Bounding Volumes</li>
+<li>3.3  Axis-Aligned Bounding Boxes (AABBs)</li>
+<li>3.4  Ray Intersection with an AABB</li>
+<li>3.5  An Optimized AABB Hit Method</li>
+<li>3.6  Constructing Bounding Boxes for Hittables</li>
+<li>3.7  Creating Bounding Boxes of Lists of Objects</li>
+<li>3.8  The BVH Node Class</li>
+<li>3.9  Splitting BVH Volumes</li>
+<li>3.10  The Box Comparison Functions</li>
+</ul>
+</li>
+<li>
+<p>4  Texture Mapping</p>
+<ul>
+<li>4.1  Constant Color Texture</li>
+<li>4.2  Solid Textures: A Checker Texture</li>
+<li>4.3  Rendering The Solid Checker Texture</li>
+<li>4.4  Texture Coordinates for Spheres</li>
+<li>4.5  Accessing Texture Image Data</li>
+<li>4.6  Rendering The Image Texture</li>
+</ul>
+</li>
+<li>
+<p>5  Perlin Noise</p>
+<ul>
+<li>5.1  Using Blocks of Random Numbers</li>
+<li>5.2  Smoothing out the Result</li>
+<li>5.3  Improvement with Hermitian Smoothing</li>
+<li>5.4  Tweaking The Frequency</li>
+<li>5.5  Using Random Vectors on the Lattice Points</li>
+<li>5.6  Introducing Turbulence</li>
+<li>5.7  Adjusting the Phase</li>
+</ul>
+</li>
+<li>
+<p>6  Quadrilaterals</p>
+<ul>
+<li>6.1  Defining the Quadrilateral</li>
+<li>6.2  Ray-Plane Intersection</li>
+<li>6.3  Finding the Plane That Contains a Given Quadrilateral</li>
+<li>6.4  Orienting Points on The Plane</li>
+<li>6.5  Interior Testing of The Intersection Using UV Coordinates</li>
+</ul>
+</li>
+<li>
+<p>7  Lights</p>
+<ul>
+<li>7.1  Emissive Materials</li>
+<li>7.2  Adding Background Color to the Ray Color Function</li>
+<li>7.3  Turning Objects into Lights</li>
+<li>7.4  Creating an Empty “Cornell Box”</li>
+</ul>
+</li>
+<li>
+<p>8  Instances</p>
+<ul>
+<li>8.1  Instance Translation</li>
+<li>8.2  Instance Rotation</li>
+</ul>
+</li>
+<li>
+<p>9  Volumes</p>
+<ul>
+<li>9.1  Constant Density Mediums</li>
+<li>9.2  Rendering a Cornell Box with Smoke and Fog Boxes</li>
+</ul>
+</li>
+<li>
+<p>10  A Scene Testing All New Features</p>
+</li>
+<li>
+<p>11  Acknowledgments</p>
+</li>
+<li>
+<p>12  Citing This Book</p>
+<ul>
+<li>12.1  Basic Data</li>
+<li>12.2  Snippets
+<ul>
+<li>12.2.1  Markdown</li>
+<li>12.2.2  HTML</li>
+<li>12.2.3  LaTeX and BibTex</li>
+<li>12.2.4  BibLaTeX</li>
+<li>12.2.5  IEEE</li>
+<li>12.2.6  MLA:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ray Tracing: The Rest of Your Life</strong></p>
+<ul>
+<li>
+<p>1  Overview</p>
+</li>
+<li>
+<p>2  A Simple Monte Carlo Program</p>
+<ul>
+<li>2.1  Estimating Pi</li>
+<li>2.2  Showing Convergence</li>
+<li>2.3  Stratified Samples (Jittering)</li>
+</ul>
+</li>
+<li>
+<p>3  One Dimensional Monte Carlo Integration</p>
+<ul>
+<li>3.1  Expected Value</li>
+<li>3.2  Integrating x²</li>
+<li>3.3  Density Functions</li>
+<li>3.4  Constructing a PDF</li>
+<li>3.5  Choosing our Samples</li>
+<li>3.6  Approximating Distributions</li>
+<li>3.7  Importance Sampling</li>
+</ul>
+</li>
+<li>
+<p>4  Monte Carlo Integration on the Sphere of Directions</p>
+</li>
+<li>
+<p>5  Light Scattering</p>
+<ul>
+<li>5.1  Albedo</li>
+<li>5.2  Scattering</li>
+<li>5.3  The Scattering PDF</li>
+</ul>
+</li>
+<li>
+<p>6  Playing with Importance Sampling</p>
+<ul>
+<li>6.1  Returning to the Cornell Box</li>
+<li>6.2  Using a Uniform PDF Instead of a Perfect Match</li>
+<li>6.3  Random Hemispherical Sampling</li>
+</ul>
+</li>
+<li>
+<p>7  Generating Random Directions</p>
+<ul>
+<li>7.1  Random Directions Relative to the Z Axis</li>
+<li>7.2  Uniform Sampling a Hemisphere</li>
+<li>7.3  Cosine Sampling a Hemisphere</li>
+</ul>
+</li>
+<li>
+<p>8  Orthonormal Bases</p>
+<ul>
+<li>8.1  Relative Coordinates</li>
+<li>8.2  Generating an Orthonormal Basis</li>
+<li>8.3  The ONB Class</li>
+</ul>
+</li>
+<li>
+<p>9  Sampling Lights Directly</p>
+<ul>
+<li>9.1  Getting the PDF of a Light</li>
+<li>9.2  Light Sampling</li>
+<li>9.3  Switching to Unidirectional Light</li>
+</ul>
+</li>
+<li>
+<p>10  Mixture Densities</p>
+<ul>
+<li>10.1  The PDF Class</li>
+<li>10.2  Sampling Directions towards a Hittable</li>
+<li>10.3  The Mixture PDF Class</li>
+</ul>
+</li>
+<li>
+<p>11  Some Architectural Decisions</p>
+</li>
+<li>
+<p>12  Cleaning Up PDF Management</p>
+<ul>
+<li>12.1  Diffuse Versus Specular</li>
+<li>12.2  Handling Specular</li>
+<li>12.3  Sampling a Sphere Object</li>
+<li>12.4  Updating the Sphere Code</li>
+<li>12.5  Adding PDF Functions to Hittable Lists</li>
+<li>12.6  Handling Surface Acne</li>
+</ul>
+</li>
+<li>
+<p>13  The Rest of Your Life</p>
+</li>
+<li>
+<p>14  Acknowledgments</p>
+</li>
+<li>
+<p>15  Citing This Book</p>
+<ul>
+<li>15.1  Basic Data</li>
+<li>15.2  Snippets
+<ul>
+<li>15.2.1  Markdown</li>
+<li>15.2.2  HTML</li>
+<li>15.2.3  LaTeX and BibTex</li>
+<li>15.2.4  BibLaTeX</li>
+<li>15.2.5  IEEE</li>
+<li>15.2.6  MLA:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

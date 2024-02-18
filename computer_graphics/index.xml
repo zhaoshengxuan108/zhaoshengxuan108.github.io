@@ -10,13 +10,27 @@
     <atom:link href="https://example.com/computer_graphics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>经典教程</title>
-      <link>https://example.com/computer_graphics/classic-tutorial/index.html</link>
+      <link>https://example.com/computer_graphics/classic_tutorial/index.html</link>
       <pubDate>Mon, 27 Nov 2023 13:54:04 +0800</pubDate>
-      <guid>https://example.com/computer_graphics/classic-tutorial/index.html</guid>
+      <guid>https://example.com/computer_graphics/classic_tutorial/index.html</guid>
       <description>前言 这里转载一些经典教程，内容非常经典，是计算机入门及进阶学习的不二之选。这些教程是非常被大众接受的，很多大佬也推荐学习的。这类教程我将其分为入门级、进阶两大类。不过进阶的目前还没找到。
 入门 从头开始的计算机图形学 原名《Computer Graphics from Scratch》 ，这教程也是不借助任何图形 API 来实现光追模型，非常适合入门学习。分为两部分内容：1.光追。2.光栅化。该教程被制作成电子书，同时也有在线版。
 Peter Shirley 大师光追三部曲 大师的三部曲非常适合光追入门学习，讲解的非常细致，跟着教程一步步地学习下去，将其代码都跟着敲上一遍，可以实现一个简易的光追渲染引擎。这三部曲由浅入深地来讲解光追方面的知识，光追是计算机图形学中非常重要的一部分内容。最重要的是该教程是纯粹从头来实现光追模型的，不需要任何图形 API 。非常适合入门学习。
 Ray Tracing in One Weekend Ray Tracing: The Next Week Ray Tracing: The Rest of Your Life OpenGL 教程 OGL dev Modern OpenGL Tutorials OpenGL 入门学习教程 Learn OpenGL OpenGL 入门学习教程，有中文版 </description>
+    </item>
+    <item>
+      <title>书籍推荐</title>
+      <link>https://example.com/computer_graphics/book_recommend/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/book_recommend/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>博客文章</title>
+      <link>https://example.com/computer_graphics/blog_article/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/blog_article/index.html</guid>
+      <description>其它 How GPU works 通过该文章可以了解 GPU 如何工作的。中文版 并行计算基础（1）（GPU架构介绍） </description>
     </item>
     <item>
       <title>参考资料</title>

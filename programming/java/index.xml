@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java 语言 on Hugo Relearn Theme</title>
+    <link>https://example.com/programming/java/index.html</link>
+    <description>Recent content in Java 语言 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/programming/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java 基础知识</title>
+      <link>https://example.com/programming/java/java_basics/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/java/java_basics/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>Java 集合框架</title>
+      <link>https://example.com/programming/java/java_collection_framework/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/java/java_collection_framework/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>Java 并发编程</title>
+      <link>https://example.com/programming/java/java_concurrency/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/java/java_concurrency/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>Java 内存模型</title>
+      <link>https://example.com/programming/java/java_memory_model/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/java/java_memory_model/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>Java 注解相关</title>
+      <link>https://example.com/programming/java/java_annotation/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/java/java_annotation/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+  </channel>
+</rss>

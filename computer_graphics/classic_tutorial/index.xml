@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>经典教程 on Hugo Relearn Theme</title>
+    <link>https://example.com/computer_graphics/classic_tutorial/index.html</link>
+    <description>Recent content in 经典教程 on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 27 Nov 2023 13:54:04 +0800</lastBuildDate>
+    <atom:link href="https://example.com/computer_graphics/classic_tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基础教程</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/basics_tutorial/index.html</link>
+      <pubDate>Mon, 27 Nov 2023 13:54:04 +0800</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/basics_tutorial/index.html</guid>
+      <description>计算机图形学入门 原书名：《Computer Graphics from Scratch》 Github
+教程目录
+Dedication Acknowledgements Table of Contents Introduction Introductory Concepts Part I：Raytracing
+Basic Raytracing Light Shadows and Reflections Extending the Raytracer Part II: Rasterization
+Lines Filled Triangles Shaded Triangles Perspective Projection Describing and Rendering a Scene Clipping Hidden Surface Removal Shading Textures Extending the Rasterizer </description>
+    </item>
+    <item>
+      <title>着色教程</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/shader_tutorial/index.html</link>
+      <pubDate>Mon, 27 Nov 2023 13:54:04 +0800</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/shader_tutorial/index.html</guid>
+      <description>Shadertoy Tutorial 一个大牛创作的一系列教程文章（官方网址），非常适合入门学习。可以配合着 Shadertoy 在线 GLSL ES 着色器工具一起学习。理论联系实践吗，得动手实验各种示例才有效果。另外还要参考 Inigo Quilez 这位大牛的博客，有大量关于着色方面的文章，并且他也是 shadertoy.com 的创始人之一，所以他在 Shadertoy 官网创作了大量示例程序，都是非常具有参考价值的。
+这里我把这个教程复制下来了，之所以费那么大劲，原因有二：一是我非常喜欢个入门教程，示例短小精悍，简单易懂；二是鉴于某些不可说的原因，说不定这国外的网访问不了了。
+教程目录 Tutorial Part 1 - Intro Tutorial Part 2 - Circles and Animation Tutorial Part 3 - Squares and Rotation Tutorial Part 4 - Multiple 2D Shapes and Mixing Tutorial Part 5 - 2D SDF Operations and More 2D Shapes Tutorial Part 6 - 3D Scenes with Ray Marching Tutorial Part 7 - Unique Colors and Multiple 3D Objects Tutorial Part 8 - 3D Rotation Tutorial Part 9 - Camera Movement Tutorial Part 10 - Camera Model with a Lookat Point Tutorial Part 11 - Phong Reflection Model Tutorial Part 12 - Fresnel and Rim Lighting Tutorial Part 13 - Shadows Tutorial Part 14 - SDF Operations Tutorial Part 15 - Channels, Textures, and Buffers Tutorial Part 16 - Cubemaps and Reflections Snowman Shader in Shadertoy Shader Resources Glow Shader in Shadertoy Tutorial Part 1 - Intro 转自：https://inspirnathan.</description>
+    </item>
+    <item>
+      <title>光线追踪</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/index.html</guid>
+      <description>前言 光线追踪首先要看的是 Peter Shirley 大师三部曲，《Ray Tracing in One Weekend》、《Ray Tracing: The Next Week》和《Ray Tracing: The Rest of Your Life》与三本书配套的示例代码。还有 Scratchapixe 六篇系列短文 也是入门的好教程。
+三部曲 Ray Tracing in One Weekend
+Ray Tracing: The Next Week
+Ray Tracing: The Rest of Your Life
+Scratchapixe 六篇系列短文 </description>
+    </item>
+    <item>
+      <title>OpenGL教程</title>
+      <link>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/index.html</guid>
+      <description>前言 OpenGL 教程主要教授如何使用图形相关的 API。目前有三个非常经典入门教程，分别是 Learn OpenGL 、 opengl-tutorial 和 OGL dev Modern OpenGL Tutorial。
+Learn OpenGL 这是我第一个接触到 OpenGL 入门教程，该教程还有中文版的。非常适合入门学习，示例代码都很完整，拷贝下来直接就能运行。并且该教程中还有完整的游戏示例，比较吸引人。此教程也被作者制成电子书了，方便在阅读设备上学习。
+Learn OpenGL
+OGL dev Modern OpenGL Tutorial 这也是很好入门的教程，不过没怎么看。还有部分 Vulkan 的内容。该教程也有中文版的，但是得收费。
+opengl-tutorial 这教程也有中文版的。
+教程目录
+Tutorial 1 : Opening a window Tutorial 2 : The first triangle Tutorial 3 : Matrices Tutorial 4 : A Colored Cube Tutorial 5 : A Textured Cube Tutorial 6 : Keyboard and Mouse Tutorial 7 : Model loading Tutorial 8 : Basic shading Tutorial 9 : VBO Indexing Tutorial 10 : Transparency Tutorial 11 : 2D text Tutorial 12 : OpenGL Extensions Tutorial 13 : Normal Mapping Tutorial 14 : Render To Texture Tutorial 15 : Lightmaps Tutorial 16 : Shadow mapping Tutorial 17 : Rotations Tutorial 18 : Billboards &amp;amp; Particles </description>
+    </item>
+  </channel>
+</rss>

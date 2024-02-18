@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 32:Vertex Array Objects :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background The Vertex Array Object (a.k.a VAO) is a special type of object that encapsulates all the data that is associated with the vertex processor. Instead of containing the actual data, it holds references to the vertex buffers, the index buffer and the layout specification of the vertex itself. The advantage is that once you set up the VAO for a mesh you can bring in the entire mesh state by simply binding the VAO.">
+    <meta property="og:title" content="Tutorial 32:Vertex Array Objects :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background The Vertex Array Object (a.k.a VAO) is a special type of object that encapsulates all the data that is associated with the vertex processor. Instead of containing the actual data, it holds references to the vertex buffers, the index buffer and the layout specification of the vertex itself. The advantage is that once you set up the VAO for a mesh you can bring in the entire mesh state by simply binding the VAO.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 32:Vertex Array Objects :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" rel="canonical" type="text/html" title="Tutorial 32:Vertex Array Objects :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 32:Vertex Array Objects :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 32:Vertex Array Objects</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-32vertex-array-objects">Tutorial 32:Vertex Array Objects</h1>
+
+<h3 id="background">Background</h3>
+<p>The Vertex Array Object (a.k.a VAO) is a special type of object that encapsulates all the data that is associated with the vertex processor. Instead of containing the actual data, it holds references to the vertex buffers, the index buffer and the layout specification of the vertex itself. The advantage is that once you set up the VAO for a mesh you can bring in the entire mesh state by simply binding the VAO. After that you can render the mesh object and you don&rsquo;t need to worry about all of its state. The VAO remembers it for you. If your application needs to deal with meshes whose vertex layout slightly differs from one another the VAO takes care of it also. Just make sure to set up the correct layout when you create the VAO and forget about it. From now on it &ldquo;sticks&rdquo; to the VAO and becomes active whenever that VAO is used.</p>
+<p>When used correctly, VAOs can also represent an optimization opportunity for the driver of the GPU. If the VAO is set up once and used multiple times the driver can take advantage of knowing the mapping between the index buffer and the vertex buffers as well as the vertex layout in the buffers. Obviously, this depends on the specific driver that you are using and it is not guaranteed that all drivers will behave the same. At any rate, keep in mind that it is best to set up the VAO once and then reuse it over and over.</p>
+<p>In this tutorial we are going to update the Mesh class and base it on top of a VAO. In addition, we will organize the vertex data in the buffers in a method known as SOA (Structure Of Arrays). Up till now our vertex was represented as a structure of attributes (position, etc) and the vertex buffer contained structures of vertices lined up one after the other. This is called AOS (Array Of Structure). SOA is simply a transpose of this scheme. Instead of an array of attribute structures we have one structure that contains multiple arrays. Each array contains only one attribute. In order to setup the vertex the GPU uses the same index to read one attribute from each array. This method can sometimes be more approriate for some of the 3D file formats and it is interesting to see different ways of accomplishing the same thing.</p>
+<p>The following picture illustrates AOS and SOA:</p>
+<p><a href="#R-image-21a68c271984234b35e048dc74656e47" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/../assets/aos_soa.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-21a68c271984234b35e048dc74656e47"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/../assets/aos_soa.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(ogldev_basic_mesh.h:50)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">Mesh</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Mesh</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="o">~</span><span class="n">Mesh</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">bool</span> <span class="nf">LoadMesh</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">Filename</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">void</span> <span class="nf">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="kt">bool</span> <span class="n">InitFromScene</span><span class="p">(</span><span class="k">const</span> <span class="n">aiScene</span><span class="o">*</span> <span class="n">pScene</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">Filename</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="kt">void</span> <span class="nf">InitMesh</span><span class="p">(</span><span class="k">const</span> <span class="n">aiMesh</span><span class="err">\</span><span class="o">*</span> <span class="n">paiMesh</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&amp;</span> <span class="n">Positions</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&amp;</span> <span class="n">Normals</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&amp;</span> <span class="n">TexCoords</span><span class="p">,</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&amp;</span> <span class="n">Indices</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="kt">bool</span> <span class="nf">InitMaterials</span><span class="p">(</span><span class="k">const</span> <span class="n">aiScene</span><span class="o">*</span> <span class="n">pScene</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">Filename</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="kt">void</span> <span class="nf">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="cp">#define INVALID_MATERIAL 0xFFFFFFFF**#define INDEX_BUFFER 0
+</span></span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="cp">#define POS_VB 1
+</span></span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="cp">#define NORMAL_VB 2
+</span></span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="cp">#define TEXCOORD_VB 3
+</span></span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_VAO</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_Buffers</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="k">struct</span> <span class="nc">MeshEntry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="n">MeshEntry</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="ln">34</span><span class="cl">      <span class="n">NumIndices</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">35</span><span class="cl">      <span class="n">BaseVertex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">36</span><span class="cl">      <span class="n">BaseIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">37</span><span class="cl">      <span class="n">MaterialIndex</span> <span class="o">=</span> <span class="n">INVALID_MATERIAL</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">38</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">39</span><span class="cl">
+</span></span><span class="line"><span class="ln">40</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">BaseVertex</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">41</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">BaseIndex</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">42</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NumIndices</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">43</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">MaterialIndex</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">44</span><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="ln">45</span><span class="cl">
+</span></span><span class="line"><span class="ln">46</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">vector</span> <span class="n">m_Entries</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">47</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">vector</span> <span class="n">m_Textures</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">48</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>All the changes in this tutorial are encapsulated in the mesh class whose declaration appears above with changes marked in bold face. We have switched from an array of VB/IB elements to four buffers - index buffer, position buffer, normal buffer and texture coordinates buffer. In addition, the Mesh class has a new member called m_VAO that stores the vertex array object. Since our model can be made of multiple subcomponents each with its own texture we have a vector called m_Entries that contains the material index as well as the location of the subcomponent. NumIndices is the number of indices in the subcomponent, BaseVertex is where the subcomponent starts in the vertex buffers and BaseIndex is where the subcomponent starts inside the index buffer (because all the subcomponents are stored one after the other inside the same buffers). Before rendering a subcomponent of the mesh we need to bind its texture and then submit a draw command for subcomponent vertices. We will later see how to do this.</p>
+<p>(ogldev_basic_mesh.cpp:60)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">Mesh</span><span class="o">::</span><span class="n">LoadMesh</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">Filename</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="c1">// Release the previously loaded mesh (if it exists)  
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>  <span class="n">Clear</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="c1">// Create the VAO
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span>  <span class="n">glGenVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_VAO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">m_VAO</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="c1">// Create the buffers for the vertices atttributes
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>  <span class="n">glGenBuffers</span><span class="p">(</span><span class="n">ARRAY_SIZE_IN_ELEMENTS</span><span class="p">(</span><span class="n">m_Buffers</span><span class="p">),</span> <span class="n">m_Buffers</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="kt">bool</span> <span class="n">Ret</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">Assimp</span><span class="o">::</span><span class="n">Importer</span> <span class="n">Importer</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="k">const</span> <span class="n">aiScene</span><span class="o">*</span> <span class="n">pScene</span> <span class="o">=</span> <span class="n">Importer</span><span class="p">.</span><span class="n">ReadFile</span><span class="p">(</span><span class="n">Filename</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">aiProcess_Triangulate</span> <span class="o">|</span>                <span class="n">aiProcess_GenSmoothNormals</span> <span class="o">|</span> <span class="n">aiProcess_FlipUVs</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">pScene</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">Ret</span> <span class="o">=</span> <span class="n">InitFromScene</span><span class="p">(</span><span class="n">pScene</span><span class="p">,</span> <span class="n">Filename</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Error parsing &#39;%s&#39;: &#39;%s&#39;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">Filename</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">Importer</span><span class="p">.</span><span class="n">GetErrorString</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="c1">// Make sure the VAO is not changed from outside code  
+</span></span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="c1"></span>  <span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="k">return</span> <span class="n">Ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Not much has changed in the main function that loads the mesh. We generate the VAO using glGenVertexArrays() by providing the number of elements in an array of GLuint and the address of the array itself (in our case we only need one GLuint). After that we bind the VAO using glBindVertexArray(). There can only be one VAO bound at any time. From now on, any change to the state of the vertex processor will affect this VAO. The four buffers are generated using glGenBuffers() and the mesh is loaded using the Open Asset Import Library (see below). A very important function call is glBindVertexArray(0) at the end of the function. By binding zero as the VAO we guarentee that no further changes to the vertex processor will affect our VAO (OpenGL will never generate a VAO with the value of zero so this is safe).</p>
+<p>(ogldev_basic_mesh.cpp:90)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">Mesh</span><span class="o">::</span><span class="n">InitFromScene</span><span class="p">(</span><span class="k">const</span> <span class="n">aiScene</span><span class="o">*</span> <span class="n">pScene</span><span class="p">,</span> <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">Filename</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_Entries</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">pScene</span><span class="o">-&gt;</span><span class="n">mNumMeshes</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">m_Textures</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">pScene</span><span class="o">-&gt;</span><span class="n">mNumMaterials</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="c1">// Prepare vectors for vertex attributes and indices  
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span>  <span class="n">vector</span> <span class="n">Positions</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">vector</span> <span class="n">Normals</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">vector</span> <span class="n">TexCoords</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">vector</span> <span class="n">Indices</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NumVertices</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NumIndices</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="c1">// Count the number of vertices and indices  
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_Entries</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">MaterialIndex</span> <span class="o">=</span> <span class="n">pScene</span><span class="o">-&gt;</span><span class="n">mMeshes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">mMaterialIndex</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">NumIndices</span> <span class="o">=</span> <span class="n">pScene</span><span class="o">-&gt;</span><span class="n">mMeshes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">mNumFaces</span> <span class="o">*</span> <span class="mi">3</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">BaseVertex</span> <span class="o">=</span> <span class="n">NumVertices</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">BaseIndex</span> <span class="o">=</span> <span class="n">NumIndices</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="n">NumVertices</span> <span class="o">+=</span> <span class="n">pScene</span><span class="o">-&gt;</span><span class="n">mMeshes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">mNumVertices</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="n">NumIndices</span> <span class="o">+=</span> <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">NumIndices</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="c1">// Reserve space in the vectors for the vertex attributes and indices  
+</span></span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="c1"></span>  <span class="n">Positions</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">NumVertices</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="n">Normals</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">NumVertices</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">TexCoords</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">NumVertices</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">Indices</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">NumIndices</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="c1">// Initialize the meshes in the scene one by one  
+</span></span></span><span class="line"><span class="ln">33</span><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_Entries</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">34</span><span class="cl">    <span class="k">const</span> <span class="n">aiMesh</span><span class="o">*</span> <span class="n">paiMesh</span> <span class="o">=</span> <span class="n">pScene</span><span class="o">-&gt;</span><span class="n">mMeshes</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln">35</span><span class="cl">    <span class="n">InitMesh</span><span class="p">(</span><span class="n">paiMesh</span><span class="p">,</span> <span class="n">Positions</span><span class="p">,</span> <span class="n">Normals</span><span class="p">,</span> <span class="n">TexCoords</span><span class="p">,</span> <span class="n">Indices</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">InitMaterials</span><span class="p">(</span><span class="n">pScene</span><span class="p">,</span> <span class="n">Filename</span><span class="p">))</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">39</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">40</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">41</span><span class="cl">  
+</span></span><span class="line"><span class="ln">42</span><span class="cl">  <span class="c1">// Generate and populate the buffers with vertex attributes and the indices  
+</span></span></span><span class="line"><span class="ln">43</span><span class="cl"><span class="c1"></span>  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_Buffers</span><span class="p">[</span><span class="n">POS_VB</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">44</span><span class="cl">  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Positions</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">Positions</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> 
+</span></span><span class="line"><span class="ln">45</span><span class="cl">               <span class="o">&amp;</span><span class="n">Positions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>          
+</span></span><span class="line"><span class="ln">46</span><span class="cl">               <span class="n">GL_STATIC_DRAW</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">47</span><span class="cl">  
+</span></span><span class="line"><span class="ln">48</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">49</span><span class="cl">  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">50</span><span class="cl">  
+</span></span><span class="line"><span class="ln">51</span><span class="cl">  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_Buffers</span><span class="p">[</span><span class="n">TEXCOORD_VB</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">52</span><span class="cl">  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">TexCoords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">TexCoords</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> 
+</span></span><span class="line"><span class="ln">53</span><span class="cl">               <span class="o">&amp;</span><span class="n">TexCoords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>          
+</span></span><span class="line"><span class="ln">54</span><span class="cl">               <span class="n">GL_STATIC_DRAW</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">55</span><span class="cl">  
+</span></span><span class="line"><span class="ln">56</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">57</span><span class="cl">  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">58</span><span class="cl">  
+</span></span><span class="line"><span class="ln">59</span><span class="cl">  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_Buffers</span><span class="p">[</span><span class="n">NORMAL_VB</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">60</span><span class="cl">  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Normals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">Normals</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">Normals</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>          <span class="n">GL_STATIC_DRAW</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">61</span><span class="cl">  
+</span></span><span class="line"><span class="ln">62</span><span class="cl">  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">63</span><span class="cl">  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">64</span><span class="cl">  
+</span></span><span class="line"><span class="ln">65</span><span class="cl">  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_ELEMENT_ARRAY_BUFFER</span><span class="p">,</span> <span class="n">m_Buffers</span><span class="p">[</span><span class="n">INDEX_BUFFER</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">66</span><span class="cl">  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ELEMENT_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Indices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">Indices</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> 
+</span></span><span class="line"><span class="ln">67</span><span class="cl">               <span class="o">&amp;</span><span class="n">Indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>          
+</span></span><span class="line"><span class="ln">68</span><span class="cl">               <span class="n">GL_STATIC_DRAW</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">69</span><span class="cl">  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">70</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the next level of details in terms of loading the mesh. The Open Asset Import Library (Assimp) has loaded the mesh data into an aiScene structure and we have a pointer to it. We now need to load it into GL buffers and attach them to the VAO. We do this by using STL vectors. We have a vector per GL buffer. We count the number of vertices and indices in the aiScene structure and for each aiMesh struct we store its material index, index count, base vertex and base index in the m_Entries array. We also reserve place in the vectors accordingly. We then go over each aiMesh structure inside the aiScene and initialize it. The vectors are passed by reference to InitMesh() which allows it to keep on populating them as we go. Materials are initialized same as before.</p>
+<p>The last part of the function is where things become interesting. The position, normal and texture coordinates buffers are bound one by one to the GL_ARRAY_BUFFER target. Any further operation on that target affects the currently bound buffer and such changes remain attached to that buffer when a new buffer is bound to the same target. For each of the three buffers we:</p>
+<ol>
+<li>Populate with data using glBufferData().</li>
+<li>Enable the corresponding vertex attribute using glEnableVertexAttribArray().</li>
+<li>Configure the vertex attribute (number of components, component type, etc) using glVertexAttribPointer().</li>
+</ol>
+<p>The index buffer is initialized by binding it to the GL_ELEMENT_ARRAY_BUFFER target. We only need to populate it with the indices and that&rsquo;s it. The buffers are now initialized and everything we did is encapsulated in the VAO.</p>
+<p>(ogldev_basic_mesh.cpp:152)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Mesh</span><span class="o">::</span><span class="n">InitMesh</span><span class="p">(</span><span class="k">const</span> <span class="n">aiMesh</span><span class="o">*</span> <span class="n">paiMesh</span><span class="p">,</span>             
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">                    <span class="n">vector</span><span class="o">&amp;</span> <span class="n">Positions</span><span class="p">,</span>             
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">                    <span class="n">vector</span><span class="o">&amp;</span> <span class="n">Normals</span><span class="p">,</span>             
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">                    <span class="n">vector</span><span class="o">&amp;</span> <span class="n">TexCoords</span><span class="p">,</span>             
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">                    <span class="n">vector</span><span class="o">&amp;</span> <span class="n">Indices</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">const</span> <span class="n">aiVector3D</span> <span class="nf">Zero3D</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="c1">// Populate the vertex attribute vectors  
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">mNumVertices</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="k">const</span> <span class="n">aiVector3D</span><span class="o">*</span> <span class="n">pPos</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">mVertices</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="k">const</span> <span class="n">aiVector3D</span><span class="o">*</span> <span class="n">pNormal</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">mNormals</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="k">const</span> <span class="n">aiVector3D</span><span class="o">*</span> <span class="n">pTexCoord</span> <span class="o">=</span> <span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">HasTextureCoords</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">?</span>                   
+</span></span><span class="line"><span class="ln">14</span><span class="cl">      <span class="o">&amp;</span><span class="p">(</span><span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">mTextureCoords</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">:</span> <span class="o">&amp;</span><span class="n">Zero3D</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">Positions</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Vector3f</span><span class="p">(</span><span class="n">pPos</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span> <span class="n">pPos</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">,</span> <span class="n">pPos</span><span class="o">-&gt;</span><span class="n">z</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">Normals</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Vector3f</span><span class="p">(</span><span class="n">pNormal</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span> <span class="n">pNormal</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">,</span> <span class="n">pNormal</span><span class="o">-&gt;</span><span class="n">z</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">TexCoords</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Vector2f</span><span class="p">(</span><span class="n">pTexCoord</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">,</span> <span class="n">pTexCoord</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">));</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="c1">// Populate the index buffer  
+</span></span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">mNumFaces</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="k">const</span> <span class="n">aiFace</span><span class="o">&amp;</span> <span class="n">Face</span> <span class="o">=</span> <span class="n">paiMesh</span><span class="o">-&gt;</span><span class="n">mFaces</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln">24</span><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="n">Face</span><span class="p">.</span><span class="n">mNumIndices</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="n">Indices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Face</span><span class="p">.</span><span class="n">mIndices</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="n">Indices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Face</span><span class="p">.</span><span class="n">mIndices</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>    
+</span></span><span class="line"><span class="ln">27</span><span class="cl">    <span class="n">Indices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Face</span><span class="p">.</span><span class="n">mIndices</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function is responsible for loading each aiMesh structure that is contained in the aiScene. Note how the vectors are passed by reference and accessed using the push_back() function of the STL vector class.</p>
+<p>(ogldev_basic_mesh.cpp:236)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="n">Mesh</span><span class="o">::</span><span class="n">Render</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">m_VAO</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m_Entries</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">MaterialIndex</span> <span class="o">=</span> <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">MaterialIndex</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="n">MaterialIndex</span> <span class="o">&lt;</span> <span class="n">m_Textures</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">m_Textures</span><span class="p">[</span><span class="n">MaterialIndex</span><span class="p">])</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln">10</span><span class="cl">      <span class="n">m_Textures</span><span class="p">[</span><span class="n">MaterialIndex</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Bind</span><span class="p">(</span><span class="n">GL_TEXTURE0</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">glDrawElementsBaseVertex</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span>                 
+</span></span><span class="line"><span class="ln">13</span><span class="cl">                             <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">NumIndices</span><span class="p">,</span>                 
+</span></span><span class="line"><span class="ln">14</span><span class="cl">                             <span class="n">GL_UNSIGNED_INT</span><span class="p">,</span>                 
+</span></span><span class="line"><span class="ln">15</span><span class="cl">                             <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">BaseIndex</span><span class="p">),</span>                 
+</span></span><span class="line"><span class="ln">16</span><span class="cl">                             <span class="n">m_Entries</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">BaseVertex</span><span class="p">);</span>  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="c1">// Make sure the VAO is not changed from the outside  
+</span></span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="c1"></span>  <span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Finally, we&rsquo;ve reached the render function. We start by binding our VAO and&hellip;this is all we need to do in terms of setting up the state for the vertex processor! whatever state is already there has now been replaced by the state that we have set up when we initialized the VAO. Now we need to draw the subcomponents of the mesh and bind the proper texture before each one. For that we use the information in the m_Entries array and a new draw function called glDrawElementsBaseVertex(). This function takes the topology, the number of indices and their type. The fourth parameter tells it where to start in the index buffer. The problem is that the indices that Assimp supplied for each aiMesh structure starts at zero and we have accumulated them into the same buffer. So now we need to tell the draw function the offset in bytes in the buffer where the indices of the subcomponent start. We do this by multiplying the base index of the current entry by the size of an index. Since the vertex attributes have also been accumulated into their own buffers we do the same with the fifth parameter - the base vertex. Note that we are providing it as an index rather than as a byte offset because there can be multiple vertex buffers with different types of attributes (and therefore differen strides). OpenGL will need to multiply the base vertex by the stride of each buffer in order to get the offset of that buffer. Nothing we need to worry about.</p>
+<p>Before leaving we reset the current VAO back to zero and the reason is the same as when we initially created the VAO - we don&rsquo;t want outside code to bind a VB (for example) and change our VAO unintentinally.</p>
+<p>(ogldev_basic_mesh.cpp:50)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glDeleteVertexArrays</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_VAO</span><span class="p">);</span></span></span></code></pre></div><p>The above function deletes the VAO. It does not delete the buffers that are bound to it (they may be bound to multiple VAOs at the same time).</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

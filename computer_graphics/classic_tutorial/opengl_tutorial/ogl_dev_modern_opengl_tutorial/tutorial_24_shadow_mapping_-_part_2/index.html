@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In the previous tutorial we learned the basic principle behind the shadow mapping technique and saw how to render the depth into a texture and later display it on the screen by sampling from the depth buffer. In this tutorial we will see how to use this capability and display the shadow itself.
+We know that shadow mapping is a two-pass technique and that in the first pass the scene is rendered from the point of view of the light.">
+    <meta property="og:title" content="Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In the previous tutorial we learned the basic principle behind the shadow mapping technique and saw how to render the depth into a texture and later display it on the screen by sampling from the depth buffer. In this tutorial we will see how to use this capability and display the shadow itself.
+We know that shadow mapping is a two-pass technique and that in the first pass the scene is rendered from the point of view of the light.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme</title>
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.print.html" rel="alternate" type="text/html" title="Tutorial 24:Shadow Mapping - Part 2 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#source-walkthru">Source walkthru</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 24:Shadow Mapping - Part 2</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" title="Tutorial 23:Shadow Mapping - Part 1 (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" title="Tutorial 25:SkyBox (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-24shadow-mapping---part-2">Tutorial 24:Shadow Mapping - Part 2</h1>
+
+<h3 id="background">Background</h3>
+<p>In the previous tutorial we learned the basic principle behind the shadow mapping technique and saw how to render the depth into a texture and later display it on the screen by sampling from the depth buffer. In this tutorial we will see how to use this capability and display the shadow itself.</p>
+<p>We know that shadow mapping is a two-pass technique and that in the first pass the scene is rendered from the point of view of the light. Let&rsquo;s review what happens to the Z component of the position vector during that first pass:</p>
+<ol>
+<li>The position of the vertices that are fed into the vertex shader are generally specified in local space.</li>
+<li>The vertex shader transforms the position from local space to clip space and forwards it down the pipeline (see tutorial 12 if you need a refresher about clip space).</li>
+<li>The rasterizer performs perspective divide (a division of the position vector by its W component). This takes the position vector from clip space to NDC space. In NDC space everything which ends up on the screen has a X, Y and Z components in the range [-1,1]. Things outside these ranges are clipped away.</li>
+<li>The rasterizer maps the X and Y of the position vector to the dimensions of the framebuffer (e.g. 800x600, 1024x768, etc). The results are the screen space coordinates of the position vector.</li>
+<li>The rasterizer takes the screen space coordinates of the three triangle vertices and interpolates them to create the unique coordinates for each pixel that the triangle covers. The Z value (still in the [-1,1] range) is also interpolated so every pixel has its own depth.</li>
+<li>Since we disabled color writes in the first pass the fragment shader is disabled. The depth test, however, still executes. To compare the Z value of the current pixel with the one in the buffer the screen space coordinates of the pixel are used to fetch the depth from the buffer. If the depth of the new pixel is smaller than the stored one the buffer is updated (and if color writes were enabled the color buffer would have also been updated).</li>
+</ol>
+<p>In the process above we saw how the depth value from the light point of view is calculated and stored. In the second pass we render from the camera point of view so naturally we get a different depth. But we need both depth values - one to get the triangles ordered correctly on the screen and the other to check what is inside the shadow and what is not. The trick in shadow mapping is to maintain two position vectors and two WVP matrices while traveling through the 3D pipeline. One WVP matrix is calculated from the light point of view and the other from the camera point of view. The vertex shader gets one position vector in local space as usual, but it outputs two vectors:</p>
+<ol>
+<li>The builtin gl_Position which is the result of transforming the position by the camera WVP matrix.</li>
+<li>A &ldquo;plain&rdquo; vector which is the result of transforming the position by the light WVP matrix.</li>
+</ol>
+<p>The first vector will go through above process (&ndash;&gt; NDC space&hellip;etc) and these will be used for the regular rasterization. The second vector will simply be interpolated by the rasterizer across the triangle face and each fragment shader invocation will be provided with its own value. So now for each physical pixel we also have a clip space coordinate of the same point in the original triangle when looking at it from the light point of view. It is very likely that the physical pixels from the two point of views are different but the general location in the triangle is the same. All that remains is to somehow use that clip space coordinate in order to fetch the depth value from the shadow map. After that we can compare the depth to the one in the clip space coordinate and if the stored depth is smaller then it means the pixel is in shadow (because another pixel had the same clip space coordinate but with a smaller depth).</p>
+<p>So how can we fetch the depth in the fragment shader using the clip space coordinate that was calculated by trasforming the position by the light WVP matrix? When we start out we are basically in step 2 above.</p>
+<ol>
+<li>
+<p>Since the fragment shader receives the clip space coordinate as a standard vertex attribute the rasterizer does not perform perspective divide on it (only what goes through gl_Position). But this is something that is very easy to do manually in the shader. We divide the coordinate by its W component and get a coordinate in NDC space.</p>
+</li>
+<li>
+<p>We know that in NDC the X and Y range from -1 to 1. In step 4 above the rasterizer maps the NDC coordinates to screen space and uses them to store the depth. We are going to sample the depth and for that we need a texture coordinate in the range [0,1]. If we linearly map the range [-1,1] to [0,1] we will get a texture coordinate that will map to the same location in the shadow map. Example: the X in NDC is zero and the width of the texture is 800. Zero in NDC needs to be mapped to 0.5 in the texture coordinate space (because it is half way between -1 and 1). The texture coordinate 0.5 is mapped to 400 in the texture which is the same location that is calculated by the rasterizer when it performs screen space transform.</p>
+</li>
+<li>
+<p>Transforming X and Y from NDC space to texture space is done as follows:</p>
+</li>
+<li>
+<ul>
+<li>u = 0.5 * X + 0.5</li>
+<li>v = 0.5 * Y + 0.5</li>
+</ul>
+</li>
+</ol>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(lighting_technique.h:80)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">LightingTechnique</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Technique</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">  <span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="p">...</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">    <span class="kt">void</span> <span class="n">SetLightWVP</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">LightWVP</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="kt">void</span> <span class="nf">SetShadowMapTextureUnit</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">TextureUnit</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="p">...</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">private</span><span class="o">:</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">GLuint</span> <span class="n">m_LightWVPLocation</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">GLuint</span> <span class="n">m_shadowMapLocation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">...</span></span></span></code></pre></div><p>The lighting technique needs a couple of new attributes. A WVP matrix that is calculated from the light point of view and a texture unit for the shadow map. We will continue using texture unit 0 for the regular texture that is mapped on the object and will dedicate texture unit 1 for the shadow map.</p>
+<p>(lighting.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gLightWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWorld</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">out</span> <span class="n">vec4</span> <span class="n">LightSpacePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Normal0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">WorldPos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">LightSpacePos</span> <span class="o">=</span> <span class="n">gLightWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">TexCoord0</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">Normal0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">WorldPos0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the updated vertex shader of the LightingTechnique class with the additions marked in bold text. We have an additional WVP matrix uniform variable and a 4-vector as output which contains the clip space coordinates calculated by transforming the position by the light WVP matrix. As you can see, in the vertex shader of the first pass the variable gWVP contained the same matrix as gLightWVP here and gl_Position there got the same value as LightSpacePos here. But since LightSpacePos is just a standard vector it does not get an automatic perspective division as gl_Position. We will do this manually in the fragment shader below.</p>
+<p>(lighting.fs:58)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">float</span> <span class="nf">CalcShadowFactor</span><span class="p">(</span><span class="n">vec4</span> <span class="n">LightSpacePos</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec3</span> <span class="n">ProjCoords</span> <span class="o">=</span> <span class="n">LightSpacePos</span><span class="p">.</span><span class="n">xyz</span> <span class="o">/</span> <span class="n">LightSpacePos</span><span class="p">.</span><span class="n">w</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">vec2</span> <span class="n">UVCoords</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">UVCoords</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ProjCoords</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">UVCoords</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ProjCoords</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="kt">float</span> <span class="n">z</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ProjCoords</span><span class="p">.</span><span class="n">z</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">float</span> <span class="n">Depth</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gShadowMap</span><span class="p">,</span> <span class="n">UVCoords</span><span class="p">).</span><span class="n">x</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">Depth</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">z</span> <span class="o">+</span> <span class="mf">0.00001</span><span class="p">))</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="k">return</span> <span class="mf">0.5</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="k">else</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="k">return</span> <span class="mf">1.0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function is used in the fragment shader to calculate the shadow factor of a pixel. The shadow factor is a new factor in the light equation. We simply multiply the result of our current light equation by that factor and this causes some attenuation of the light in pixels that are determined to be shadowed. The function takes the interpolated LightSpacePos vector that was passed from the vertex shader. The first step is to perform perspective division - we divide the XYZ components by the W component. This transfers the vector to NDC space. Next we prepare a 2D coordinate vector to be used as the texture coordinate and initialize it by transforming the LightSpacePos vector from NDC to texture space according to the equation in the background section. The texture coordinates are used to fetch the depth from the shadow map. This is the depth of the closest location from all the points in the scene that are projected to this pixel. We compare that depth to the depth of the current pixel and if it is smaller return a shadow factor of 0.5, else the shadow factor is 1.0 (no shadow). The Z from the NDC space also goes through transformation from the (-1,1) range to (0,1) range because we have to be in the same space when we compare. Notice that we add a small epsilon value to the current pixel&rsquo;s depth. This is to avoid precision errors that are inherent when dealing with floating point values.</p>
+<p>(lighting.fs:72)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcLightInternal</span><span class="p">(</span><span class="n">BaseLight</span> <span class="n">Light</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">LightDirection</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">,</span> <span class="kt">float</span> <span class="n">ShadowFactor</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="p">...</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">AmbientColor</span> <span class="o">+</span> <span class="n">ShadowFactor</span> <span class="o">*</span> <span class="p">(</span><span class="n">DiffuseColor</span> <span class="o">+</span> <span class="n">SpecularColor</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The changes to the core function that does the lighting calculations are minimal. The caller must pass the shadow factor and the diffuse and specular colors are modulated by that factor. Ambient light is not affected by the shadow because by definition, it is everywhere.</p>
+<p>(lighting.fs:97)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcDirectionalLight</span><span class="p">(</span><span class="n">vec3</span> <span class="n">Normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="k">return</span> <span class="n">CalcLightInternal</span><span class="p">(</span><span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Base</span><span class="p">,</span> <span class="n">gDirectionalLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Normal</span><span class="o">**</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">**</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Our shadow mapping implementation is currently limited to spot lights. In order to calculate the WVP matrix of the light it needs both a position and a direction which point light and directional light lack. We will add the missing features in the future but for now we simply use a shadow factor of 1 for the directional light.</p>
+<p>(lighting.fs:102)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcPointLight</span><span class="p">(</span><span class="k">struct</span> <span class="nc">PointLight</span> <span class="n">l</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="err">\</span><span class="p">,</span> <span class="n">vec4</span> <span class="n">LightSpacePos</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec3</span> <span class="n">LightDirection</span> <span class="o">=</span> <span class="n">WorldPos0</span> <span class="o">-</span> <span class="n">l</span><span class="p">.</span><span class="n">Position</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="kt">float</span> <span class="n">Distance</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">LightDirection</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="kt">float</span> <span class="n">ShadowFactor</span> <span class="o">=</span> <span class="n">CalcShadowFactor</span><span class="p">(</span><span class="n">LightSpacePos</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">vec4</span> <span class="n">Color</span> <span class="o">=</span> <span class="n">CalcLightInternal</span><span class="p">(</span><span class="n">l</span><span class="p">.</span><span class="n">Base</span><span class="p">,</span> <span class="n">LightDirection</span><span class="p">,</span> <span class="n">Normal</span><span class="p">,</span> <span class="n">ShadowFactor</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="kt">float</span> <span class="n">Attenuation</span> <span class="o">=</span> <span class="n">l</span><span class="p">.</span><span class="n">Atten</span><span class="p">.</span><span class="n">Constant</span> <span class="o">+</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">l</span><span class="p">.</span><span class="n">Atten</span><span class="p">.</span><span class="n">Linear</span> <span class="o">*</span> <span class="n">Distance</span> <span class="o">+</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">l</span><span class="p">.</span><span class="n">Atten</span><span class="p">.</span><span class="n">Exp</span> <span class="o">*</span> <span class="n">Distance</span> <span class="o">*</span> <span class="n">Distance</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="k">return</span> <span class="n">Color</span> <span class="o">/</span> <span class="n">Attenuation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Since the spot light is actually calculated using a point light this function now takes the extra parameter of the light space position and calculates the shadow factor. It passes it on to CalcLightInternal() which uses it as described above.</p>
+<p>(lighting.fs:117)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">vec4</span> <span class="nf">CalcSpotLight</span><span class="p">(</span><span class="k">struct</span> <span class="nc">SpotLight</span> <span class="n">l</span><span class="p">,</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">,</span> <span class="n">vec4</span> <span class="n">LightSpacePos</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec3</span> <span class="n">LightToPixel</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">WorldPos0</span> <span class="o">-</span> <span class="n">l</span><span class="p">.</span><span class="n">Base</span><span class="p">.</span><span class="n">Position</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="kt">float</span> <span class="n">SpotFactor</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">LightToPixel</span><span class="p">,</span> <span class="n">l</span><span class="p">.</span><span class="n">Direction</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">SpotFactor</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">.</span><span class="n">Cutoff</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">vec4</span> <span class="n">Color</span> <span class="o">=</span> <span class="n">CalcPointLight</span><span class="p">(</span><span class="n">l</span><span class="p">.</span><span class="n">Base</span><span class="p">,</span> <span class="n">Normal</span><span class="p">,</span> <span class="n">LightSpacePos</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="k">return</span> <span class="n">Color</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">SpotFactor</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">l</span><span class="p">.</span><span class="n">Cutoff</span><span class="p">));</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="k">else</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="k">return</span> <span class="n">vec4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The spot light function simply passes through the light space position to the point light function.</p>
+<p>(lighting.fs:131)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">Normal0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">vec4</span> <span class="n">TotalLight</span> <span class="o">=</span> <span class="n">CalcDirectionalLight</span><span class="p">(</span><span class="n">Normal</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">gNumPointLights</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">TotalLight</span> <span class="o">+=</span> <span class="n">CalcPointLight</span><span class="p">(</span><span class="n">gPointLights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Normal</span><span class="o">**</span><span class="p">,</span> <span class="n">LightSpacePos</span><span class="o">**</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">gNumSpotLights</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="n">TotalLight</span> <span class="o">+=</span> <span class="n">CalcSpotLight</span><span class="p">(</span><span class="n">gSpotLights</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Normal</span><span class="o">**</span><span class="p">,</span> <span class="n">LightSpacePos</span><span class="o">**</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">vec4</span> <span class="n">SampledColor</span> <span class="o">=</span> <span class="n">texture2D</span><span class="p">(</span><span class="n">gSampler</span><span class="p">,</span> <span class="n">TexCoord0</span><span class="p">.</span><span class="n">xy</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">SampledColor</span> <span class="o">*</span> <span class="n">TotalLight</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Finally, the main function of the fragment shader. We are using the same light space position vector for both spot and point lights even though only spot lights are supported. This limitation will be fixed in the future. We have finished reviewing the changes in the lighting technique and will now take a look at the application code.</p>
+<p>(tutorial24.cpp:86)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">m_pLightingEffect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LightingTechnique</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">())</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Error initializing the lighting technique</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">Enable</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetSpotLights</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_spotLight</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetTextureUnit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetShadowMapTextureUnit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span></span></span></code></pre></div><p>This code which sets up the LightingTechnique is part of the Init() function so it is executed only once during startup. Here we set the uniform values that will not change from frame to frame. Our standard texture unit for the texture which belongs to the mesh is 0 and we dedicate texture unit 1 for the shadow map. Remember that the shader program must be enabled before its uniform variables are set up and they remain persistent as long as the program is not relinked. This is convenient because it allows you to switch between shader programs and only worry about the uniform variables that are dynamic. Uniform variables that never change can be set once during startup.</p>
+<p>(tutorial24.cpp:129)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnRender</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">m_scale</span> <span class="o">+=</span> <span class="mf">0.05f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">ShadowMapPass</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">RenderPass</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glutSwapBuffers</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Nothing has changed in the main render function - first we take care of the global stuff such as the camera and the scale factor which is used for rotating the mesh. Then we do the shadow pass followed by the render pass.</p>
+<p>(tutorial24.cpp:141)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">ShadowMapPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">m_shadowMapFBO</span><span class="p">.</span><span class="n">BindForWriting</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_pShadowMapEffect</span><span class="o">-&gt;</span><span class="n">Enable</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="n">m_scale</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">3.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_spotLight</span><span class="p">.</span><span class="n">Position</span><span class="p">,</span> <span class="n">m_spotLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">));</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="mf">30.0f</span><span class="p">,</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">50.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">m_pShadowMapEffect</span><span class="o">-&gt;</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">m_pMesh</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is basically the same shadow pass from the previous tutorial. The only change is that we enable the shadow map technique each time because we toggle between this technique and the lighting technique. Note that even though our scene contains both a mesh and a quad that serves as the ground, only the mesh is rendered into the shadow map. The reason is that the ground cannot cast shadows. This is one of the optimizations that we can do when we know something about the type of the object.</p>
+<p>(tutorial24.cpp:168)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetEyeWorldPos</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">m_shadowMapFBO</span><span class="p">.</span><span class="n">BindForReading</span><span class="p">(</span><span class="n">GL_TEXTURE1</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="mf">30.0f</span><span class="p">,</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">50.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">10.0f</span><span class="p">,</span> <span class="mf">10.0f</span><span class="p">,</span> <span class="mf">10.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="mf">90.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetTarget</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetUp</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_spotLight</span><span class="p">.</span><span class="n">Position</span><span class="p">,</span> <span class="n">m_spotLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetLightWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">m_pGroundTex</span><span class="o">-&gt;</span><span class="n">Bind</span><span class="p">(</span><span class="n">GL_TEXTURE0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">m_pQuad</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">,</span> <span class="mf">0.1f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="n">m_scale</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">3.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetTarget</span><span class="p">(),</span> <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetUp</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_spotLight</span><span class="p">.</span><span class="n">Position</span><span class="p">,</span> <span class="n">m_spotLight</span><span class="p">.</span><span class="n">Direction</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">m_pLightingEffect</span><span class="o">-&gt;</span><span class="n">SetLightWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">m_pMesh</span><span class="o">-&gt;</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The render pass starts the same way as in the previous tutorial - we clear both the depth and color buffers, replace the shadow map technique with the lighting technique and bind the shadow map frame buffer object for reading on texture unit 1. Next we render the quad so that it will serve as the ground on which the shadow will appear. It is scaled up a bit, rotated 90 degrees around the X axis (because originally it is facing the camera) and positioned. Note how the WVP is updated based on the location of the camera but for the light WVP we move the camera to the light position. Since the quad model comes without its own texture we manually bind a texture here. The mesh is rendered in the same way.</p>
+<p>Here&rsquo;s an example of the shadow:</p>
+<p><a href="#R-image-7aa196d34f48082611df66ac92bc2473" class="lightbox-link"><img src="../assets/shadow.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7aa196d34f48082611df66ac92bc2473"><img src="../assets/shadow.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><a href="https://ogldev.org/www/tutorial25/tutorial25.html" target="_blank">
+</a></p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e" checked><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

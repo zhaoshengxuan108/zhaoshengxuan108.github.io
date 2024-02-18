@@ -9,6 +9,35 @@
     <lastBuildDate>Mon, 27 Nov 2023 14:02:14 +0800</lastBuildDate>
     <atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>程序设计与开发</title>
+      <link>https://example.com/programming/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/programming/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>Test</title>
+      <link>https://example.com/test/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/test/index.html</guid>
+      <description>Lorem Ipsum.
+测试1
+标题二 You can add standard markdown syntax:
+multiple paragraphs bullet point lists emphasized, bold and even bold emphasized text links etc.2 1...and even source code the possibilities are endless (almost - including other shortcodes may or may not work) (almost - including other shortcodes may or may not work)
+// 初始化仓库git init// 添加当前目录下所有文件git add .// 提交代码git commit -m &amp;#34;备注&amp;#34;// 创建一个分支，注：如要发布到 github 主分支命名为 maingit branch -M master// 使用 git remote add 命令将远程仓库添加到仓库配置中git remote add origin https://github.</description>
+    </item>
+    <item>
+      <title>数据结构与算法</title>
+      <link>https://example.com/algorithms_and_data_structures/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/algorithms_and_data_structures/index.html</guid>
+      <description>Lorem Ipsum.
+测试1
+标题二 You can add standard markdown syntax:
+multiple paragraphs bullet point lists emphasized, bold and even bold emphasized text links etc.2 1...and even source code the possibilities are endless (almost - including other shortcodes may or may not work) (almost - including other shortcodes may or may not work)
+// 初始化仓库git init// 添加当前目录下所有文件git add .// 提交代码git commit -m &amp;#34;备注&amp;#34;// 创建一个分支，注：如要发布到 github 主分支命名为 maingit branch -M master// 使用 git remote add 命令将远程仓库添加到仓库配置中git remote add origin https://github.</description>
+    </item>
+    <item>
       <title>计算机图形学</title>
       <link>https://example.com/computer_graphics/index.html</link>
       <pubDate>Mon, 27 Nov 2023 14:02:14 +0800</pubDate>
@@ -20,6 +49,27 @@
       <link>https://example.com/computer_science/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://example.com/computer_science/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>计算机网络</title>
+      <link>https://example.com/computer_networks/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/computer_networks/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>游戏编程</title>
+      <link>https://example.com/game_programming/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/game_programming/index.html</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    <item>
+      <title>数据库</title>
+      <link>https://example.com/database/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.com/database/index.html</guid>
       <description>Lorem Ipsum.</description>
     </item>
   </channel>

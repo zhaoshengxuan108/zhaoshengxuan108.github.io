@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In tutorial 24 we learned the basics of Shadow Mapping - first a rendering pass from the light point of view using the light direction as the viewing vector and then a second pass from the camera point of view using the data from the first pass for shadow calculation. At this point most programmers will ask themselves: this is fine for directional/spot light but what if I want to generate shadows from a point light?">
+    <meta property="og:title" content="Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In tutorial 24 we learned the basics of Shadow Mapping - first a rendering pass from the light point of view using the light direction as the viewing vector and then a second pass from the camera point of view using the data from the first pass for shadow calculation. At this point most programmers will ask themselves: this is fine for directional/spot light but what if I want to generate shadows from a point light?">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" rel="canonical" type="text/html" title="Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 43:Multipass Shadow Mapping With Point Lights :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 43:Multipass Shadow Mapping With Point Lights</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-43multipass-shadow-mapping-with-point-lights">Tutorial 43:Multipass Shadow Mapping With Point Lights</h1>
+
+<h3 id="background">Background</h3>
+<p>In <a href="https://ogldev.org/www/tutorial24/tutorial24.html" target="_blank">tutorial 24</a> we learned the basics of Shadow Mapping - first a rendering pass from the light point of view using the light direction as the viewing vector and then a second pass from the camera point of view using the data from the first pass for shadow calculation. At this point most programmers will ask themselves: this is fine for directional/spot light but what if I want to generate shadows from a point light? There is no specific light direction in this case. Solving this problem is the topic of this tutorial.</p>
+<p>The solution to this problem is to recognize that a point light basically casts its light in all directions, so rather than place a rectangular shadow map texture somewhere that will only receive a small portion of that light, we can place the light source in a middle of a texture cube. We now have six rectangular shadow maps and the light has no where to escape. Every light &ldquo;beam&rdquo; has to land on one of these six shadow maps and we can sample from it to do our standard shadow calculations. We have already seen the cube map in action in the skybox tutorial so we are already familiar with it.</p>
+<p>In practice, in order to simulate the notion of spreading light all over we will do six shadow map rendering passes from the location of the light source but each rendering pass will target a different direction. We are going to make this very simple and target the following axis aligned directions: positive/negative X, positive/negative Y and positive/negative Z. Eventually the cubemap faces will contain the distance of all pixels in the scene that are closest to the light source. By comparing this value to the distance of each pixel to the light during the lighting pass we can tell whether that pixel is in light or shadow.</p>
+<p>Take a look at the following picture:</p>
+<p><a href="#R-image-7f5130e3820814dea07d9873bc33865f" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/../assets/cubemap2.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7f5130e3820814dea07d9873bc33865f"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/../assets/cubemap2.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Our scene contains a blue sphere and a point light (the yellow light bulb) is stationed nearby. In the first rendering pass we use a texture cube as the framebuffer. Remember that at this stage we don&rsquo;t care about the original camera location or direction. We place the camera at the position of the point light so it always looks like it is located at the middle of the texture cube. In the example above we see that the current rendering direction is the positive Z axis (into the yellow face). At this point we are back to the standard shadow mapping process so using the depth values in the yellow face we can generate the proper shadow for the blue sphere (these depth values are located in the black circle but the actual shadow will be rendered in the second pass).</p>
+<p>The following picture demonstrates the six camera directions that we will use in the first rendering pass:</p>
+<p><a href="#R-image-61ae75ec8abccce686331019cb2b2978" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/../assets/cubemap.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-61ae75ec8abccce686331019cb2b2978"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/../assets/cubemap.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Since the same scene is rendered six times in the first rendering pass we call this <em>Multipass Shadow Mapping.</em></p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(shadow_map_fbo.h)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">ShadowMapFBO</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">ShadowMapFBO</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="o">~</span><span class="n">ShadowMapFBO</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="kt">bool</span> <span class="nf">Init</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowHeight</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">void</span> <span class="nf">BindForWriting</span><span class="p">(</span><span class="n">GLenum</span> <span class="n">CubeFace</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="kt">void</span> <span class="nf">BindForReading</span><span class="p">(</span><span class="n">GLenum</span> <span class="n">TextureUnit</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_fbo</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_shadowMap</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">GLuint</span> <span class="n">m_depth</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>Let&rsquo;s start the code walkthru by reviewing the changes in our shadow map FBO. The FBO is mostly the same with two minor changes: the BindForWriting() method now takes a cube face enumerator. Since we are doing a multi pass rendering into the cubemap this is how we will tell the GL which cube face we are going to render. The second change is the addition of a separate depth buffer. Previously we used the m_shadowMap class member as the shadow map object (which is actually a depth buffer). Now m_shadowMap is going to be used as a cube map and we need a dedicated depth buffer. For each of the six passes into the cube map faces we will use this depth buffer (and naturally we will clear it before each pass).</p>
+<p>(shadow_map_fbo.cpp:46)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">ShadowMapFBO</span><span class="o">::</span><span class="n">Init</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">WindowHeight</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="c1">// Create the FBO  
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>  <span class="n">glGenFramebuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_fbo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="c1">// Create the depth buffer  
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span>  <span class="n">glGenTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_depth</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">m_depth</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glTexImage2D</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_DEPTH_COMPONENT32</span><span class="p">,</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="n">WindowHeight</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_DEPTH_COMPONENT</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_MIN_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_MAG_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_S</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_T</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="c1">// Create the cube map  
+</span></span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="c1"></span>  <span class="n">glGenTextures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m_shadowMap</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">glBindTexture</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP</span><span class="p">,</span> <span class="n">m_shadowMap</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP</span><span class="p">,</span> <span class="n">GL_TEXTURE_MIN_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP</span><span class="p">,</span> <span class="n">GL_TEXTURE_MAG_FILTER</span><span class="p">,</span> <span class="n">GL_LINEAR</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_S</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_T</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  <span class="n">glTexParameteri</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP</span><span class="p">,</span> <span class="n">GL_TEXTURE_WRAP_R</span><span class="p">,</span> <span class="n">GL_CLAMP_TO_EDGE</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">uint</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="n">glTexImage2D</span><span class="p">(</span><span class="n">GL_TEXTURE_CUBE_MAP_POSITIVE_X</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_R32F</span><span class="p">,</span> <span class="n">WindowWidth</span><span class="p">,</span> <span class="n">WindowHeight</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GL_RED</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">m_fbo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">  <span class="n">glFramebufferTexture2D</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">GL_DEPTH_ATTACHMENT</span><span class="p">,</span> <span class="n">GL_TEXTURE_2D</span><span class="p">,</span> <span class="n">m_depth</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="c1">// Disable writes to the color buffer  
+</span></span></span><span class="line"><span class="ln">33</span><span class="cl"><span class="c1"></span>  <span class="n">glDrawBuffer</span><span class="p">(</span><span class="n">GL_NONE</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  <span class="c1">// Disable reads from the color buffer  
+</span></span></span><span class="line"><span class="ln">36</span><span class="cl"><span class="c1"></span>  <span class="n">glReadBuffer</span><span class="p">(</span><span class="n">GL_NONE</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="n">GLenum</span> <span class="n">Status</span> <span class="o">=</span> <span class="n">glCheckFramebufferStatus</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">39</span><span class="cl">  
+</span></span><span class="line"><span class="ln">40</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">Status</span> <span class="o">!=</span> <span class="n">GL_FRAMEBUFFER_COMPLETE</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">41</span><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;FB error, status: 0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">Status</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">42</span><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">43</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">44</span><span class="cl">  
+</span></span><span class="line"><span class="ln">45</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">46</span><span class="cl">  
+</span></span><span class="line"><span class="ln">47</span><span class="cl">  <span class="k">return</span> <span class="nf">GLCheckError</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">48</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is how we initialize the shadow map. First we create and setup the depth buffer. Nothing new here. Next comes the cubemap texture. GL_TEXTURE_CUBE_MAP is used as the target. The interesting part here is the way we initialize the six cube faces. OpenGL provides a macro for each face: GL_TEXTURE_CUBE_MAP_POSITIVE_X, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, etc. They happen to be defines sequentially which makes the loop above possible (see glew.h for the remaining macros; around line 1319 in the version I have). Each face is initialized with a single 32 bit floating point value in each texel.</p>
+<p>(tutorial43.cpp:183)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">virtual</span> <span class="kt">void</span> <span class="nf">RenderSceneCB</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span> 
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">CalcFPS</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_scale</span> <span class="o">+=</span> <span class="mf">0.05f</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">OnRender</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">ShadowMapPass</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">RenderPass</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">RenderFPS</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">glutSwapBuffers</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the main render scene function and as you can see, there is no change in comparison to previous shadow mapping tutorials. At the high level we have the same two passes of shadow map generation and rendering.</p>
+<p>(tutorial43.cpp:200)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">ShadowMapPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glCullFace</span><span class="p">(</span><span class="n">GL_FRONT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">m_shadowMapEffect</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">PersProjInfo</span> <span class="n">ProjInfo</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">ProjInfo</span><span class="p">.</span><span class="n">FOV</span> <span class="o">=</span> <span class="mf">90.0f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">ProjInfo</span><span class="p">.</span><span class="n">Height</span> <span class="o">=</span> <span class="n">WINDOW_HEIGHT</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">ProjInfo</span><span class="p">.</span><span class="n">Width</span> <span class="o">=</span> <span class="n">WINDOW_WIDTH</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">ProjInfo</span><span class="p">.</span><span class="n">zNear</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">ProjInfo</span><span class="p">.</span><span class="n">zFar</span> <span class="o">=</span> <span class="mf">100.0f</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="n">m_persProjInfo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">glClearColor</span><span class="p">(</span><span class="n">FLT_MAX</span><span class="p">,</span> <span class="n">FLT_MAX</span><span class="p">,</span> <span class="n">FLT_MAX</span><span class="p">,</span> <span class="n">FLT_MAX</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">uint</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_OF_LAYERS</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="n">m_shadowMapFBO</span><span class="p">.</span><span class="n">BindForWriting</span><span class="p">(</span><span class="n">gCameraDirections</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">CubemapFace</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">    <span class="n">glClear</span><span class="p">(</span><span class="n">GL_DEPTH_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">22</span><span class="cl">    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">m_pointLight</span><span class="p">.</span><span class="n">Position</span><span class="p">,</span> <span class="n">gCameraDirections</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Target</span><span class="p">,</span> <span class="n">gCameraDirections</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Up</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">    
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="n">p</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh1Orientation</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="n">m_shadowMapEffect</span><span class="p">.</span><span class="n">SetWorld</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">27</span><span class="cl">    <span class="n">m_shadowMapEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">28</span><span class="cl">    <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln">29</span><span class="cl">    
+</span></span><span class="line"><span class="ln">30</span><span class="cl">    <span class="n">p</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh2Orientation</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="n">m_shadowMapEffect</span><span class="p">.</span><span class="n">SetWorld</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="n">m_shadowMapEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>    
+</span></span><span class="line"><span class="ln">33</span><span class="cl">    <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="ln">35</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the full shadow map pass. There are a few things we need to notice here that are different from regular shadow mapping. First off is that the field of view is set to 90 degrees. The reason is that we are going to render the entire world into the cube map so to align the camera perfectly into each face we set it to one quarter of a full circle (360 degrees).</p>
+<p>Next is that the clear value of the cube map is set to the maximum value of the floating point (FLT_MAX). Every texel which will actually be rendered into will have a much smaller value. The &ldquo;real&rdquo; pixels will always have values smaller than the un-rendered texels.</p>
+<p>Finally, the loop over the cube map faces uses the gCameraDirections array (see below) in order to set the proper face in the FBO and to orient the camera into that face.</p>
+<p>(tutorial43.cpp:45)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="nc">CameraDirection</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">GLenum</span> <span class="n">CubemapFace</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Target</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">Up</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">CameraDirection</span> <span class="n">gCameraDirections</span><span class="p">[</span><span class="n">NUM_OF_LAYERS</span><span class="p">]</span> <span class="o">=</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="p">{</span> <span class="n">GL_TEXTURE_CUBE_MAP_POSITIVE_X</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">),</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="p">{</span> <span class="n">GL_TEXTURE_CUBE_MAP_NEGATIVE_X</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">),</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="p">{</span> <span class="n">GL_TEXTURE_CUBE_MAP_POSITIVE_Y</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">),</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">)</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="p">{</span> <span class="n">GL_TEXTURE_CUBE_MAP_NEGATIVE_Y</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">),</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">)</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="p">{</span> <span class="n">GL_TEXTURE_CUBE_MAP_POSITIVE_Z</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">),</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">},</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">{</span> <span class="n">GL_TEXTURE_CUBE_MAP_NEGATIVE_Z</span><span class="p">,</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">),</span> <span class="n">Vector3f</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">}</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>This array combines the enums defined by GL to denote each cube face along with the two vectors used to orient the camera toward that face.</p>
+<p>(shadow_map_fbo.cpp:96)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="n">ShadowMapFBO</span><span class="o">::</span><span class="n">BindForWriting</span><span class="p">(</span><span class="n">GLenum</span> <span class="n">CubeFace</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_DRAW_FRAMEBUFFER</span><span class="p">,</span> <span class="n">m_fbo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">glFramebufferTexture2D</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">GL_COLOR_ATTACHMENT0</span><span class="p">,</span> <span class="n">CubeFace</span><span class="p">,</span> <span class="n">m_shadowMap</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">glDrawBuffer</span><span class="p">(</span><span class="n">GL_COLOR_ATTACHMENT0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>The function above is used by the shadow map pass to setup the face that will be rendered to. First we bind the FBO to make it current. After that we bind the face to the first color attachment and enable writing to it.</p>
+<p>(tutorial43.cpp:237)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">RenderPass</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">glCullFace</span><span class="p">(</span><span class="n">GL_BACK</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="n">glClearColor</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span> <span class="o">|</span> <span class="n">GL_DEPTH_BUFFER_BIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">Enable</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="n">m_shadowMapFBO</span><span class="p">.</span><span class="n">BindForReading</span><span class="p">(</span><span class="n">SHADOW_TEXTURE_UNIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetEyeWorldPos</span><span class="p">(</span><span class="n">m_pGameCamera</span><span class="o">-&gt;</span><span class="n">GetPos</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetPerspectiveProj</span><span class="p">(</span><span class="n">m_persProjInfo</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="o">*</span><span class="n">m_pGameCamera</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="c1">// Render the quads  
+</span></span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="c1"></span>  <span class="n">m_pGroundTex</span><span class="o">-&gt;</span><span class="n">Bind</span><span class="p">(</span><span class="n">COLOR_TEXTURE_UNIT</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_quad1Orientation</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="n">m_quad</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">23</span><span class="cl">  
+</span></span><span class="line"><span class="ln">24</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_quad2Orientation</span><span class="p">);</span> 
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">m_quad</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="c1">// Render the meshes  
+</span></span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="c1"></span>  <span class="n">p</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh1Orientation</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span> 
+</span></span><span class="line"><span class="ln">33</span><span class="cl">  <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span> 
+</span></span><span class="line"><span class="ln">34</span><span class="cl">  
+</span></span><span class="line"><span class="ln">35</span><span class="cl">  <span class="n">p</span><span class="p">.</span><span class="n">Orient</span><span class="p">(</span><span class="n">m_mesh2Orientation</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">36</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWorldMatrix</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWorldTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">37</span><span class="cl">  <span class="n">m_lightingEffect</span><span class="p">.</span><span class="n">SetWVP</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">GetWVPTrans</span><span class="p">());</span>  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="n">m_mesh</span><span class="p">.</span><span class="n">Render</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the full lighting pass. Everything is back to normal - we render into the default framebuffer, we bind the cubemap for reading and reset the camera based on the viewer position. This completes our C++ code review. Now let&rsquo;s take a look at the shaders.</p>
+<p>(shadow_map.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWorld</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">WorldPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">vec4</span> <span class="n">Pos4</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">Pos4</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">WorldPos</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">Pos4</span><span class="p">).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We are going to render from the position of the point light and the camera is currently aligned on one of the axis. The value that will be written into the cubemap is the distance from the object to the point light. So we need the object world position in the FS where this distance will be calculated.</p>
+<p>(shadow_map.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">in</span> <span class="n">vec3</span> <span class="n">WorldPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">uniform</span> <span class="n">vec3</span> <span class="n">gLightWorldPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">out</span> <span class="kt">float</span> <span class="n">FragColor</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">vec3</span> <span class="n">LightToVertex</span> <span class="o">=</span> <span class="n">WorldPos</span> <span class="o">-</span> <span class="n">gLightWorldPos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="kt">float</span> <span class="n">LightToPixelDistance</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">LightToVertex</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">FragColor</span> <span class="o">=</span> <span class="n">LightToPixelDistance</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We now have the world space position of the pixel in the FS and the world space position of the point light is provided as a uniform. We calculate the vector from the light to the pixel, take its length and write it out.</p>
+<p>(lighting.vs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 330
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Position</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">out</span> <span class="n">vec2</span> <span class="n">TexCoord0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">Normal0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="n">out</span> <span class="n">vec3</span> <span class="n">WorldPos0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWVP</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">uniform</span> <span class="n">mat4</span> <span class="n">gWorld</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">gWVP</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">TexCoord0</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">Normal0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Normal</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">WorldPos0</span> <span class="o">=</span> <span class="p">(</span><span class="n">gWorld</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span><span class="n">Position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)).</span><span class="n">xyz</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is the updated lighting VS and what&rsquo;s interesting here is the missing piece - we no longer need to calculate the light space position of the vertex as we did in the original shadow mapping algorithm. This was required when we needed to place the shadow map along the light vector but now we only need the vector from the light to the pixel in world space in order to sample from the cubmap. Everything we need for this is here so we are good to go.</p>
+<p>(lighting.fs)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="n">uniform</span> <span class="n">samplerCube</span> <span class="n">gShadowMap</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="kt">float</span> <span class="n">CalcShadowFactor</span><span class="p">(</span><span class="n">vec3</span> <span class="n">LightDirection</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="kt">float</span> <span class="n">SampledDistance</span> <span class="o">=</span> <span class="n">texture</span><span class="p">(</span><span class="n">gShadowMap</span><span class="p">,</span> <span class="n">LightDirection</span><span class="p">).</span><span class="n">r</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="kt">float</span> <span class="n">Distance</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">LightDirection</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">Distance</span> <span class="o">&lt;</span> <span class="n">SampledDistance</span> <span class="o">+</span> <span class="n">EPSILON</span><span class="p">)</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="k">return</span> <span class="mf">1.0</span><span class="p">;</span> <span class="c1">// Inside the light  
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1"></span>  <span class="k">else</span>    
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="k">return</span> <span class="mf">0.5</span><span class="p">;</span> <span class="c1">// Inside the shadow
+</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></div><p>The code excerpt above contains the key changes in the lighting FS. The shadow map uniform that was previously sampler2D (in tutorial 24) or sampler2DShadow (in tutorial 42) is now a samplerCube. In order to sample from it we use the LightDirection vector which was calculated as the vector from the point light to the pixel. Note that all the three coordinates (X, Y and Z) of the light direction vector are used for sampling. Since the cube has three dimension we need a three dimension vector in order to select the proper face and the specific texel in that face. Comparison of the sampled value with the distance from the light to the pixel tells us whether we are in light or shadow.</p>
+<p>In this tutorial example I&rsquo;ve placed a couple of spheres facing a point light such that the shadow will fall directly on the quad behind each sphere. Here&rsquo;s the result:</p>
+<p><a href="#R-image-5e68e70e3d9eea150a98b2efad246ff0" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/../assets/tutorial43.jpeg" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5e68e70e3d9eea150a98b2efad246ff0"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/../assets/tutorial43.jpeg" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

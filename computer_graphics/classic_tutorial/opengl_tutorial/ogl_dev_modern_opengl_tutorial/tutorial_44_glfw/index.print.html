@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 44:GLFW :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In the first tutorial we learned that OpenGL doesn&rsquo;t deal directly with windowing and that this responsibility is left to other APIs (GLX, WGL, etc). To make life simpler for ourselves we used GLUT to handle the windowing API. This makes our tutorials portable between different OSs. We&rsquo;ve been using GLUT exclusively, until today. We are now going to take a look at another popular library that handles the same stuff as GLUT.">
+    <meta property="og:title" content="Tutorial 44:GLFW :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In the first tutorial we learned that OpenGL doesn&rsquo;t deal directly with windowing and that this responsibility is left to other APIs (GLX, WGL, etc). To make life simpler for ourselves we used GLUT to handle the windowing API. This makes our tutorials portable between different OSs. We&rsquo;ve been using GLUT exclusively, until today. We are now going to take a look at another popular library that handles the same stuff as GLUT.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 44:GLFW :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" rel="canonical" type="text/html" title="Tutorial 44:GLFW :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 44:GLFW :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 44:GLFW</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-44glfw">Tutorial 44:GLFW</h1>
+
+<h3 id="background">Background</h3>
+<p>In the first tutorial we learned that OpenGL doesn&rsquo;t deal directly with windowing and that this responsibility is left to other APIs (GLX, WGL, etc). To make life simpler for ourselves we used GLUT to handle the windowing API. This makes our tutorials portable between different OSs. We&rsquo;ve been using GLUT exclusively, until today. We are now going to take a look at another popular library that handles the same stuff as GLUT. This library is called GLFW and is hosted at <a href="http://www.glfw.org/" target="_blank">www.glfw.org</a>. One of the main differences between the two libraries is that GLFW is more modern and is actively being developed while GLUT is, well, older and its development has mostly stopped. GLFW has many features and you can read all about them in its home page.</p>
+<p>Since there is no mathematical background for this tutorial we can go right ahead and review the code. What I&rsquo;ve done here is to abstract the contents of glut_backend.h and glut_backend.cpp behind a general &ldquo;backend&rdquo; API that wraps the details of setting up the window and handling the input from the mouse and keyboard. You can easily switch between a GLUT backend and a GLFW backend and this gives a very nice flexibility for future tutorials.</p>
+<p>In order to install GLFW (run as root):</p>
+<ul>
+<li>On Fedora Core: yum install glfw glfw-devel</li>
+<li>On Ubuntu: apt-get install libglfw3 libglfw3-dev</li>
+<li>Other Linux distributions also provide binary packages of GLFW. Alternatively, you can grab the sources directly from GLFW website and build them.</li>
+</ul>
+<p>If you&rsquo;re using Windows simply use the GLFW headers and libraries that I provide as part of the <a href="http://ogldev.atspace.co.uk/ogldev-source.zip" target="_blank">source package</a>. This tutorial should build out of the box (please let me know if it doesn&rsquo;t&hellip;).</p>
+<p>In order to build stuff aginst the GLFW library you must tell the compiler where the headers and libraries are located. On Linux my recommendation is to use the pkg-config utility:</p>
+<p>pkg-config &ndash;cflags &ndash;libs glfw3</p>
+<p>The &lsquo;&ndash;cflags&rsquo; flag tells pkg-config to output the flags GCC needs to compile a file that uses GLFW. The &lsquo;&ndash;libs&rsquo; flags outputs the flags required for linking. I&rsquo;m using these flags in the Netbeans project that I provide for Linux and you can use them in your own makefile. If you&rsquo;re using one of the build systems such as autotools, cmake or scons you will need to check that system documentation for details.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p>(ogldev_glfw_backend.cpp:24)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#define GLFW_DLL
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;GLFW/glfw3.h&gt;</span></span></span></code></pre></div><p>This is how you include GLFW in your application. The &lsquo;GLFW_DLL&rsquo; macro is required on Windows for using GLFW as a DLL.</p>
+<p>(ogldev_glfw_backend.cpp:168)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">GLFWBackendInit</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">WithDepth</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">WithStencil</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">sWithDepth</span> <span class="o">=</span> <span class="n">WithDepth</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">sWithStencil</span> <span class="o">=</span> <span class="n">WithStencil</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">glfwInit</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">    <span class="n">OGLDEV_ERROR</span><span class="p">(</span><span class="s">&#34;Error initializing GLFW&#34;</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="kt">int</span> <span class="n">Major</span><span class="p">,</span> <span class="n">Minor</span><span class="p">,</span> <span class="n">Rev</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">glfwGetVersion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">Major</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Minor</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Rev</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;GLFW %d.%d.%d initialized</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">Major</span><span class="p">,</span> <span class="n">Minor</span><span class="p">,</span> <span class="n">Rev</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="n">glfwSetErrorCallback</span><span class="p">(</span><span class="n">GLFWErrorCallback</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Initializing GLFW is very simple. Note that the argc/argv parameters are not used but to keep the interface identical with the one we used for FreeGLUT they are still passed to the function. In addition to GLFW initialization we also print the version of the library for informative purposes and set a general error callback. If anything goes wrong we will print the error and exit.</p>
+<p>(ogldev_glfw_backend.cpp:195)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="nf">GLFWBackendCreateWindow</span><span class="p">(</span><span class="n">uint</span> <span class="n">Width</span><span class="p">,</span> <span class="n">uint</span> <span class="n">Height</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isFullScreen</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">pTitle</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">GLFWmonitor</span><span class="o">*</span> <span class="n">pMonitor</span> <span class="o">=</span> <span class="n">isFullScreen</span> <span class="o">?</span> <span class="n">glfwGetPrimaryMonitor</span><span class="p">()</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">s_pWindow</span> <span class="o">=</span> <span class="n">glfwCreateWindow</span><span class="p">(</span><span class="n">Width</span><span class="p">,</span> <span class="n">Height</span><span class="p">,</span> <span class="n">pTitle</span><span class="p">,</span> <span class="n">pMonitor</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s_pWindow</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">    <span class="n">OGLDEV_ERROR</span><span class="p">(</span><span class="s">&#34;error creating window&#34;</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">glfwMakeContextCurrent</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="c1">// Must be done after glfw is initialized!  
+</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1"></span>  <span class="n">glewExperimental</span> <span class="o">=</span> <span class="n">GL_TRUE</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="n">GLenum</span> <span class="n">res</span> <span class="o">=</span> <span class="n">glewInit</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">17</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">GLEW_OK</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">OGLDEV_ERROR</span><span class="p">((</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">glewGetErrorString</span><span class="p">(</span><span class="n">res</span><span class="p">));</span>    
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="k">return</span> <span class="p">(</span><span class="n">s_pWindow</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>In the function above we create a window and perform other important initialization stuff. The first three parameters to <a href="http://www.glfw.org/docs/latest/group__window.html#ga5c336fddf2cbb5b92f65f10fb6043344" target="_blank">glfwCreateWindow</a> are obvious. The fourth parameter specifies the monitor to use. &lsquo;GLFWmonitor&rsquo; is an opaque GLFW object that represents the physical monitor. GLFW support multi-monitor setups and for such cases the function <a href="http://www.glfw.org/docs/latest/group__monitor.html#ga3fba51c8bd36491d4712aa5bd074a537" target="_blank">glfwGetMonitors</a> returns a list of all the available monitors. If we pass a NULL monitor pointer we will get a regular window; if we pass a pointer to an actual monitor (we get the default using <a href="http://www.glfw.org/docs/latest/group__monitor.html#ga721867d84c6d18d6790d64d2847ca0b1" target="_blank">glfwGetPrimaryMonitor</a>) we get a full screen window. Very simple. The fifth and last parameter is used for context sharing which is out of scope for this tutorial.</p>
+<p>Before we start dispatching GL commands we have to make the window current on the calling thread. We accomplish this using <a href="http://www.glfw.org/docs/latest/group__context.html#ga1c04dc242268f827290fe40aa1c91157" target="_blank">glfwMakeContextCurrent</a>. Finally, we initialize GLEW.</p>
+<p>(ogldev_glfw_backend.cpp:238)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">glfwWindowShouldClose</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">))</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln">2</span><span class="cl">  <span class="c1">// OpenGL API calls go here...  
+</span></span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="c1"></span>  <span class="n">glfwSwapBuffers</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">glfwPollEvents</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Unlike GLUT, GLFW doesn&rsquo;t provide its own main loop function. Therefore, we construct it using the above code which is part of wrapper function called GLFWBackendRun(). s_pWindow is a pointer to a GLFW window previously created using glfwCreateWindow(). In order for the application to signal the end of this loop the function <a href="http://www.glfw.org/docs/latest/group__window.html#ga24e02fbfefbb81fc45320989f8140ab5" target="_blank">glfwSetWindowShouldClose</a> is available to the application via the wrapper function GLFWBackendLeaveMainLoop().</p>
+<p>(ogldev_glfw_backend.cpp:122)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">KeyCallback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">pWindow</span><span class="p">,</span> <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">scancode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">action</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mods</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">CursorPosCallback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">pWindow</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">MouseCallback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">pWindow</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Button</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Action</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Mode</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">InitCallbacks</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="n">glfwSetKeyCallback</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">,</span> <span class="n">KeyCallback</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="n">glfwSetCursorPosCallback</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">,</span> <span class="n">CursorPosCallback</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="n">glfwSetMouseButtonCallback</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">,</span> <span class="n">MouseCallback</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>What we see above is the initialization of our keyboard and mouse callbacks. If you are interested in using GLFW exclusively in your application simply review the documentation <a href="http://www.glfw.org/docs/latest/group__input.html" target="_blank">here</a> for information about the values of Button, Action, Mode, etc. For my tutorials I have created a set of enums to describe the various keyboard and mouse keys and translated GLFW to these enums. I have done the same for GLUT and this provides the commonality which lets the same application code quickly switch from one backend to the other (see the implementation of the above functions in the code for further details).</p>
+<p>(ogldev_glfw_backend.cpp:)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">GLFWBackendTerminate</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">glfwDestroyWindow</span><span class="p">(</span><span class="n">s_pWindow</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">glfwTerminate</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This is how we shutdown the GLFW backend. First we destroy the window and after that we terminate the GLFW library and free all of its resources. No call to GLFW can be done after that which is why this has to be the last thing we do in the main function (graphics-wise).</p>
+<p>(ogldev_backend.h)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">enum</span> <span class="nc">OGLDEV_BACKEND_TYPE</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">  <span class="n">OGLDEV_BACKEND_TYPE_GLUT</span><span class="p">,</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">OGLDEV_BACKEND_TYPE_GLFW</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="kt">void</span> <span class="nf">OgldevBackendInit</span><span class="p">(</span><span class="n">OGLDEV_BACKEND_TYPE</span> <span class="n">BackendType</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">WithDepth</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">WithStencil</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">void</span> <span class="nf">OgldevBackendTerminate</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="kt">bool</span> <span class="nf">OgldevBackendCreateWindow</span><span class="p">(</span><span class="n">uint</span> <span class="n">Width</span><span class="p">,</span> <span class="n">uint</span> <span class="n">Height</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isFullScreen</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">pTitle</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kt">void</span> <span class="nf">OgldevBackendRun</span><span class="p">(</span><span class="n">ICallbacks</span><span class="o">*</span> <span class="n">pCallbacks</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="kt">void</span> <span class="nf">OgldevBackendLeaveMainLoop</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">void</span> <span class="nf">OgldevBackendSwapBuffers</span><span class="p">();</span></span></span></code></pre></div><p>I have created a new backend interface which we see in the above header file. These functions replace the GLUT specific code which we have been using. They are implemented in ogldev_backend.cpp in the Common project and are essentially redirections into GLUT or GLFW. You select the backend using OgldevBackendInit() and after that everything is transparent.</p>
+<p>Since there isn&rsquo;t nothing new to display in this tutorial I have used the Sponza model which is very common in the 3D community to test new global illumination algorithms.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

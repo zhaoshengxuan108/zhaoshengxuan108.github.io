@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="Compute Shaders Introduction GPU Computing In this chapter, we will have a look on the compute shader and try to understand how it works and how we can create and run a compute shader. While traditionally the graphics card (GPU) has been a rendering co-processor which is handling graphics, it got more and more common to use graphics cards for other (not necessarily graphics related) computational tasks (General Purpose Computing on Graphics Processing Units; short: GPGPU-Programming).">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="Compute Shaders Introduction GPU Computing In this chapter, we will have a look on the compute shader and try to understand how it works and how we can create and run a compute shader. While traditionally the graphics card (GPU) has been a rendering co-processor which is handling graphics, it got more and more common to use graphics cards for other (not necessarily graphics related) computational tasks (General Purpose Computing on Graphics Processing Units; short: GPGPU-Programming).">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/2022/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="Learn OpenGL :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title></title><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235000" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235000" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235000" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235000" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235000" rel="stylesheet" media="print">
+    <link href="../../../../../css/ie.css?1708235000" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235000"></script>
+    <script src="../../../../../js/variant.js?1708235000"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support html" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/2022/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)">
+                <i class="fa-fw fas fa-list-alt"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper"> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html"><span itemprop="name">Learn OpenGL</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-print" data-content-empty="disable" data-width-s="area-more" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/2022/index.print.html" title="Print whole chapter (CTRL&#43;ALT&#43;p)">
+                <i class="fa-fw fas fa-print"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" title="Learn OpenGL (🡐)">
+                <i class="fa-fw fas fa-chevron-left"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show">
+              <a class="topbar-control" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" title="OGL dev 教程 (🡒)">
+                <i class="fa-fw fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show">
+              <button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More">
+                <i class="fa-fw fas fa-ellipsis-v"></i>
+              </button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id=""></h1>
+
+<h4 id="compute-shaders">Compute Shaders</h4>
+<h5 id="introduction">Introduction</h5>
+<h6 id="gpu-computing">GPU Computing</h6>
+<p>In this chapter, we will have a look on the compute shader and try to understand how it works and how we can create and run a compute shader. While traditionally the graphics card (GPU) has been a rendering co-processor which is handling graphics, it got more and more common to use graphics cards for other (not necessarily graphics related) computational tasks (General Purpose Computing on Graphics Processing Units; short: GPGPU-Programming). The reason for this purpose change is performance, as GPUs perform floating-point calculations much faster than today&rsquo;s CPUs. However, this performance boost comes with a hurdle in programming algorithms. Since the GPU is not a serial but a stream processor it&rsquo;s not trivial to program the same algorithms which were designed for the CPU to run on the GPU as well.</p>
+<p><a href="#R-image-b4ad625d696a0c24b766be36661b158a" class="lightbox-link"><img src="./assets/gpu_processing.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-b4ad625d696a0c24b766be36661b158a"><img src="./assets/gpu_processing.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>A stream processor uses a function/kernel (e.g. a fragment Shader) to run over a set of input records/stream (e.g. fragments) to produce a set of output records (pixels for the final image) in parallel. Due to the parallel execution, each element is processed independently, without any dependencies between elements.</p>
+<p>As stated above the most important (mandatory) aspect of programs running on GPUs is that they must be parallelizable. Sharing of memory is not easily possible and very limited for kernels running on the graphics card, this means that calculations that the kernel performs must be computed independently of each other. For example, it&rsquo;s easy to implement a program that multiplies each element in one stream with the corresponding element (e.g. by index) in a second stream while it&rsquo;s more complicated (or not completely possible in parallel) to accumulate the values of one stream to one single sum value as it always needs the result of the executions before.</p>
+<p>(Even though this operation can be enhanced by the GPU using a kernel that accumulates sub-stream data in parallel and reducing the amount of serial accumulations for bigger streams. The results of the sub-stream data has to be combined in the host program afterwards).</p>
+<p>It is important to keep this mandatory parallelism in mind when writing GPU kernels as the GPU is not suitable for all problems due to its stream programming model.</p>
+<p><warning>In order to complete this chapter, you will need to be able to create an OpenGL 4.3+ context. The compute shaders to be discussed are only available starting in OpenGL 4.3. Using OpenGL 3.3 or earlier will result in errors. The sample shader code will use OpenGL 4.3.</warning></p>
+<p>To summarize, compute shaders work great for many small parallel batches. Check out: <a href="https://www.youtube.com/watch?v=-P28LKWTzrI" target="_blank">Mythbusters Demo GPU versus CPU</a></p>
+<h5 id="compute-shader-stage">Compute Shader Stage</h5>
+<p>To make GPU computing easier accessible especially for graphics applications while sharing common memory mappings, the OpenGL standard introduced the compute shader in OpenGL version 4.3 as a shader stage for computing arbitrary information. While other GPGPU APIs like OpenCL and CUDA offer more features as they are aimed for heavyweight GPGPU projects, the OpenGL compute shader is intentionally designed to incorporate with other OpenGL functionality and uses GLSL to make it easier to integrate with the existing OpenGL graphics pipeline/application. Using the compute shader in OpenGL graphics applications makes it possible to avoid complicated interfacing, as it would be needed with OpenCL or CUDA.</p>
+<p><a href="#R-image-4d4e43dc7d8c269cc997af68136e8d6c" class="lightbox-link"><img src="./assets/opengl4_3_with_computeShaders.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4d4e43dc7d8c269cc997af68136e8d6c"><img src="./assets/opengl4_3_with_computeShaders.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Compute shaders are general-purpose shaders and in contrast to the other shader stages, they operate differently as they are not part of the graphics pipeline. (see OpenGL 4.3 with Computer Shaders). The compute shader itself defines the data &ldquo;space&rdquo; it operates on. An OpenGL function can be used to define the amount of executions that also initiates the execution of the compute operation. The computer shader does not have user-defined inputs or any outputs as known from the other shaders.</p>
+<p>To pass data to the compute shader, the shader needs to fetch the data for example via texture access, image loads or shader storage block access, which has to be used as target to explicitly write the computed data to an image or shader storage block as well.</p>
+<p>The following table shows the data any shader stage operates on. As shown below, the compute shaders works on an &ldquo;abstract work item&rdquo;.</p>
+<p><a href="#R-image-38c88523804ebe6da459484911c205bf" class="lightbox-link"><img src="./assets/20240215141839.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-38c88523804ebe6da459484911c205bf"><img src="./assets/20240215141839.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<h6 id="compute-space">Compute space</h6>
+<p>The user can use a concept called work groups to define the space the compute shader is operating on. Work Groups are the smallest amount of compute operations that the user can execute (from the host application). Wile the space of the work groups is a three-dimensional space (&ldquo;X&rdquo;, &ldquo;Y&rdquo;, &ldquo;Z&rdquo;) the user can set any of the dimension to 1 to perform the computation in one- or two-dimensional space. In the image below every green cube is one work group.</p>
+<p><a href="#R-image-010adf8e8ef2770f1d2de0af4e725851" class="lightbox-link"><img src="./assets/global_work_groups.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-010adf8e8ef2770f1d2de0af4e725851"><img src="./assets/global_work_groups.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>During execution of the work groups the order might vary arbitrarily and the program should not rely on the order in which individual groups are processed.</p>
+<p>The work group may contain many compute shader invocations. The amount of invocations of the shader is defined by the local size of the work group, which is again three-dimensional.</p>
+<p>The image below shows how every work group is splitted in its local space invocations represented by the red cubes.</p>
+<p><a href="#R-image-c403a143486841b90c3d72035ef62211" class="lightbox-link"><img src="./assets/local_space.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c403a143486841b90c3d72035ef62211"><img src="./assets/local_space.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p><em>An example</em>:
+Given the local size of a computer shader of (128, 1, 1) and executing the shader with a work group count of (16, 8, 64). The shader will be 1,048,576 times invoked separately. This is the product of work group dimensions times the product of the local size of the compute shader: (128 * 1 * 1 * 16 * 8 * 64 = 1,048,576). Each invocation can be uniquely identified by a unique set of inputs.</p>
+<p>While it is possible to communicate using shared variables and special functions between different invocations in a specific work group, it is not effectively possible to communicate between different work groups without potentially deadlocking the system.</p>
+<h5 id="create-your-first-compute-shader">Create your first compute shader</h5>
+<p>Now that we have a broad overview about compute shaders let&rsquo;s put it into practice by creating a &ldquo;Hello-World&rdquo; program. The program should write (color) data to the pixels of an image/texture object in the compute shader. After finishing the compute shader execution it will display the texture on the screen using a second shader program which uses a vertex shader to draw a simple screen filling quad and a fragment shader.</p>
+<p>Since compute shaders are introduced in OpenGL 4.3 we need to adjust the context version first:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glfwWindowHint</span><span class="p">(</span><span class="n">GLFW_CONTEXT_VERSION_MAJOR</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glfwWindowHint</span><span class="p">(</span><span class="n">GLFW_CONTEXT_VERSION_MINOR</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span></span></span></code></pre></div><h6 id="compile-the-compute-shader">Compile the Compute Shader</h6>
+<p>To being able to compile a compute shader program we need to create a new shader class. We create a new ComputeShader class, that is almost identically to the normal Shader class, but as we want to use it in combination to the normal shader stage we have to give it a new unique class name.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">ComputeShader</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">     <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">          <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ID</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">		
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">          <span class="n">ComputeShader</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">computePath</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">               <span class="p">...</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Note: we could as well add a second constructor in the Shader class, which only has one parameter where we would assume that this is a compute shader but in the sake of clarity, we split them in two different classes.Additionally it is not possible to bake compute shaders into an OpenGL program object alongside other shaders.</p>
+<p>The code to create and compile the shader is as well almost identically to the one for other shaders. But as the compute shader is not bound to the rest of the render pipeline we attach the shader solely to the new program using the shader type GL_COMPUTE_SHADER after creating the program itself.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">compute</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1">// compute shader
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="c1"></span><span class="n">compute</span> <span class="o">=</span> <span class="n">glCreateShader</span><span class="p">(</span><span class="n">GL_COMPUTE_SHADER</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">glShaderSource</span><span class="p">(</span><span class="n">compute</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cShaderCode</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">glCompileShader</span><span class="p">(</span><span class="n">compute</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">checkCompileErrors</span><span class="p">(</span><span class="n">compute</span><span class="p">,</span> <span class="s">&#34;COMPUTE&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1">// shader Program
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span><span class="n">ID</span> <span class="o">=</span> <span class="n">glCreateProgram</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">glAttachShader</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span> <span class="n">compute</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">glLinkProgram</span><span class="p">(</span><span class="n">ID</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">checkCompileErrors</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span> <span class="s">&#34;PROGRAM&#34;</span><span class="p">);</span></span></span></code></pre></div><p>Check out the chapter <a href="https://learnopengl.com/Getting-started/Shaders" target="_blank">Getting Started - Shaders</a> to get more information about the Shader class.</p>
+<h6 id="create-the-compute-shader">Create the Compute Shader</h6>
+<p>With the shader class updated, we can now write our compute shader. As always, we start by defining the version on top of the shader as well as defining the size of the local invocations per dimension in the compute shader.</p>
+<p>This can be done using the special layout input declaration in the code below. By default, the local sizes are 1 so if you only want a 1D or 2D work group space, you can specify just the local_size_x or the local_size_x and local_size_y component. For the sake of completeness, we will explicitly set all components as shown below.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#version 430 core
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">local_size_x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_size_y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_size_z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span><span class="p">;</span></span></span></code></pre></div><p>Since we will execute our shader for every pixel of an image, we will keep our local size at 1 in every dimension (1 pixel per work group). We will alter this value later. OpenGL will handle this local size in the background. The values must be an integral constant expression of a value greater than 0 and it must abide by limitations shown in the warning paragraph below.</p>
+<p><warning>There is a limitation of work groups that can be dispatched in a single compute shader dispatch call. This limit is defined by GL_MAX_COMPUTE_WORK_GROUP_COUNT, which must/can be queried using the function glGetIntegeri_v where the indices <em>0</em>, <em>1</em> and <em>2</em> corresponds to the <em>X</em>, <em>Y</em> and <em>Z</em> dimensions, respectively.<br>There is as well a limitation on the local size which can be queried with GL_MAX_COMPUTE_WORK_GROUP_SIZE and another limitation of the total number of invocations within a work group, which is that the product of the X, Y and Z components of the local size must be less than GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS.<br>As we define and divide the tasks and the compute shader groups sizes ourselves, we have to keep these limitations in mind.</warning></p>
+<p>We will bind the a 2d image in our shader as the object to write our data onto. The internal format (here rgba32f) needs to be the same as the format of the texture in the host program.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">rgba32f</span><span class="p">,</span> <span class="n">binding</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">uniform</span> <span class="n">image2D</span> <span class="n">imgOutput</span><span class="p">;</span></span></span></code></pre></div><p>We have to use image2d as this represents a single image from a texture. While sampler variables use the entire texture including mipmap levels and array layers, images only have a single image from a texture. <em>Note</em> while most texture sampling functions use normalized texture coordinates [0,1], for images we need the absolute integer texel coordinates. Images and samplers are completely separated including their bindings. While samplers can only read data from textures, image variables can read and/or write data.</p>
+<p>With this set up, we can now write our main function in the shader where we fill the imgOutput with color values. To determine on which pixel we are currently operating in our shader execution we can use the following GLSL Built-in variables shown in the table below:</p>
+<p><a href="#R-image-bed6fcdbe0ab149e3c590541e837fb7b" class="lightbox-link"><img src="./assets/20240215142429.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-bed6fcdbe0ab149e3c590541e837fb7b"><img src="./assets/20240215142429.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Using the built-in variables from the table above we will create a simple color gradient (st-map) on our image.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="n">vec4</span> <span class="n">value</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="n">ivec2</span> <span class="n">texelCoord</span> <span class="o">=</span> <span class="n">ivec2</span><span class="p">(</span><span class="n">gl_GlobalInvocationID</span><span class="p">.</span><span class="n">xy</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">	
+</span></span><span class="line"><span class="ln">5</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl">	
+</span></span><span class="line"><span class="ln">8</span><span class="cl">    <span class="n">imageStore</span><span class="p">(</span><span class="n">imgOutput</span><span class="p">,</span> <span class="n">texelCoord</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We will setup the execution of the compute shader that every invocation corresponds to one pixel, though the global x and y size will be equal to the image&rsquo;s x and y dimension. Therefore, the gl_GlobalInvocationID gives us the absolute coordinate of the current pixel.Remember that we only have one single invocation per work group as we set all local dimensions to 1. Using the gl_NumWorkGroups variable, we can calculate the relative coordinate of the image in the range [0, 1] per dimension.</p>
+<p>We can then write our calculated pixel data to the image using the imageStore function. The imageStore function takes the image unit to write to as first argument, the <strong>absolute</strong> texel coordinate as second argument and the data value to store at this texel as third.</p>
+<h6 id="create-the-image-objecte">Create the Image Objecte</h6>
+<p>In the host program, we can now create the actual image to write onto. We will create a 512x512 pixel texture.</p>
+<div class="wrap-code highlight"><pre tabindex="0"><code>// texture size
+const unsigned int TEXTURE_WIDTH = 512, TEXTURE_HEIGHT = 512;
+...
+unsigned int texture;
+
+glGenTextures(1, &amp;texture);
+glActiveTexture(GL_TEXTURE0);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGBA, 
+             GL_FLOAT, NULL);
+
+glBindImageTexture(0, texture, 0, GL_FALSE, 0, GL_READ, GL_RGBA32F);</code></pre></div><p>To find a deeper explanation of the functions used to setup a texture check out the <a href="https://learnopengl.com/Getting-started/Textures" target="_blank">Getting Started - Textures</a> chapter. Here the glBindImageTexture function is used to bind a specific level of a texture to an image unit. Since we use image2D we need to use this function instead of the glBindTexture function. <em>Note</em> that we use GL_RGBA32F as internal format corresponding to the layout format used in the compute shader.</p>
+<h6 id="executing-the-compute-shader">Executing the Compute Shader</h6>
+<p>With everything set up we can now finally execute our compute shader. In the drawing loop we can use/bind our compute shader and execute it using the glDispatchCompute function.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1">// render loop
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1">// -----------
+</span></span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">computeShader</span><span class="p">.</span><span class="n">use</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="n">glDispatchCompute</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">TEXTURE_WIDTH</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">TEXTURE_HEIGHT</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="c1">// make sure writing to image has finished before read
+</span></span></span><span class="line"><span class="ln">8</span><span class="cl"><span class="c1"></span><span class="n">glMemoryBarrier</span><span class="p">(</span><span class="n">GL_SHADER_IMAGE_ACCESS_BARRIER_BIT</span><span class="p">);</span></span></span></code></pre></div><p>We first bind our shader using the use() function of the ComputeShader. The glDispatchCompute function launches one or more compute work groups based on the given 3 dimensions as arguments. Here we launch the execution two-dimensional corresponding to the image size and leave the third component to 1. While the individual shader invocations within the work group are executed as a unit, work groups are executed completely independent and in unspecific order.</p>
+<p>Before accessing the image data after the compute shader execution we need to define a barrier to make sure the data writing is completly finished. The glMemoryBarrier defines such a barrier which orders memory transactions. The GLbitfield parameter barriers specifies the barriers to insert. They must be a bit wise combination of any GL barrier_bit constants (see: <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glMemoryBarrier.xhtml" target="_blank">glMemoryBarrier - Khronos</a>). In this case, we only need the GL_SHADER_IMAGE_ACCESS_BARRIER_BIT which assures access using the image functions will reflect data written by shaders prior to the barrier.</p>
+<p><note>It is also possible to use the GL_ALL_BARRIER_BITS variable to have a generic barrier for all types of writing.</note></p>
+<p><warning>The glMemoryBarrier function will stop the execution of the host program at this point though it makes sense to insert this function right before accessing the barrier&rsquo;s data.</warning></p>
+<h6 id="rendering-the-image">Rendering the image</h6>
+<p>Lastly, we will render a rectangle and apply the texture in the fragment shader.</p>
+<div class="wrap-code highlight"><pre tabindex="0"><code>// render image to quad
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+screenQuad.use();
+screenQuad.setInt(&#34;tex&#34;, 0);
+glActiveTexture(GL_TEXTURE0);
+glBindTexture(GL_TEXTURE_2D, texture);
+renderQuad();</code></pre></div><p>We will bind our texture now as sampler2D and use the texture coordinates of the rectangle to sample it.</p>
+<p>The vertex and fragment shader are very simple as seen below.</p>
+<p><strong>Vertex Shader</strong></p>
+<div class="wrap-code highlight"><pre tabindex="0"><code>#version 430 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoords;
+	
+out vec2 TexCoords;
+	
+void main()
+{
+    TexCoords = aTexCoords;
+    gl_Position = vec4(aPos, 1.0);
+}</code></pre></div><p><strong>Fragment Shader</strong></p>
+<div class="wrap-code highlight"><pre tabindex="0"><code>#version 430 core
+out vec4 FragColor;
+	
+in vec2 TexCoords;
+	
+uniform sampler2D tex;
+	
+void main()
+{             
+    vec3 texCol = texture(tex, TexCoords).rgb;      
+    FragColor = vec4(texCol, 1.0);
+}</code></pre></div><p><strong>Image Output</strong></p>
+<p><a href="#R-image-ff7823fc3882a5e42fa5f0a4bbc519b1" class="lightbox-link"><img src="./assets/outputColor.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ff7823fc3882a5e42fa5f0a4bbc519b1"><img src="./assets/outputColor.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<h5 id="adding-time-variable-and-speed-measuring">Adding Time Variable and Speed Measuring</h5>
+<p>We will now add time to the program for performance measuring to test which settings (work group amount/local size) work best for us.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// timing 
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kt">float</span> <span class="n">deltaTime</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span> <span class="c1">// time between current frame and last frame
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="c1"></span><span class="kt">float</span> <span class="n">lastFrame</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span> <span class="c1">// time of last frame
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">fCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// render loop
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// -----------
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span><span class="p">...</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1">// Set frame time
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span><span class="kt">float</span> <span class="n">currentFrame</span> <span class="o">=</span> <span class="n">glfwGetTime</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="n">deltaTime</span> <span class="o">=</span> <span class="n">currentFrame</span> <span class="o">-</span> <span class="n">lastFrame</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="n">lastFrame</span> <span class="o">=</span> <span class="n">currentFrame</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">fCounter</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;FPS: &#34;</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">deltaTime</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">        <span class="n">fCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">fCounter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="p">}</span>		
+</span></span></code></pre></div><p>The code above prints the frames per second limited to one print every 500 frames as too frequent printing slows the program down. When running our program with this &ldquo;stopwatch&rdquo; we will see that it will never get over 60 frames per second as glfw locks the refresh rate by default to 60fps.</p>
+<p>To bypass this lock we can set the swap interval for the current OpenGL Context to 0 to get a bigger refresh rate than 60 fps. We can use the function glfwSwapInterval function for this when initializing the glfw context:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glfwMakeContextCurrent</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">glfwSetFramebufferSizeCallback</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">framebuffer_size_callback</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">glfwSwapInterval</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span></span></span></code></pre></div><p>Now we can get much more frames per seconds rendered/calculated. To be fair this example/hello world program is very easy and actually doesnt have any complex calculations so the calcuation times are very low.</p>
+<p>We can now make our texture animated (moving from left to write) using the time variable. First, we change our computeShader to be animated:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 430 core
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">local_size_x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_size_y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_size_z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">	
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1">// images 
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span><span class="n">layout</span><span class="p">(</span><span class="n">rgba32f</span><span class="p">,</span> <span class="n">binding</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">uniform</span> <span class="n">image2D</span> <span class="n">imgOutput</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1">// variables
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">t</span><span class="p">;</span>                 <span class="cm">/** Time */</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">	
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">vec4</span> <span class="n">value</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="n">ivec2</span> <span class="n">texelCoord</span> <span class="o">=</span> <span class="n">ivec2</span><span class="p">(</span><span class="n">gl_GlobalInvocationID</span><span class="p">.</span><span class="n">xy</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">    <span class="kt">float</span> <span class="n">speed</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">    <span class="c1">// the width of the texture
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="c1"></span>    <span class="kt">float</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">speed</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="n">imageStore</span><span class="p">(</span><span class="n">imgOutput</span><span class="p">,</span> <span class="n">texelCoord</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>We create a uniform variable t, which will hold the current time. To animate a repeating rolling of the texture from left to right we can use the module operation %. We animate the texture using the time variable t multiplied by the a speed value as offset for the x coordinate. Having the offseted x coordinate we can use the width of the texture (which in this case is hard-codeded) as divisor to get the rest which will be the new coordinate. We divide this value by the by the Workgroup size in x to get the ratio value between 0 and 1 we do the same for the y value, where we just simply divide the texel coordinate by the number of workgroups in the y dimension.</p>
+<p>In the host program, we can assign the variable value the same way as we assign them for any other shader using glUniform functions, which is wrapped in the setFloat function of the ComputeShader class. We use setFloat to set the value of the variable t.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">computeShader</span><span class="p">.</span><span class="n">use</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">computeShader</span><span class="p">.</span><span class="n">setFloat</span><span class="p">(</span><span class="s">&#34;t&#34;</span><span class="p">,</span> <span class="n">currentFrame</span><span class="p">);</span></span></span></code></pre></div><p>Hence currentFrame is an altering value, we have to do the assignment in the render loop for every iteration.</p>
+<p><note>The layout (location = 0) definition in front of the float variable is in general not necessary as the shader implementation queries the location of every variable on each uniform assignment. This might slow down the program execution speed if executed for multiple variables every render loop.<br>glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+If you know that the location won&rsquo;t change and you want to increase the performance of the program as much as possible you can either query the location just once before the render loop and save it in the host program or hardcode it in the host program.</note></p>
+<h5 id="altering-local-size">Altering local size</h5>
+<p>Lastly, we can make use of the local size. As it can be seen in the image below the total amount of n dimensional executions is the product of the amount of work groups times local invocations. (compare the calculation in the compute space section above). Currently one pixel corresponds to one work group as we set the local size to 1 in all dimensions (dark gray boxes).</p>
+<p>In this last section, we are going to add some local invocations (small light grey boxes) per work group. In other words, we will split the image in batches of a specific size and run over each of these batches per work group. So we have to alter our shader a little bit to calculate and write to the right texel. You could imagine the final image as an overlay over the work group sheet below where each invocation will then be one pixel of the image:</p>
+<p><a href="#R-image-eb63263d1f4f72c87457818dfa059c00" class="lightbox-link"><img src="./assets/computeShaderLogicalStructure.png" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-eb63263d1f4f72c87457818dfa059c00"><img src="./assets/computeShaderLogicalStructure.png" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>For simplicity, we increase the resolution of our texture to get a number that can be divided by 10 without a rest. Here we will have 1,000,000 pixels though need 1 million shader invocations.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="c1">// texture size
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">TEXTURE_WIDTH</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">TEXTURE_HEIGHT</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span></span></span></code></pre></div><p>We can now lower the amount of work groups dispatches by the ratio of 10 for each dimension. This means we will execute 10,000 work groups.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glDispatchCompute</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">TEXTURE_WIDTH</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)</span><span class="n">TEXTURE_HEIGHT</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span></span></span></code></pre></div><p>If we run the program without altering the shader we will see that only 1/100 of the image will be calculated.</p>
+<p><a href="#R-image-354d8e77992555ca15318bf164cbb1bf" class="lightbox-link"><img src="./assets/outputColorAlteringDispatch.jpg" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-354d8e77992555ca15318bf164cbb1bf"><img src="./assets/outputColorAlteringDispatch.jpg" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>To calculate the whole image again we have to adjust the local_size of the compute shader accordingly. Here we distribute the invocations as well only in 2 dimensions (X and Y).</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#version 430 core
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="n">layout</span> <span class="p">(</span><span class="n">local_size_x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">local_size_y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">local_size_z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="n">in</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">layout</span><span class="p">(</span><span class="n">rgba32f</span><span class="p">,</span> <span class="n">binding</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">uniform</span> <span class="n">image2D</span> <span class="n">imgOutput</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="n">layout</span> <span class="p">(</span><span class="n">location</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">uniform</span> <span class="kt">float</span> <span class="n">t</span><span class="p">;</span>                 <span class="cm">/** Time */</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">vec4</span> <span class="n">value</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">ivec2</span> <span class="n">texelCoord</span> <span class="o">=</span> <span class="n">ivec2</span><span class="p">(</span><span class="n">gl_GlobalInvocationID</span><span class="p">.</span><span class="n">xy</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="kt">float</span> <span class="n">speed</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="c1">// the width of the texture
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span>    <span class="kt">float</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">speed</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gl_WorkGroupSize</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">value</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">texelCoord</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">gl_NumWorkGroups</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">gl_WorkGroupSize</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="n">imageStore</span><span class="p">(</span><span class="n">imgOutput</span><span class="p">,</span> <span class="n">texelCoord</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>As seen above we have to adjust the ratio for the relative texel coordinate calculation. The gl_NumWorkGroups variable gives us the amount of the local size per work group. This makes it obvious that the amount of dimensions is the product of the amount of work groups times the amount of local invocations as stated in the introduction.</p>
+<p><a href="#R-image-186e3eab96df88753e64714ee8cbc4cc" class="lightbox-link"><img src="./assets/finalOutput.gif" alt="" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-186e3eab96df88753e64714ee8cbc4cc"><img src="./assets/finalOutput.gif" alt="" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>You can find the full source code for this demo <a href="https://learnopengl.com/code_viewer_gh.php?code=src/8.guest/2022/5.computeshader_helloworld/compute_shader_hello_world.cpp" target="_blank">here</a>.</p>
+<h5 id="final-words">Final Words</h5>
+<p>The above introduction is meant as a very simple overview of the compute shader and how to make it work. As it is not part of the render pipeline, it can get even more complicated to debug non-working shaders/programs. This implementation only shows one of the ways to manipulate data with the compute shader using image access. Using Uniform Buffers or Shader Storage Buffers is a more common way to manipulate geometry itself like particle or cloth simulations.</p>
+<p>In upcoming following articles we will go into creating a particle simulation and deal with buffer objects to work on input data and output data after manipulation. As well as having a look on Shared Memory and atomic operations. The upcoming articles will build on these basics and go more into details of the compute shader and more complex calculations like simulations or image manipulations.</p>
+<h5 id="exercises">Exercises</h5>
+<p>Check <a href="https://thebookofshaders.com/" target="_blank">The book of shaders</a> and try to apply some of the generative designs in the compute shader to get more complex calculations. Compare different ratios between work groups and local sizes and see how the FPS differ.</p>
+<p>Try to add noise/pattern parameters as uniform variables for the implementation in the first excersise.</p>
+<p>In a later article we will go over blurring with compute shaders and compare it with the fragment shader implementations. Feel free to go ahead and try it on your own. Check the GLSL function imageLoad(image, texelCoordinate)</p>
+<h5 id="references">References</h5>
+<ul>
+<li><a href="https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-37-toolkit-computation-gpus" target="_blank">GPU Gems - A Toolkit for Computation on GPUs</a></li>
+<li><a href="https://antongerdelan.net/opengl/compute.html" target="_blank">Simple Raytracer with Compute Shaders</a></li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          
+<span style="font-size:26px">晟世清风</span>
+        </div>
+        <form action="../../../../../search.html" method="get"><div class="searchbox default-animation">
+          <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+          <label class="a11y-only" for="R-search-by">Search</label>
+          <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div></form>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="../../../../../js/auto-complete.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.stemmer.support.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.multi.min.js?1708235000" defer></script>
+        <script src="../../../../../js/lunr/lunr.en.min.js?1708235000" defer></script>
+        <script src="../../../../../js/search.js?1708235000" defer></script>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <ul>
+          <li><a class="padding" href="../../../../../index.html"><i class='fas fa-home'></i> Home</a></li>
+        </ul>
+        <hr class="padding">
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div id="R-topics">
+          <ul class="enlarge morespace collapsible-menu">
+          <li data-nav-id="/programming/index.html" class=""><input type="checkbox" id="R-section-d205f2b94e06f539e77f2bc392064cb6" aria-controls="R-subsections-d205f2b94e06f539e77f2bc392064cb6"><label for="R-section-d205f2b94e06f539e77f2bc392064cb6"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 程序设计与开发</span></label><a class="padding" href="../../../../../programming/index.html">程序设计与开发</a><ul id="R-subsections-d205f2b94e06f539e77f2bc392064cb6" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/index.html" class="alwaysopen"><input type="checkbox" id="R-section-1a585580994f9dab2d4547c8eaf11987" aria-controls="R-subsections-1a585580994f9dab2d4547c8eaf11987" checked><label for="R-section-1a585580994f9dab2d4547c8eaf11987"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Java 语言</span></label><a class="padding" href="../../../../../programming/java/index.html">Java 语言</a><ul id="R-subsections-1a585580994f9dab2d4547c8eaf11987" class="morespace collapsible-menu">
+          <li data-nav-id="/programming/java/java_basics/index.html" class=""><a class="padding" href="../../../../../programming/java/java_basics/index.html">Java 基础知识</a></li>
+          <li data-nav-id="/programming/java/java_collection_framework/index.html" class=""><a class="padding" href="../../../../../programming/java/java_collection_framework/index.html">Java 集合框架</a></li>
+          <li data-nav-id="/programming/java/java_concurrency/index.html" class=""><a class="padding" href="../../../../../programming/java/java_concurrency/index.html">Java 并发编程</a></li>
+          <li data-nav-id="/programming/java/java_memory_model/index.html" class=""><a class="padding" href="../../../../../programming/java/java_memory_model/index.html">Java 内存模型</a></li>
+          <li data-nav-id="/programming/java/java_annotation/index.html" class=""><a class="padding" href="../../../../../programming/java/java_annotation/index.html">Java 注解相关</a></li></ul></li></ul></li>
+          <li data-nav-id="/test/index.html" class=""><input type="checkbox" id="R-section-40aaf63da4d8c6f43df4cc726b56321f" aria-controls="R-subsections-40aaf63da4d8c6f43df4cc726b56321f"><label for="R-section-40aaf63da4d8c6f43df4cc726b56321f"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Test</span></label><a class="padding" href="../../../../../test/index.html">Test</a><ul id="R-subsections-40aaf63da4d8c6f43df4cc726b56321f" class="morespace collapsible-menu">
+          <li data-nav-id="/test/demo/index.html" class=""><a class="padding" href="../../../../../test/demo/index.html">Test</a></li></ul></li>
+          <li data-nav-id="/algorithms_and_data_structures/index.html" class=""><a class="padding" href="../../../../../algorithms_and_data_structures/index.html">数据结构与算法</a></li>
+          <li data-nav-id="/computer_graphics/index.html" class="parent "><input type="checkbox" id="R-section-17dabdd0438dc68716ce11b90ee5aa30" aria-controls="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" checked><label for="R-section-17dabdd0438dc68716ce11b90ee5aa30"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机图形学</span></label><a class="padding" href="../../../../../computer_graphics/index.html">计算机图形学</a><ul id="R-subsections-17dabdd0438dc68716ce11b90ee5aa30" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-0e0951862a264269c87df7fac4f297fb" aria-controls="R-subsections-0e0951862a264269c87df7fac4f297fb" checked><label for="R-section-0e0951862a264269c87df7fac4f297fb"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 经典教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/index.html">经典教程</a><ul id="R-subsections-0e0951862a264269c87df7fac4f297fb" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/basics_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/basics_tutorial/index.html">基础教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/shader_tutorial/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/shader_tutorial/index.html">着色教程</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/index.html" class=""><input type="checkbox" id="R-section-06ac295778bd74c824886a3ab22c212c" aria-controls="R-subsections-06ac295778bd74c824886a3ab22c212c"><label for="R-section-06ac295778bd74c824886a3ab22c212c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 光线追踪</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/index.html">光线追踪</a><ul id="R-subsections-06ac295778bd74c824886a3ab22c212c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_in_one_weekend/index.html">Ray Tracing in One Weekend</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_next_week/index.html">Ray Tracing The Next Week</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/ray_tracing_the_rest_of_your_life/index.html">Ray Tracing The Rest of Your Life</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html" class=""><input type="checkbox" id="R-section-c33da7e0886830ccf91b260ac3fff456" aria-controls="R-subsections-c33da7e0886830ccf91b260ac3fff456"><label for="R-section-c33da7e0886830ccf91b260ac3fff456"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Scratchapixe 系列短文</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/index.html">Scratchapixe 系列短文</a><ul id="R-subsections-c33da7e0886830ccf91b260ac3fff456" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-1/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-2/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-4/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-5/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-6/index.html">Chapter - 6</a></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/index.html" class="parent "><input type="checkbox" id="R-section-23d956a7f1e516a9e3d46517dfb799dd" aria-controls="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" checked><label for="R-section-23d956a7f1e516a9e3d46517dfb799dd"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OpenGL教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html">OpenGL教程</a><ul id="R-subsections-23d956a7f1e516a9e3d46517dfb799dd" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html" class="parent "><input type="checkbox" id="R-section-57f86dac108257fe13450c17c0c3086c" aria-controls="R-subsections-57f86dac108257fe13450c17c0c3086c" checked><label for="R-section-57f86dac108257fe13450c17c0c3086c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu Learn OpenGL</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/index.html">Learn OpenGL</a><ul id="R-subsections-57f86dac108257fe13450c17c0c3086c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/2022/index.html" class="active"><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/learn_opengl/2022/index.html"></a></li></ul></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html" class=""><input type="checkbox" id="R-section-ae6b71edd18a266dbd92162060f7614e" aria-controls="R-subsections-ae6b71edd18a266dbd92162060f7614e"><label for="R-section-ae6b71edd18a266dbd92162060f7614e"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu OGL dev 教程</span></label><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html">OGL dev 教程</a><ul id="R-subsections-ae6b71edd18a266dbd92162060f7614e" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_1_open_a_window/index.html">Chapter - 1</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_2_hello_dot/index.html">Chapter - 2</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_3_first_triangle/index.html">Chapter - 3</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_4_shaders/index.html">Chapter - 4</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_5_uniform_variables/index.html">Chapter - 5</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_6_translation_transformation/index.html">Chapter - 6</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_7_rotation_transformation/index.html">Chapter - 7</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_8_scaling_transformation/index.html">Chapter - 8</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_9_interpolation/index.html">Chapter - 9</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_10_indexed_draws/index.html">Chapter - 10</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">Chapter - 11</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_12_perspective_projection/index.html">Chapter - 12</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_13_camera_space/index.html">Chapter - 13</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">Chapter - 14</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_15_camera_control_-_part_2/index.html">Chapter - 15</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_16_basic_texture_mapping/index.html">Chapter - 16</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_17_ambient_lighting/index.html">Chapter - 17</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_18_diffuse_lighting/index.html">Chapter - 18</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_19_specular_lighting/index.html">Chapter - 19</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_20_point_light/index.html">Chapter - 20</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_21_spot_light/index.html">Chapter - 21</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_22_loading_models_using_the_open_asset_import_library/index.html">Chapter - 22</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_23_shadow_mapping_-_part_1/index.html">Chapter - 23</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_24_shadow_mapping_-_part_2/index.html">Chapter - 24</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_25_skybox/index.html">Chapter - 25</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_26_normal_mapping/index.html">Chapter - 26</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_27_billboarding_and_the_geometry_shader/index.html">Chapter - 27</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_28_particle_system_using_transform_feedback/index.html">Chapter - 28</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_29_3d_picking/index.html">Chapter - 29</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_30_basic_tessellation/index.html">Chapter - 30</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_31_pn_triangles_tessellation/index.html">Chapter - 31</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_32_vertex_array_objects/index.html">Chapter - 32</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_33_instanced_rendering/index.html">Chapter - 33</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">Chapter - 34</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_35_deferred_shading_-_part_1/index.html">Chapter - 35</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_36_deferred_shading_-_part_2/index.html">Chapter - 36</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_37_deferred_shading_-_part_3/index.html">Chapter - 37</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_38_skeletal_animation_with_assimp/index.html">Chapter - 38</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_39_silhouette_detection/index.html">Chapter - 39</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_40_stencil_shadow_volume/index.html">Chapter - 40</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_41_object_motion_blur/index.html">Chapter - 41</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_42_percentage_closer_filtering/index.html">Chapter - 42</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_43_multipass_shadow_mapping_with_point_lights/index.html">Chapter - 43</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_44_glfw/index.html">Chapter - 44</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_45_screen_space_ambient_occlusion/index.html">Chapter - 45</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_46_ssao_with_depth_reconstruction/index.html">Chapter - 46</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_47_shadow_mapping_with_directional_lights/index.html">Chapter - 47</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_48_user_interface_with_ant_tweak_bar/index.html">Chapter - 48</a></li>
+          <li data-nav-id="/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html" class=""><a class="padding" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_49_cascaded_shadow_mapping/index.html">Chapter - 49</a></li></ul></li></ul></li></ul></li>
+          <li data-nav-id="/computer_graphics/book_recommend/index.html" class=""><a class="padding" href="../../../../../computer_graphics/book_recommend/index.html">书籍推荐</a></li>
+          <li data-nav-id="/computer_graphics/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_graphics/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_graphics/reference/index.html" class=""><a class="padding" href="../../../../../computer_graphics/reference/index.html">参考资料</a></li></ul></li>
+          <li data-nav-id="/computer_science/index.html" class=""><input type="checkbox" id="R-section-7d71eaebfb32275fa70e6b3397a5fe7c" aria-controls="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c"><label for="R-section-7d71eaebfb32275fa70e6b3397a5fe7c"><i class="fas fa-chevron-down"></i><i class="fas fa-chevron-right"></i><span class="a11y-only">Submenu 计算机科学</span></label><a class="padding" href="../../../../../computer_science/index.html">计算机科学</a><ul id="R-subsections-7d71eaebfb32275fa70e6b3397a5fe7c" class="morespace collapsible-menu">
+          <li data-nav-id="/computer_science/blog_article/index.html" class=""><a class="padding" href="../../../../../computer_science/blog_article/index.html">博客文章</a></li>
+          <li data-nav-id="/computer_science/operating_system/index.html" class=""><a class="padding" href="../../../../../computer_science/operating_system/index.html">操作系统</a></li></ul></li>
+          <li data-nav-id="/computer_networks/index.html" class=""><a class="padding" href="../../../../../computer_networks/index.html">计算机网络</a></li>
+          <li data-nav-id="/game_programming/index.html" class=""><a class="padding" href="../../../../../game_programming/index.html">游戏编程</a></li>
+          <li data-nav-id="/database/index.html" class=""><a class="padding" href="../../../../../database/index.html">数据库</a></li>
+          </ul>
+        </div>
+        <div id="R-shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://github.com/McShelby/hugo-theme-relearn"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="../../../../../tags/index.html"><i class='fas fa-fw fa-tags'></i> Tags</a></li>
+            <li><a class="padding" href="../../../../../categories/index.html"><i class='fas fa-fw fa-layer-group'></i> Categories</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter"></div>
+        <div id="R-menu-footer">
+          <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVariantSwitch showFooter">
+          <div id="R-prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVariantSwitch">
+            <ul>
+              <li id="R-select-language-container" class="footerLangSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-language fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-language">Language</label>
+                    <select id="R-select-language" onchange="location = baseUri + this.value;">
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+              <li id="R-select-variant-container" class="footerVariantSwitch showVariantSwitch">
+                <div class="padding menu-control">
+                  <i class="fas fa-paint-brush fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <label class="a11y-only" for="R-select-variant">Theme</label>
+                    <select id="R-select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                      <option id="R-auto" value="auto" selected>Auto</option>
+                      <option id="R-relearn-light" value="relearn-light">Relearn Light</option>
+                      <option id="R-relearn-dark" value="relearn-dark">Relearn Dark</option>
+                      <option id="R-zen-light" value="zen-light">Zen Light</option>
+                      <option id="R-zen-dark" value="zen-dark">Zen Dark</option>
+                      <option id="R-neon" value="neon">Neon</option>
+                      <option id="R-learn" value="learn">Learn</option>
+                      <option id="R-blue" value="blue">Blue</option>
+                      <option id="R-green" value="green">Green</option>
+                      <option id="R-red" value="red">Red</option>
+                    </select>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+                <script>window.variants && variants.markSelectedVariant();</script>
+              </li>
+              <li class="footerVisitedLinks">
+                <div class="padding menu-control">
+                  <i class="fas fa-history fa-fw"></i>
+                  <span>&nbsp;</span>
+                  <div class="control-style">
+                    <button onclick="clearHistory();">Clear History</button>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="R-footer" class="footerFooter showFooter">
+          <span class="github-buttons"></span>
+          <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+          <script>
+            function githubButtonsScheme(){
+              var scheme = 'light';
+              var colorPropertyValue = window.getComputedStyle( document.querySelector( '#R-sidebar' ) ).getPropertyValue( 'background-color' );
+              var colorValues = colorPropertyValue.match( /\d+/g ).map( function( e ){ return parseInt(e,10); });
+              if( colorValues.length === 3 && ((0.2126 * colorValues[0]) + (0.7152 * colorValues[1]) + (0.0722 * colorValues[2]) < 165) ){
+                
+                scheme = 'dark';
+              }
+              return scheme;
+            }
+            function githubButtonsInit(){
+              if( !window.githubButtons ){
+                
+                setTimeout( githubButtonsInit, 50 );
+                return;
+              }
+              var scheme = githubButtonsScheme();
+              var githubButtonsHTML = `
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/archive/main.zip" data-color-scheme="${scheme}" data-icon="octicon-cloud-download" aria-label="Download McShelby/hugo-theme-relearn on GitHub">Download</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn" data-color-scheme="${scheme}" data-icon="octicon-star" data-show-count="true" aria-label="Star McShelby/hugo-theme-relearn on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/McShelby/hugo-theme-relearn/fork" data-color-scheme="${scheme}" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork McShelby/hugo-theme-relearn on GitHub">Fork</a>
+               `;
+              document.querySelector( '.github-buttons' ).innerHTML = githubButtonsHTML;
+              document.querySelectorAll( '.github-button' ).forEach( function( anchor ){
+                anchor.dataset.colorScheme = scheme;
+                window.githubButtons.render( anchor, function( el ){
+                  anchor.parentNode.replaceChild( el, anchor );
+                });
+              });
+            }
+            document.addEventListener( 'themeVariantLoaded', function( e ){
+              
+              setTimeout( githubButtonsInit, 400 );
+            });
+          </script>
+          <script async src="../../../../../js/github-buttons.js?1708235000"></script>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <script src="../../../../../js/clipboard.min.js?1708235000" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235000" defer></script>
+    <script src="../../../../../js/theme.js?1708235000" defer></script>
+  </body>
+</html>

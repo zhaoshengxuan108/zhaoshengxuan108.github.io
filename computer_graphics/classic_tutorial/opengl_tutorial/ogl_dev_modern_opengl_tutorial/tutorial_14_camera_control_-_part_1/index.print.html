@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 14:Camera Control - Part 1 :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In the previous tutorial we learned how to position the camera anywhere in the 3D world. The next logical step is to allow the user to control it. Movement will be unrestricted - the user will be able to move in all directions. Controlling the camera will be done using two input devices - the keyboard will control our position and the mouse will change our view target. This is very similar to what most first person shooters are doing.">
+    <meta property="og:title" content="Tutorial 14:Camera Control - Part 1 :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In the previous tutorial we learned how to position the camera anywhere in the 3D world. The next logical step is to allow the user to control it. Movement will be unrestricted - the user will be able to move in all directions. Controlling the camera will be done using two input devices - the keyboard will control our position and the mouse will change our view target. This is very similar to what most first person shooters are doing.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 14:Camera Control - Part 1 :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html" rel="canonical" type="text/html" title="Tutorial 14:Camera Control - Part 1 :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 14:Camera Control - Part 1 :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_14_camera_control_-_part_1/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 14:Camera Control - Part 1</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-14camera-control---part-1">Tutorial 14:Camera Control - Part 1</h1>
+
+<h2 id="background">Background</h2>
+<p>In the previous tutorial we learned how to position the camera anywhere in the 3D world. The next logical step is to allow the user to control it. Movement will be unrestricted - the user will be able to move in all directions. Controlling the camera will be done using two input devices - the keyboard will control our position and the mouse will change our view target. This is very similar to what most first person shooters are doing. This tutorial will focus on the keyboard and the next one on the mouse.</p>
+<p>We are going to support the four directional keys in the conventional manner. Remember that our camera transformation is defined by position, target vector and up vector. When we move using the keyboard we only change our position. We cannot tilt the camera or turn it so the target and up vectors are uneffected.</p>
+<p>To control the keyboard we will use another GLUT API: glutSpecialFunc(). This function registers a callback that is triggered when a &ldquo;special&rdquo; key is clicked. The group of special keys include the function, directional and PAGE-UP/PAGE-DOWN/HOME/END/INSERT keys. If you want to trap a regular key (characters and digits) use glutKeyboardFunc().</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<p>The camera functionality is encapsulated in the Camera class. This class stores the attributes of the camera and can change them based on movement events that it receives. The attributes are fetched by the pipeline class that generates the transformation matrix from them.</p>
+<p>(Camera.h)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">Camera</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="k">public</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">Camera</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="n">Camera</span><span class="p">(</span><span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Pos</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Target</span><span class="p">,</span> <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">Up</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  <span class="kt">bool</span> <span class="nf">OnKeyboard</span><span class="p">(</span><span class="kt">int</span> <span class="n">Key</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">GetPos</span><span class="p">()</span> <span class="k">const</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">GetTarget</span><span class="p">()</span> <span class="k">const</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="k">const</span> <span class="n">Vector3f</span><span class="o">&amp;</span> <span class="n">GetUp</span><span class="p">()</span> <span class="k">const</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="k">private</span><span class="o">:</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">m_pos</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">m_target</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="n">Vector3f</span> <span class="n">m_up</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>This is the declaration of the Camera class. It stores the three attributes that define the camera - position, target vector and up vector. Two constructors are available. The default one simply places the camera at the origin looking down the positive Z axe with an up vector that points to the &ldquo;sky&rdquo; (0,1,0). There is also an option to create a camera with specific attribute values. The OnKeyboard() function supplies keyboard events to the Camera class. It returns a boolean value which indicates whether the event was consumed by the class. If the key is relevant (one of the directional keys) the return value is true. If not - false. This way you can build a chain of clients that receive a keyboard event and stop after reaching the first client that actually does something with the specific event.</p>
+<p>(Camera.cpp:42)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">bool</span> <span class="n">Camera</span><span class="o">::</span><span class="n">OnKeyboard</span><span class="p">(</span><span class="kt">int</span> <span class="n">Key</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="kt">bool</span> <span class="n">Ret</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="k">switch</span> <span class="p">(</span><span class="n">Key</span><span class="p">)</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="k">case</span> <span class="nl">GLUT_KEY_UP</span><span class="p">:</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">    <span class="n">m_pos</span> <span class="o">+=</span> <span class="p">(</span><span class="n">m_target</span> <span class="o">*</span> <span class="n">StepSize</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="n">Ret</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="k">break</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">13</span><span class="cl">  
+</span></span><span class="line"><span class="ln">14</span><span class="cl">  <span class="k">case</span> <span class="nl">GLUT_KEY_DOWN</span><span class="p">:</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">16</span><span class="cl">    <span class="n">m_pos</span> <span class="o">-=</span> <span class="p">(</span><span class="n">m_target</span> <span class="o">*</span> <span class="n">StepSize</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">17</span><span class="cl">    <span class="n">Ret</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">19</span><span class="cl">  <span class="k">break</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    
+</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="k">case</span> <span class="nl">GLUT_KEY_LEFT</span><span class="p">:</span>  
+</span></span><span class="line"><span class="ln">22</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="n">Vector3f</span> <span class="n">Left</span> <span class="o">=</span> <span class="n">m_target</span><span class="p">.</span><span class="n">Cross</span><span class="p">(</span><span class="n">m_up</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">24</span><span class="cl">    <span class="n">Left</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln">25</span><span class="cl">    <span class="n">Left</span> <span class="o">*=</span> <span class="n">StepSize</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="n">m_pos</span> <span class="o">+=</span> <span class="n">Left</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">27</span><span class="cl">    <span class="n">Ret</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="k">break</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">30</span><span class="cl">    
+</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="k">case</span> <span class="nl">GLUT_KEY_RIGHT</span><span class="p">:</span>  
+</span></span><span class="line"><span class="ln">32</span><span class="cl">  <span class="p">{</span>    
+</span></span><span class="line"><span class="ln">33</span><span class="cl">    <span class="n">Vector3f</span> <span class="n">Right</span> <span class="o">=</span> <span class="n">m_up</span><span class="p">.</span><span class="n">Cross</span><span class="p">(</span><span class="n">m_target</span><span class="p">);</span>    
+</span></span><span class="line"><span class="ln">34</span><span class="cl">    <span class="n">Right</span><span class="p">.</span><span class="n">Normalize</span><span class="p">();</span>    
+</span></span><span class="line"><span class="ln">35</span><span class="cl">    <span class="n">Right</span> <span class="o">*=</span> <span class="n">StepSize</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">36</span><span class="cl">    <span class="n">m_pos</span> <span class="o">+=</span> <span class="n">Right</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">37</span><span class="cl">    <span class="n">Ret</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">38</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">39</span><span class="cl">  <span class="k">break</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">40</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">41</span><span class="cl">  
+</span></span><span class="line"><span class="ln">42</span><span class="cl">  <span class="k">return</span> <span class="n">Ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">43</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function move the camera according to keyboard events. GLUT defines macros that correspond to the directional keys and this is what the switch statement is based on. Unfortunately, the type of these macros is a simple &lsquo;int&rsquo; rather than an enum.</p>
+<p>Forward and backward movements are the simplest. Since movement is always along the target vector we only need to add or substract the target vector from the position. The target vector itself remains unchanged. Note that before adding or substracting the target vector we scale it by a constant value called &lsquo;StepSize&rsquo;. We do it for all directional keys. StepSize provides a central point to change the speed (in the future we may change this into a class attribute). To make StepSize consistent we make sure that we always multiply it by unit length vectors (i.e. we must make sure the target and up vectors are unit length).</p>
+<p>Sideways movement is a bit more complex. It is defined as a movement along a vector which is perpendicular to the plane created by the target and up vectors. This plane divides the three-dimensional space into two parts and there are two vectors that are perpendicular to it and are opposite to one another. We can call one of them &ldquo;left&rdquo; and the other &ldquo;right&rdquo;. They are generated using a cross product of the target and up vectors in the two possible combinations: target cross up and up cross target (cross product is a non commutative operation - changing the order of parameters can generate different result). After getting the left/right vector we normalize it, scale it by the StepSize and add it to the position (which moves it in the left/right direction). Again, the target and up vectors are uneffected.</p>
+<p>Note that the operations in this function make use of a few new operators such as &lsquo;+=&rsquo; and &lsquo;-=&rsquo; that have been added to the Vector3f class.</p>
+<p>(tutorial14.cpp:73)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">SpecialKeyboardCB</span><span class="p">(</span><span class="kt">int</span> <span class="n">Key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">GameCamera</span><span class="p">.</span><span class="n">OnKeyboard</span><span class="p">(</span><span class="n">Key</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">InitializeGlutCallbacks</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">RenderSceneCB</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">glutIdleFunc</span><span class="p">(</span><span class="n">RenderSceneCB</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">glutSpecialFunc</span><span class="p">(</span><span class="n">SpecialKeyboardCB</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Here we register a new callback to handle the special keyboard events. The callback receives the key and the location of the mouse at the time of the key press. We ignore the mouse position and pass the event on to an instance of the camera class which was already allocated on the global section of the file.</p>
+<p>(tutorial14.cpp:55)</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">p</span><span class="p">.</span><span class="n">SetCamera</span><span class="p">(</span><span class="n">GameCamera</span><span class="p">.</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">GameCamera</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">(),</span> <span class="n">GameCamera</span><span class="p">.</span><span class="n">GetUp</span><span class="p">());</span></span></span></code></pre></div><p>Previously we initialized the camera parameters in the Pipeline class using a hard coded vectors. Now these vectors are dropped and the camera attributes are fetched directly from the Camera class.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=ns9eVfHCYdg&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=12" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

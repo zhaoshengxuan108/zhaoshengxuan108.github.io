@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rendering an Image of a 3D Scene: an Overview on Hugo Relearn Theme</title>
+    <link>https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.html</link>
+    <description>Recent content in Rendering an Image of a 3D Scene: an Overview on Hugo Relearn Theme</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <atom:link href="https://example.com/computer_graphics/classic_tutorial/raytracing_tutorial/scratchapixel/scratchapixel-chapter-3/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

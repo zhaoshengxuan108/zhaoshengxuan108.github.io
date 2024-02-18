@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 34:GLFX - An OpenGL Effect Library :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Update (Feb-16, 2022) This tutorial is deprecated. It was an experiment on using effect files (see below) but Max Aizenshtein who developed the GLFX library left the place where he and I worked together and I was not able to continue maintaining it because I&rsquo;m not familiar with LEX and YACC. If you&rsquo;re interested feel free to look around and if you want to pick up GLFX development let me know (though I&rsquo;ll probably continue using plain GLSL in my tutorials to be in line with what most people expect).">
+    <meta property="og:title" content="Tutorial 34:GLFX - An OpenGL Effect Library :: Hugo Relearn Theme">
+    <meta property="og:description" content="Update (Feb-16, 2022) This tutorial is deprecated. It was an experiment on using effect files (see below) but Max Aizenshtein who developed the GLFX library left the place where he and I worked together and I was not able to continue maintaining it because I&rsquo;m not familiar with LEX and YACC. If you&rsquo;re interested feel free to look around and if you want to pick up GLFX development let me know (though I&rsquo;ll probably continue using plain GLSL in my tutorials to be in line with what most people expect).">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 34:GLFX - An OpenGL Effect Library :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html" rel="canonical" type="text/html" title="Tutorial 34:GLFX - An OpenGL Effect Library :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 34:GLFX - An OpenGL Effect Library :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_34_glfx_-_an_opengl_effect_library/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 34:GLFX - An OpenGL Effect Library</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-34glfx---an-opengl-effect-library">Tutorial 34:GLFX - An OpenGL Effect Library</h1>
+
+<h3 id="update-feb-16-2022">Update (Feb-16, 2022)</h3>
+<p>This tutorial is deprecated. It was an experiment on using effect files (see below) but Max Aizenshtein who developed the GLFX library left the place where he and I worked together and I was not able to continue maintaining it because I&rsquo;m not familiar with LEX and YACC. If you&rsquo;re interested feel free to look around and if you want to pick up GLFX development let me know (though I&rsquo;ll probably continue using plain GLSL in my tutorials to be in line with what most people expect).</p>
+<h3 id="background">Background</h3>
+<p>This tutorial is going to be a bit different than the previous ones. Instead of exploring an OpenGL feature or 3D technique we are going to take a look at GLFX, an effect library for OpenGL. An <em>effect</em> is a text file that can potentially contain multiple shaders and functions and makes it easy to combine them together into programs. This overcomes the limitation of the glShaderSource() function that requires you to specify the text of a single shader stage. This forces you to use a different text file for each shader (or different buffer as we did in previous tutorials). Placing all shaders in the same file makes it simpler to share structure definitions between them. In addition, GLFX provides an easy to use API to translate effect files into GLSL programs which hides some of the complexity of the underlying OpenGL functions.</p>
+<p>The idea of effect files is not new. Indeed, Microsoft has had this for years in the DirectX world. I&rsquo;m sure that gaming studios have their own tools developed inhouse but it&rsquo;s a shame that this has not yet been standardized in OpenGL. The effect library that we will use is an open source project that was created by Max Aizenshtein. You can find the project homepage <a href="http://code.google.com/p/glfx/" target="_blank">here</a>.</p>
+<p>To install GLFX simply check out the sources and build them by running the following from the command line:</p>
+<ol>
+<li>svn checkout <a href="http://glfx.googlecode.com/svn/trunk/" target="_blank">http://glfx.googlecode.com/svn/trunk/</a> libglfx</li>
+<li>cd libglfx</li>
+<li>cmake .</li>
+<li>make</li>
+<li>make install (as root)</li>
+</ol>
+<p><strong>Note</strong>: GLFX is dependant on GLEW. This is no problem if you are using the tutorials as a framework or already using GLEW in your application. If not, you can turn to <a href="http://ogldev.atspace.co.uk/www/tutorial02/tutorial02.html" target="_blank">tutorial 2</a> for information on how to initialize GLEW.</p>
+<h3 id="source-walkthru">Source walkthru</h3>
+<p><strong>Integrating GLFX into the project</strong></p>
+<p>Add the following to get access to GLFX api:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#include &amp;ltglfx.h&amp;gt</span></span></span></code></pre></div><p>Generate an effect handle:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="n">effect</span> <span class="o">=</span> <span class="n">glfxGenEffect</span><span class="p">();</span></span></span></code></pre></div><p>Parse the effect file (we will take a look at its content momentarily):</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">glfxParseEffectFromFile</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span> <span class="s">&#34;effect.glsl&#34;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp">#ifdef __cplusplus </span><span class="c1">// C++ error handling  
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">log</span> <span class="o">=</span> <span class="n">glfxGetEffectLog</span><span class="p">(</span><span class="n">effect</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error parsing effect: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">log</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="cp">#else </span><span class="c1">// C error handling  
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span>  <span class="kt">char</span> <span class="n">log</span><span class="p">[</span><span class="mi">10000</span><span class="p">];</span>  
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">glfxGetEffectLog</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">log</span><span class="p">));</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Error parsing effect: %s:</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">log</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="cp">#endif  
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="cp"></span>  <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>Compile a program (combination of VS, FS, etc) defined in the effect file using the following:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="n">shaderProg</span> <span class="o">=</span> <span class="n">glfxCompileProgram</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span> <span class="s">&#34;ProgramName&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">shaderProg</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="c1">// same error handling as above
+</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></div><p>The program can now be used by OpenGL as usual:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glUseProgram</span><span class="p">(</span><span class="n">shaderProg</span><span class="p">);</span></span></span></code></pre></div><p>After the effect is no longer needed release its resources using:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glfxDeleteEffect</span><span class="p">(</span><span class="n">effect</span><span class="p">);</span></span></span></code></pre></div><p><strong>Using GLFX</strong></p>
+<p>Now that we have the basic infrastructure in place let&rsquo;s dive into the effect files. The nice thing about GLFX is that you can continue writing GLSL shaders in pretty much the same way that you are used to. There are a few minor changes and additions and we are going to focus on them.</p>
+<p><strong>Place a &lsquo;program&rsquo; section to combine shader stages into a complete GLSL program</strong></p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">program</span> <span class="n">Lighting</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">vs</span><span class="p">(</span><span class="mi">410</span><span class="p">)</span><span class="o">=</span><span class="n">VSmain</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">fs</span><span class="p">(</span><span class="mi">410</span><span class="p">)</span><span class="o">=</span><span class="n">FSmain</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>In the example above the effect file contains the definition of the functions VSmain() and FSmain() somewhere else. The &lsquo;program&rsquo; section defines an OpenGL program called &lsquo;Lighting&rsquo;. Calling glfxCompileProgram(effect, &ldquo;Lighting&rdquo;) will cause a compilation and linkage of VSmain() and FSmain() into a single program. Both shaders will be compiled in version 4.10 of GLSL (same as declaring &lsquo;#version 410&rsquo; in standard GLSL).</p>
+<p><strong>Use &lsquo;shader&rsquo; instead of &lsquo;void&rsquo; to declare main shader functions</strong></p>
+<p>The main entry points to shader stages must be declared as &lsquo;shader&rsquo; instead of &lsquo;void&rsquo;. Here&rsquo;s an example:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">void</span> <span class="nf">calculate_something</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="p">...</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="n">shader</span> <span class="nf">VSmain</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">8</span><span class="cl">  <span class="n">calculate_something</span><span class="p">();</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p><strong>Include multiple shaders and program in a single effect file</strong></p>
+<p>You can place multiple occurrences of the &lsquo;program&rsquo; section in a single effect file. Simply call glfxCompileProgram() for each program that you want to use.</p>
+<p><strong>Use structures to pass vertex attributes between shader stages</strong></p>
+<p>Instead of defining the in/out variables in the global section of the shader we can use GLSL structures and share them across multiple shader stages. Here&rsquo;s an example:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="nc">VSoutput</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="n">shader</span> <span class="nf">VSmain</span><span class="p">(</span><span class="n">in</span> <span class="n">vec3</span> <span class="n">Pos</span><span class="p">,</span> <span class="n">in</span> <span class="n">vec2</span> <span class="n">TexCoord</span><span class="p">,</span> <span class="n">in</span> <span class="n">vec3</span> <span class="n">Normal</span><span class="p">,</span> <span class="n">out</span> <span class="n">VSOutput</span> <span class="n">VSout</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="c1">// do some transformations and update &#39;VSout&#39;  
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>  <span class="n">VSout</span><span class="p">.</span><span class="n">TexCoord</span> <span class="o">=</span> <span class="n">TexCoord</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="n">VSout</span><span class="p">.</span><span class="n">Normal</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl">
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="n">shader</span> <span class="nf">FSmain</span><span class="p">(</span><span class="n">in</span> <span class="n">VSOutput</span> <span class="n">FSin</span><span class="p">,</span> <span class="n">out</span> <span class="n">vec4</span> <span class="n">FragColor</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">16</span><span class="cl">  <span class="c1">// &#39;FSin&#39; matches &#39;VSout&#39; from the VS. Use it  
+</span></span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="c1"></span>  <span class="c1">// to do lighting calculations and write the final output to &#39;FragColor&#39;
+</span></span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></div><p>Unfortunately, using a structure will only work between shader stages. Input variables to the VS must be handled as separate attributes as we see in the above example. Well, I have an NVIDIA card and input structures to the VS work for me but this is not explicitly allowed by the GLSL spec and many readers have informed me that it doesn&rsquo;t work for them. If it works - great. If not, simply go with the above code.</p>
+<p><strong>Use include files to share common functionality between effect files</strong></p>
+<p>The keyword &lsquo;include&rsquo; can be used to include one effect file in another:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;another_effect.glsl&#34;</span></span></span></code></pre></div><p>The caveat with include files is that they are not parsed by GLFX. They are simply inserted as-is into the including file at the location of the &lsquo;include&rsquo; keyword. This means that you can only place pure GLSL code in them and not GLFX-only keywords such as program/etc. Tip: since part of GLSL syntax is the same as C/C++ (e.g. #define) you can even share definitions between the effect file and your application code.</p>
+<p><strong>Use structure suffix to define attribute locations</strong></p>
+<p>In the previous tutorials we have used the &rsquo;layout(location = &hellip;)&rsquo; keyword to define the location of an input attribute of the VS. By placing a colon followed by a number after an input VS parameter we can achieve the same goal. Here&rsquo;s an example:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">struct</span> <span class="nc">VSInput2</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">vec3</span> <span class="n">Normal</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">vec3</span> <span class="n">Tangent</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl">
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="n">shader</span> <span class="n">VSmain</span><span class="p">(</span><span class="n">in</span> <span class="n">vec3</span> <span class="nl">Pos</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">in</span> <span class="n">vec2</span> <span class="nl">TexCoord</span> <span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="n">in</span> <span class="kt">float</span> <span class="nl">colorScale</span> <span class="p">:</span> <span class="mi">10</span><span class="p">)</span></span></span></code></pre></div><p>The VS above gets the position in attribute 5, the texture coordinate in 6 and the color scale in 10. The idea is very simple - the number after the colon determines the location. If there is no location suffix the attributes simply start at zero.</p>
+<p><strong>Use &lsquo;interface&rsquo; instead of &lsquo;struct&rsquo; to place qualifiers on members</strong></p>
+<p>GLSL provides qualifiers such as &lsquo;flat&rsquo; and &rsquo;noperspective&rsquo; that can be placed before attributes that are sent from the VS to the FS. These qualifiers cannot be used on structure members. The solution that GLFX provides is a new keyword called &lsquo;interface&rsquo; that enables what &lsquo;struct&rsquo; does not. An &lsquo;interface&rsquo; can only be passed between shader stages. If you need to pass it as a whole to another function you will need to copy the contents to a struct. For example:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="n">interface</span> <span class="n">foo</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">flat</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="n">noperspective</span> <span class="kt">float</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="k">struct</span> <span class="nc">bar</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  <span class="kt">float</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="n">shader</span> <span class="nf">VSmain</span><span class="p">(</span><span class="n">out</span> <span class="n">foo</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">15</span><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="kt">void</span> <span class="nf">Calc</span><span class="p">(</span><span class="n">bar</span> <span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">20</span><span class="cl">  <span class="c1">// ...
+</span></span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="n">shader</span> <span class="nf">FSmain</span><span class="p">(</span><span class="n">in</span> <span class="n">foo</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">25</span><span class="cl">  <span class="k">struct</span> <span class="nc">bar</span> <span class="n">c</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">26</span><span class="cl">  <span class="n">c</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">a</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln">27</span><span class="cl">  <span class="n">c</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">b</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">28</span><span class="cl">  
+</span></span><span class="line"><span class="ln">29</span><span class="cl">  <span class="n">Calc</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p><strong>Note:</strong> &lsquo;interface&rsquo; is a keyword reserved for future use (according to OpenGL 4.2). Its usage in the future in GLFX will be based on changes to the official OpenGL spec.</p>
+<p><strong>Tip: use &lsquo;glfxc&rsquo; to verify effect files</strong></p>
+<p>&lsquo;glfxc&rsquo; is a utility which is part of GLFX. It parses effect files, compiles them using the local OpenGL installation and reports any error it finds. Run it as follows:</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">glfxc</span> <span class="o">&lt;</span><span class="n">effect</span> <span class="n">file</span> <span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">program</span> <span class="n">name</span><span class="o">&gt;</span></span></span></code></pre></div><p><strong>The Demo</strong></p>
+<p>The code of this tutorial has been modified to work with GLFX. Since the changes are very simple I won&rsquo;t go over them here. You should take a look at the source, in particular the classes Technique and LightingTechnique. In addition, the shaders that used to be part of &rsquo;lighting_technique.cpp&rsquo; have been removed and there is an effect file called &rsquo;lighting.glsl&rsquo; in the &lsquo;shaders&rsquo; subdirectory. This file contains the same shaders that you are already familiar with. They have been modified slightly to fit the rules above.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>

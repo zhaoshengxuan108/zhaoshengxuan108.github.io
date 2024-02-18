@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.122.0">
+    <meta name="generator" content="Relearn 5.23.2+tip">
+    <meta name="description" content="啊啊啊啊">
+    <meta name="author" content="Sören Weber">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://example.com/images/hero.png">
+    <meta name="twitter:title" content="Tutorial 11:Concatenating Transformations :: Hugo Relearn Theme">
+    <meta name="twitter:description" content="Background In the last few tutorials we have developed several transformations that give us the flexibility of moving an object anywhere in the 3D world. We still have a couple more to learn (camera control and perspective projection) but as you probably already guessed, a combination of the transformation is required. In most cases you will want to scale the object to fit your 3D world, rotate it into the required orientation, move it somewhere, etc.">
+    <meta property="og:title" content="Tutorial 11:Concatenating Transformations :: Hugo Relearn Theme">
+    <meta property="og:description" content="Background In the last few tutorials we have developed several transformations that give us the flexibility of moving an object anywhere in the 3D world. We still have a couple more to learn (camera control and perspective projection) but as you probably already guessed, a combination of the transformation is required. In most cases you will want to scale the object to fit your 3D world, rotate it into the required orientation, move it somewhere, etc.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">
+    <meta property="og:image" content="https://example.com/images/hero.png">
+    <meta property="article:section" content="OGL dev 教程 :: Hugo Relearn Theme">
+    <meta property="og:site_name" content="Hugo Relearn Theme">
+    <title>Tutorial 11:Concatenating Transformations :: Hugo Relearn Theme</title>
+    <link href="https://example.com/computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html" rel="canonical" type="text/html" title="Tutorial 11:Concatenating Transformations :: Hugo Relearn Theme">
+    <link href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.xml" rel="alternate" type="application/rss+xml" title="Tutorial 11:Concatenating Transformations :: Hugo Relearn Theme"><link rel="icon" href="../../../../../images/favicon.ico">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fontawesome-all.min.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/nucleus.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/auto-complete.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/perfect-scrollbar.min.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/fonts.css?1708235002" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="../../../../../css/fonts.css?1708235002" rel="stylesheet"></noscript>
+    <link href="../../../../../css/theme.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/theme-auto.css?1708235002" rel="stylesheet" id="R-variant-style">
+    <link href="../../../../../css/variant.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/print.css?1708235002" rel="stylesheet" media="print">
+    <link href="../../../../../css/format-print.css?1708235002" rel="stylesheet">
+    <link href="../../../../../css/ie.css?1708235002" rel="stylesheet">
+    <script src="../../../../../js/url.js?1708235002"></script>
+    <script src="../../../../../js/variant.js?1708235002"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="../../../../../index.search.js";
+      var root_url="../../../../../";
+      var baseUri=root_url.replace(/\/$/, '');
+      window.relearn = window.relearn || {};
+      window.relearn.baseUriFull='https:\/\/example.com/';
+      // variant stuff
+      window.variants && variants.init( [ 'auto', 'relearn-light', 'relearn-dark', 'zen-light', 'zen-dark', 'neon', 'learn', 'blue', 'green', 'red' ] );
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+    </script>
+    <style>
+      #R-body img.bg-white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body class="mobile-support print" data-url="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide">
+              <button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)">
+                <i class="fa-fw fas fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../index.html"><span itemprop="name">主页</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/index.html"><span itemprop="name">计算机图形学</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/index.html"><span itemprop="name">经典教程</span></a><meta itemprop="position" content="3">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/index.html"><span itemprop="name">OpenGL教程</span></a><meta itemprop="position" content="4">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/index.html"><span itemprop="name">OGL dev 教程</span></a><meta itemprop="position" content="5">&nbsp;>&nbsp;</li><li
+            itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">Tutorial 11:Concatenating Transformations</span><meta itemprop="position" content="6"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="tutorial-11concatenating-transformations">Tutorial 11:Concatenating Transformations</h1>
+
+<h2 id="background">Background</h2>
+<p>In the last few tutorials we have developed several transformations that give us the flexibility of moving an object anywhere in the 3D world. We still have a couple more to learn (camera control and perspective projection) but as you probably already guessed, a combination of the transformation is required. In most cases you will want to scale the object to fit your 3D world, rotate it into the required orientation, move it somewhere, etc. Up till now we have been exercising a single transformation at a time. In order to perform the above series of transformations we need to multiply the first transformation matrix by the vertex position and then multiple the next transformation by the result of the previous multiplication. This goes on until all the transformation matrices have been applied on the vertex. One trivial way to do that is to supply each and every transformation matrix to the shader and let it do all the multiplications. This, however, is very inefficient since the matrices are the same for all vertices and only vertex position changes. Luckily, linear algebra provides a set of rules that make our life easier. It tells us that given a set of matrices M0&hellip;Mn and a vector V the following holds true:
+$$
+M_{n} * M_{n-1} * &hellip; * M_{0} * V = (M_{n}* M_{n-1} * &hellip; * M_{0}) * V
+$$
+So if you calculate:
+$$
+N = M_{n} * M_{n-1} * &hellip; * M_{0}
+$$
+Then:
+$$
+M_{n} * M_{n-1} * &hellip; * M_{0} * V = N * V
+$$
+This means that we can calculate N once and then send it to the shader as a uniform variable where it will be multiplied in each vertex. This will require the GPU one matrix/vector multiplication per vertex.</p>
+<p>How do you order the matrices when generating N? The first thing you need to remember is that the vector is initially multiplied by the matrix on the far right of the series (in our case - M0). Then the vector is transformed by each matrix as we travel from the right hand side to the left hand side. In 3D graphics you usually want to scale the object first, then rotate it, then translate it, then apply camera transformation and finally project it to 2D. Let&rsquo;s see what happens when you rotate first and then translate:</p>
+<p><a href="#R-image-5d00fe3c99774628e6e95f2bc1d04d78" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/../assets/rot_trans.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5d00fe3c99774628e6e95f2bc1d04d78"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/../assets/rot_trans.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>Now see what happens when you translate first and then rotate:</p>
+<p><a href="#R-image-680d0a75a050ef3c3afcffaea95e5e11" class="lightbox-link"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/../assets/trans_rot.png" alt="img" class="figure-image bg-white border lightbox noshadow" style="height: auto; width: auto;" loading="lazy"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-680d0a75a050ef3c3afcffaea95e5e11"><img src="../../../../../computer_graphics/classic_tutorial/opengl_tutorial/ogl_dev_modern_opengl_tutorial/tutorial_11_concatenating_transformations/../assets/trans_rot.png" alt="img" class="lightbox-image bg-white border lightbox noshadow" loading="lazy"></a></p>
+<p>As you can see, it is very diffcult to set the object position in the world when you translate it first because if you move it away from the origin and then rotate it goes around the origin which actually means that you translate it again. This second translation is something you want to avoid. By rotating first and then translate you disconnect the dependency between the two operations. This is why it is always best to model around the origin as symmetrically as possible. That way when you later scale or rotate there is no side effect and the rotated or scaled object remains symmetrical as before.</p>
+<p>Now that we are starting to handle more than one transformation in the demos we have to drop the habit of updating the matrix directly in the render function. This method doesn&rsquo;t scale well and is prone to errors. Instead, the pipeline class is introduced. This class hides the fine details of matrix manipulation under a simple API to change the translation, rotation, etc. After setting all the parameters inside it you simply extract the final matrix that combines all the transformation. This matrix can be fed directly into the shader.</p>
+<h2 id="source-walkthru">Source walkthru</h2>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#define ToRadian(x) ((x) * M_PI / 180.0f)
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="cp">#define ToDegree(x) ((x) * 180.0f / M_PI)</span></span></span></code></pre></div><p>We are starting to use the actual values of angles in this tutorials. As it happens, the trigonometric functions of the standard C library take radian as a parameter. The above macros take the angle either in radians or degrees and convert to the other notation.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kr">inline</span> <span class="n">Matrix4f</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">Matrix4f</span><span class="o">&amp;</span> <span class="n">Right</span><span class="p">)</span> <span class="k">const</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  <span class="n">Matrix4f</span> <span class="n">Ret</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>      
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">      <span class="n">Ret</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Right</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span>             
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">Right</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span>             
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">        <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">Right</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span>             
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">        <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">Right</span><span class="p">.</span><span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="p">}</span>  
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  <span class="k">return</span> <span class="n">Ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This handy operator of the matrix class handles matrix multiplication. As you can see, each entry in the resulting matrix is defined as the dot product of its line in the left matrix with the column in the right matrix. This operator is key in the implementation of the pipeline class.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">Pipeline</span><span class="p">{</span>  
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">  <span class="k">public</span><span class="o">:</span>    
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">  	<span class="n">Pipeline</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>    
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  	<span class="kt">void</span> <span class="nf">Scale</span><span class="p">(</span><span class="kt">float</span> <span class="n">ScaleX</span><span class="p">,</span> <span class="kt">float</span> <span class="n">ScaleY</span><span class="p">,</span> <span class="kt">float</span> <span class="n">ScaleZ</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>    
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  	<span class="kt">void</span> <span class="nf">WorldPos</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="n">y</span><span class="p">,</span> <span class="kt">float</span> <span class="n">z</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>    
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">  	<span class="kt">void</span> <span class="nf">Rotate</span><span class="p">(</span><span class="kt">float</span> <span class="n">RotateX</span><span class="p">,</span> <span class="kt">float</span> <span class="n">RotateY</span><span class="p">,</span> <span class="kt">float</span> <span class="n">RotateZ</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>    
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  	<span class="k">const</span> <span class="n">Matrix4f</span><span class="o">*</span> <span class="nf">GetTrans</span><span class="p">();</span>  
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="k">private</span><span class="o">:</span>    
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  	<span class="n">Vector3f</span> <span class="n">m_scale</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">10</span><span class="cl">  	<span class="n">Vector3f</span> <span class="n">m_worldPos</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  	<span class="n">Vector3f</span> <span class="n">m_rotateInfo</span><span class="p">;</span>    
+</span></span><span class="line"><span class="ln">12</span><span class="cl">  	<span class="n">Matrix4f</span> <span class="n">m_transformation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">};</span></span></span></code></pre></div><p>The pipeline class abstracts the details of getting all the transformation required for one single object combined. There are currently 3 private member vectors that store the scaling, position in world space and rotation for each axis. In addition there are APIs to set them and a function to get the matrix that represent the sum of all these transformations.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="k">const</span> <span class="n">Matrix4f</span><span class="o">*</span> <span class="n">Pipeline</span><span class="o">::</span><span class="n">GetTrans</span><span class="p">()</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="ln">3</span><span class="cl">  <span class="n">Matrix4f</span> <span class="n">ScaleTrans</span><span class="p">,</span> <span class="n">RotateTrans</span><span class="p">,</span> <span class="n">TranslationTrans</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">4</span><span class="cl">  <span class="n">InitScaleTransform</span><span class="p">(</span><span class="n">ScaleTrans</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">5</span><span class="cl">  <span class="n">InitRotateTransform</span><span class="p">(</span><span class="n">RotateTrans</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">6</span><span class="cl">  <span class="n">InitTranslationTransform</span><span class="p">(</span><span class="n">TranslationTrans</span><span class="p">);</span>  
+</span></span><span class="line"><span class="ln">7</span><span class="cl">  <span class="n">m_transformation</span> <span class="o">=</span> <span class="n">TranslationTrans</span> <span class="o">*</span> <span class="n">RotateTrans</span> <span class="o">*</span> <span class="n">ScaleTrans</span><span class="p">;</span>  
+</span></span><span class="line"><span class="ln">8</span><span class="cl">  <span class="k">return</span> <span class="o">&amp;</span><span class="n">m_transformation</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">9</span><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>This function initializes three seperate matrices as the transformations that match the current configuration. It multiplies them one by one and returns the final product. Note that the order is hard coded and follows the description above. If you need some flexibility there you can use a bitmask that specifies the order. Also note that it always stores the final transformation as a member. You can try optimizing this function by checking a dirty flag and returning the stored martix in the case that there was no change in configuration since the last time this function was called.</p>
+<p>This function uses private methods to generate the different transformations according to what we&rsquo;ve learned in the last few tutorials. In the next tutorials this class will be extended to handle camera control and perspective projection.</p>
+<div class="wrap-code highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="n">Pipeline</span> <span class="n">p</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="n">p</span><span class="p">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span> <span class="o">*</span> <span class="mf">0.1f</span><span class="p">),</span> <span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span> <span class="o">*</span> <span class="mf">0.1f</span><span class="p">),</span> <span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span> <span class="o">*</span> <span class="mf">0.1f</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="n">p</span><span class="p">.</span><span class="n">WorldPos</span><span class="p">(</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">),</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="n">p</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">)</span> <span class="o">*</span> <span class="mf">90.0f</span><span class="p">,</span> <span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">)</span> <span class="o">*</span> <span class="mf">90.0f</span><span class="p">,</span> <span class="n">sinf</span><span class="p">(</span><span class="n">Scale</span><span class="p">)</span> <span class="o">*</span> <span class="mf">90.0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">gWorldLocation</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">GL_TRUE</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="n">GLfloat</span><span class="o">*</span><span class="p">)</span><span class="n">p</span><span class="p">.</span><span class="n">GetTrans</span><span class="p">());</span></span></span></code></pre></div><p>These are the changes to the render function. We allocate a pipeline object, configure it and send the resulting transformation down to the shader. Play with the parameters and see their effect on the final image.</p>
+<p>For more information on this subject check out the following <a href="https://www.youtube.com/watch?v=aJRrgka4dpU&amp;list=PLRtjMdoYXLf6zUMDJVRZYV-6g6n62vet8&amp;index=10" target="_blank">video tutorial by Frahaan Hussain</a>.</p>
+
+            <footer class="footline">
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="../../../../../js/clipboard.min.js?1708235002" defer></script>
+    <script src="../../../../../js/perfect-scrollbar.min.js?1708235002" defer></script>
+    <script src="../../../../../js/theme.js?1708235002" defer></script>
+  </body>
+</html>
